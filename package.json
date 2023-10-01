@@ -1,0 +1,40 @@
+{
+  "name": "react-mui-action-dialog",
+  "version": "0.0.0",
+  "description": "react-mui-action-dialog",
+  "main": "build/index.js",
+  "files": [
+    "./build"
+  ],
+  "scripts": {
+    "prebuild": "rm -rf build",
+    "build": "webpack",
+    "format": "npx prettier --config ./.prettierrc --write **/*.{ts,tsx,js,jsx,scss,yml,html,json,md}",
+    "test": "echo \"Error: no test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/synle/react-mui-action-dialog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/synle/react-mui-action-dialog/issues"
+  },
+  "homepage": "https://github.com/synle/react-mui-action-dialog#readme",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.2.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.8",
+    "@mui/material": "^5.14.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

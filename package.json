@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "prebuild": "rm -rf build",
-    "build": "webpack",
+    "build": "tsc --project tsconfig.json",
     "format": "npx prettier --config ./.prettierrc --write **/*.{ts,tsx,js,jsx,scss,yml,html,json,md}",
     "test": "echo \"Error: no test specified\""
   },

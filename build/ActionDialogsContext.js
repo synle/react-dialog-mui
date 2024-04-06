@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { createContext, useContext, useState } from 'react';
-import ActionDialogs from '.';
+import ActionDialogs from './ActionDialogs';
 let _actionDialogs = [];
 let modalId = Date.now();
 //

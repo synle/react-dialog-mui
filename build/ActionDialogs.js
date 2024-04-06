@@ -51,4 +51,4 @@ export default function ActionDialogs(props) {
             return _jsx(Fragment, { children: contentDom }, idx);
         }) }));
 }
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=ActionDialogs.js.map

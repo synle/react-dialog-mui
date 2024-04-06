@@ -201,15 +201,6 @@ export function useActionDialogs() {
     dialog = undefined;
   }
 
-  const dismiss = (modalIdToDismiss?: string) => {
-    if (modalIdToDismiss) {
-      _actionDialogs = _actionDialogs.filter((modal) => modal.key !== modalIdToDismiss);
-    } else {
-      _actionDialogs.pop();
-    }
-    _invalidateQueries();
-  };
-
   function _invalidateQueries() {
     _actionDialogs = [..._actionDialogs];
     setData(_actionDialogs);
@@ -218,7 +209,14 @@ export function useActionDialogs() {
   return {
     dialogs: data,
     dialog,
-    dismiss,
+    dismiss: (toDismissModalKey?: string) => {
+      if (toDismissModalKey) {
+        _actionDialogs = _actionDialogs.filter((modal) => modal.key !== toDismissModalKey);
+      } else {
+        _actionDialogs.pop();
+      }
+      _invalidateQueries();
+    },
     /**
      *
      This is to alert a simple message.
@@ -276,7 +274,7 @@ export function useActionDialogs() {
     * @param props
     * @returns
     */
-    prompt: (props: PromptInput): Promise<string | undefined> => {
+    prompt: (props: PromptInput): Promise<string> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
           key: `modal.${modalId++}`,

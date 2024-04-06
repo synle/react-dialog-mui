@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import ChoiceExample from './ChoiceExample';
+import ModalExample from './ModalExample';
 
 const meta = {
-  title: 'Choice',
-  component: ChoiceExample,
+  title: 'Modal',
+  component: ModalExample,
   parameters: {
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof ChoiceExample>;
+} satisfies Meta<typeof ModalExample>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const SimpleChoice: Story = {};
+export const SimpleModal: Story = {};

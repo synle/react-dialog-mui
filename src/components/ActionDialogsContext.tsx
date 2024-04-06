@@ -277,7 +277,36 @@ export function useActionDialogs() {
       });
     },
     /**
-     *
+     This is used to show any custom modal content.
+
+    ```tsx
+    function ModalExample() {
+      const { modal } = useActionDialogs();
+
+      const onSubmit = async () => {
+        try {
+          await modal({
+            title: 'Query Details',
+            message: <>
+              <div><strong>Name:</strong> Sample Mocked Query</div>
+              <div><strong>Status:</strong> Pending</div>
+              <div><strong>Created Date:</strong> {new Date().toLocaleDateString()}</div>
+            </>,
+            size: 'md'
+          });
+
+          // when users close out of modal
+        } catch (err) {}
+      };
+
+      return (
+        <>
+          <button onClick={onSubmit}>Show Details</button>
+        </>
+      );
+    }
+    ```
+
      * @param props
      * @returns
      */

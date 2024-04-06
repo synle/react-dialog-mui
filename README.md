@@ -110,7 +110,7 @@ This is to display a list of choice which the user needs to select one of the ch
 
 <img width="379" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/81140e54-77bd-45af-a28b-b134e7e6f0be">
 
-```
+```tsx
 function ChoiceExample() {
   const { choice } = useActionDialogs();
   const [session, setSession] = useState('');
@@ -141,6 +141,48 @@ function ChoiceExample() {
       <div>
         <strong>New selected session:</strong> {session}
       </div>
+    </>
+  );
+}
+```
+
+#### Modal
+
+This is used to show any custom modal content.
+
+<img width="438" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/cc6ae029-8d1f-482d-98e1-e1b896923aa0">
+
+```tsx
+function ModalExample() {
+  const { modal } = useActionDialogs();
+
+  const onSubmit = async () => {
+    try {
+      await modal({
+        title: 'Query Details',
+        message: (
+          <>
+            <div>
+              <strong>Name:</strong> Sample Mocked Query
+            </div>
+            <div>
+              <strong>Status:</strong> Pending
+            </div>
+            <div>
+              <strong>Created Date:</strong> {new Date().toLocaleDateString()}
+            </div>
+          </>
+        ),
+        size: 'md',
+      });
+
+      // when users close out of modal
+    } catch (err) {}
+  };
+
+  return (
+    <>
+      <button onClick={onSubmit}>Show Details</button>
     </>
   );
 }

@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.useActionDialogs = exports.ActionDialogsContext = void 0;
-const ActionDialogs_1 = require("./hooks/ActionDialogs");
-exports.ActionDialogsContext = ActionDialogs_1.ActionDialogsContext;
-exports.useActionDialogs = ActionDialogs_1.useActionDialogs;
+import { ActionDialogsContext as _ActionDialogsContext, useActionDialogs as _useActionDialogs, } from './hooks/ActionDialogs';
+export const ActionDialogsContext = _ActionDialogsContext;
+export const useActionDialogs = _useActionDialogs;
 //# sourceMappingURL=index.js.map

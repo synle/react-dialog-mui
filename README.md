@@ -36,6 +36,8 @@ const { alert, prompt, confirm, choice, dismiss, modal } = useActionDialogs();
 
 This is to alert a simple message.
 
+<img width="203" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/027c6e41-04a3-42d3-a398-d7ac3d1d5467">
+
 ```tsx
 // then call it in your component
 function MyComponent() {
@@ -52,6 +54,8 @@ function MyComponent() {
 #### Confirm
 
 This is a yes/no confimation.
+
+<img width="219" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/ee08ab35-1774-40ba-a6c1-fc9d7a7297a9">
 
 ```tsx
 // then call it in your component
@@ -75,6 +79,8 @@ function MyComponent() {
 #### Prompt
 
 This is a simple text input used to ask user to enter a free form text.
+
+<img width="382" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/cd617969-19f6-4737-b613-d39a136a8c6e">
 
 ```tsx
 // then call it in your component

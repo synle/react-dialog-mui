@@ -21,6 +21,7 @@ export type ChoiceInput = {
 };
 
 type ChoiceDialogProps = ChoiceInput & {
+  key: string;
   open: boolean;
   onSelect: (newValue: string) => void;
   onDismiss: () => void;

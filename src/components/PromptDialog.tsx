@@ -20,6 +20,7 @@ export type PromptInput = {
 };
 
 type PromptDialogProps = PromptInput & {
+  key: string;
   open: boolean;
   onSaveClick: (newValue: string) => void;
   onDismiss: () => void;

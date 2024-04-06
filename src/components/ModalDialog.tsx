@@ -18,6 +18,7 @@ export type ModalInput = {
 };
 
 type ModalProps = ModalInput & {
+  key: string;
   open: boolean;
   onDismiss: () => void;
 };

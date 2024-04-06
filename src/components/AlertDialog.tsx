@@ -16,6 +16,7 @@ export type AlertInput = {
 };
 
 type AlertDialogProps = AlertInput & {
+  key: string;
   open: boolean;
   onDismiss: () => void;
 };

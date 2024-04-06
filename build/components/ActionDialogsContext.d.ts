@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
-import { AlertInput } from '../components/ActionDialogs/AlertDialog';
-import { ChoiceInput, ChoiceOption } from '../components/ActionDialogs/ChoiceDialog';
-import { ModalInput } from '../components/ActionDialogs/ModalDialog';
-import { PromptInput } from '../components/ActionDialogs/PromptDialog';
+import { AlertInput } from './AlertDialog';
+import { ChoiceInput, ChoiceOption } from './ChoiceDialog';
+import { ModalInput } from './ModalDialog';
+import { PromptInput } from './PromptDialog';
 type BaseDialog = {
     key: string;
 };

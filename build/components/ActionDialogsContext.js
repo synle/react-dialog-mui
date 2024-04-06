@@ -1,6 +1,6 @@
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { createContext, useContext, useState } from 'react';
-import ActionDialogs from '../components/ActionDialogs';
+import ActionDialogs from '.';
 let _actionDialogs = [];
 let modalId = Date.now();
 //
@@ -175,4 +175,4 @@ export function useActionDialogs() {
         modal,
     };
 }
-//# sourceMappingURL=ActionDialogs.js.map
+//# sourceMappingURL=ActionDialogsContext.js.map

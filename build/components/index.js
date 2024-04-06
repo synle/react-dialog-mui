@@ -1,6 +1,6 @@
 import { Fragment as _Fragment, jsx as _jsx } from "react/jsx-runtime";
 import { Fragment } from 'react';
-import { useActionDialogs } from '../../hooks/ActionDialogs';
+import { useActionDialogs } from './ActionDialogsContext';
 import AlertDialog from './AlertDialog';
 import ChoiceDialog from './ChoiceDialog';
 import ModalDialog from './ModalDialog';

@@ -5,8 +5,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import { ReactNode } from 'react';
+import { BaseDialogInput } from './ActionDialogsContext';
 
-export type ModalInput = {
+export type ModalInput = BaseDialogInput & {
   title: ReactNode;
   /**
    * body of the modal
@@ -18,7 +19,6 @@ export type ModalInput = {
 };
 
 type ModalProps = ModalInput & {
-  key: string;
   open: boolean;
   onDismiss: () => void;
 };
@@ -34,11 +34,11 @@ export default function Modal(props: ModalProps): ReactNode {
     <Dialog
       open={props.open}
       onClose={onBackdropClick}
-      aria-labelledby='modal-dialog-title'
-      aria-describedby='modal-dialog-description'
       fullWidth={true}
-      maxWidth={props.size}>
-      <DialogTitle id='modal-dialog-title'>
+      maxWidth={props.size}
+      aria-labelledby={`dialog-title-${props.key}`}
+      aria-describedby={`dialog-description-${props.key}`}>
+      <DialogTitle id={`dialog-title-${props.key}`}>
         {props.title}
         {props.showCloseButton && (
           <IconButton
@@ -54,7 +54,7 @@ export default function Modal(props: ModalProps): ReactNode {
           </IconButton>
         )}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent id={`dialog-description-${props.key}`}>
         <Box sx={{ pt: 1 }}>{props.message}</Box>
       </DialogContent>
     </Dialog>

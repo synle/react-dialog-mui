@@ -4,9 +4,14 @@ import ChoiceDialog, { ChoiceInput, ChoiceOption } from './ChoiceDialog';
 import ModalDialog, { ModalInput } from './ModalDialog';
 import PromptDialog, { PromptInput } from './PromptDialog';
 
-type BaseDialog = {
+/**
+ * base type used in all the dialog input
+ */
+export type BaseDialogInput = {
   key: string;
 };
+
+type BaseDialog = BaseDialogInput;
 
 type AlertActionDialog = BaseDialog &
   AlertInput & {

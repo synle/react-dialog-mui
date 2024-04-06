@@ -7,8 +7,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import { ReactNode, SyntheticEvent, useState } from 'react';
+import { BaseDialogInput } from './ActionDialogsContext';
 
-export type PromptInput = {
+export type PromptInput = BaseDialogInput & {
   title?: string;
   message: string;
   value?: string;
@@ -20,7 +21,6 @@ export type PromptInput = {
 };
 
 type PromptDialogProps = PromptInput & {
-  key: string;
   open: boolean;
   onSaveClick: (newValue: string) => void;
   onDismiss: () => void;
@@ -53,12 +53,13 @@ export default function PromptDialog(props: PromptDialogProps): ReactNode {
   return (
     <Dialog
       onClose={() => handleClose(false)}
-      aria-labelledby='prompt-dialog-title'
       open={props.open}
       fullWidth={true}
-      maxWidth={props.isLongPrompt ? 'lg' : 'sm'}>
+      maxWidth={props.isLongPrompt ? 'lg' : 'sm'}
+      aria-labelledby={`dialog-title-${props.key}`}
+      aria-describedby={`dialog-description-${props.key}`}>
       <form onSubmit={onSave}>
-        <DialogTitle id='prompt-dialog-title'>
+        <DialogTitle id={`dialog-title-${props.key}`}>
           {props.title || 'Prompt'}
           <IconButton
             aria-label='close'
@@ -72,7 +73,7 @@ export default function PromptDialog(props: PromptDialogProps): ReactNode {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent dividers>
+        <DialogContent dividers id={`dialog-description-${props.key}`}>
           {props.isLongPrompt ? (
             <TextField
               label={props.message}

@@ -8,6 +8,8 @@ My aim with this library is to create a user-friendly solution that meets both e
 
 ## How to use?
 
+Currently, it's hosted on GitHub. My plan is to transition it into an official npm package.
+
 ```bash
 npm i github:synle/react-mui-action-dialog#main;
 ```
@@ -24,7 +26,7 @@ import { ActionDialogsContext } from 'react-mui-action-dialog';
 </ActionDialogsContext>
 ```
 
-### Use the hook
+### Use the ActionDialog hooks
 
 #### Alert
 
@@ -181,3 +183,8 @@ function ModalExample() {
   );
 }
 ```
+
+## Future Plans
+- [ ] Set up CI/CD pipeline to release this as an official npm package.
+- [ ] Enhance the dismiss dialog API for easy dismissal of custom dialog content.
+- [ ] Implement support for multi-select in the choice dialog.

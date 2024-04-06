@@ -4,3 +4,4 @@
 *.spec.jsx
 build
 dist
+storybook-static

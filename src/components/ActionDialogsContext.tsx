@@ -221,10 +221,6 @@ export function useActionDialogs() {
      *
      This alerts a simple message with an OK button, informing the user of an event.
 
-
-
-
-
     ```tsx
     // then call it in your component
     function MyComponent() {

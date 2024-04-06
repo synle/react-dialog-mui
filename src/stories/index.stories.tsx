@@ -14,7 +14,14 @@ export default {
 
 function ExampleWrapper(props: { children: ReactNode; title: string }) {
   return (
-    <div style={{ padding: '1rem 2rem' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        padding: '1rem 2rem',
+        gap: '1rem',
+      }}>
       <h1>{props.title}</h1>
       {props.children}
     </div>

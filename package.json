@@ -1,6 +1,6 @@
 {
   "name": "react-mui-action-dialog",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "react-mui-action-dialog",
   "main": "build/index.js",
   "files": [
@@ -11,7 +11,6 @@
     "build": "tsc --project tsconfig.json",
     "format": "npx prettier --config ./.prettierrc --write **/*.{ts,tsx,js,jsx,scss,yml,html,json,md}",
     "test": "echo \"Error: no test specified\"",
-    "storybook": "storybook dev -p 6006",
     "dev": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

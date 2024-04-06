@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-export type ModalInput = {
+import { BaseDialogInput } from './ActionDialogsContext';
+export type ModalInput = BaseDialogInput & {
     title: ReactNode;
     /**
      * body of the modal
@@ -9,9 +10,7 @@ export type ModalInput = {
     disableBackdropClick?: boolean;
     size: 'xs' | 'sm' | 'md' | 'lg';
 };
-type ModalProps = ModalInput & {
+export default function Modal(props: ModalInput & {
     open: boolean;
     onDismiss: () => void;
-};
-export default function Modal(props: ModalProps): ReactNode;
-export {};
+}): ReactNode;

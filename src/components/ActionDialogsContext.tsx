@@ -4,9 +4,14 @@ import ChoiceDialog, { ChoiceInput, ChoiceOption } from './ChoiceDialog';
 import ModalDialog, { ModalInput } from './ModalDialog';
 import PromptDialog, { PromptInput } from './PromptDialog';
 
-type BaseDialog = {
+/**
+ * base type used in all the dialog input
+ */
+export type BaseDialogInput = {
   key: string;
 };
+
+type BaseDialog = BaseDialogInput;
 
 type AlertActionDialog = BaseDialog &
   AlertInput & {
@@ -69,8 +74,6 @@ export function ActionDialogsContext(props: { children: ReactNode }): ReactNode 
   );
 }
 
-
-
 type ActionDialogsProps = {};
 
 export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
@@ -109,6 +112,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
           case 'alert':
             contentDom = (
               <AlertDialog
+                key={dialog.key}
                 open={true}
                 title='Alert'
                 message={dialog.message}
@@ -120,6 +124,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
           case 'confirm':
             contentDom = (
               <AlertDialog
+                key={dialog.key}
                 open={true}
                 title='Confirmation'
                 message={dialog.message}
@@ -133,6 +138,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
           case 'prompt':
             contentDom = (
               <PromptDialog
+                key={dialog.key}
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
@@ -150,6 +156,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
           case 'choice':
             contentDom = (
               <ChoiceDialog
+                key={dialog.key}
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
@@ -163,6 +170,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
           case 'modal':
             contentDom = (
               <ModalDialog
+                key={dialog.key}
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
@@ -193,15 +201,6 @@ export function useActionDialogs() {
     dialog = undefined;
   }
 
-  const dismiss = (modalIdToDismiss?: string) => {
-    if (modalIdToDismiss) {
-      _actionDialogs = _actionDialogs.filter((modal) => modal.key !== modalIdToDismiss);
-    } else {
-      _actionDialogs.pop();
-    }
-    _invalidateQueries();
-  };
-
   function _invalidateQueries() {
     _actionDialogs = [..._actionDialogs];
     setData(_actionDialogs);
@@ -210,7 +209,14 @@ export function useActionDialogs() {
   return {
     dialogs: data,
     dialog,
-    dismiss,
+    dismiss: (toDismissModalKey?: string) => {
+      if (toDismissModalKey) {
+        _actionDialogs = _actionDialogs.filter((modal) => modal.key !== toDismissModalKey);
+      } else {
+        _actionDialogs.pop();
+      }
+      _invalidateQueries();
+    },
     /**
      *
      This is to alert a simple message.
@@ -268,7 +274,7 @@ export function useActionDialogs() {
     * @param props
     * @returns
     */
-    prompt: (props: PromptInput): Promise<string | undefined> => {
+    prompt: (props: PromptInput): Promise<string> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
           key: `modal.${modalId++}`,

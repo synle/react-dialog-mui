@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-export type AlertInput = {
+import { BaseDialogInput } from './ActionDialogsContext';
+export type AlertInput = BaseDialogInput & {
     title?: ReactNode;
     message: ReactNode;
     yesLabel?: ReactNode;
@@ -7,9 +8,8 @@ export type AlertInput = {
     noLabel?: ReactNode;
     isConfirm?: boolean;
 };
-type AlertDialogProps = AlertInput & {
+export default function AlertDialog(props: AlertInput & {
+    key: string;
     open: boolean;
     onDismiss: () => void;
-};
-export default function AlertDialog(props: AlertDialogProps): ReactNode;
-export {};
+}): ReactNode;

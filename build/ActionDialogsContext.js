@@ -45,19 +45,19 @@ export default function ActionDialogs(props) {
             let contentDom = _jsx(_Fragment, {});
             switch (dialog.type) {
                 case 'alert':
-                    contentDom = (_jsx(AlertDialog, { open: true, title: 'Alert', message: dialog.message, onDismiss: onDimiss, isConfirm: false }));
+                    contentDom = (_jsx(AlertDialog, { open: true, title: 'Alert', message: dialog.message, onDismiss: onDimiss, isConfirm: false }, dialog.key));
                     break;
                 case 'confirm':
-                    contentDom = (_jsx(AlertDialog, { open: true, title: 'Confirmation', message: dialog.message, yesLabel: dialog.yesLabel, onYesClick: onConfirmSubmit, onDismiss: onDimiss, isConfirm: true }));
+                    contentDom = (_jsx(AlertDialog, { open: true, title: 'Confirmation', message: dialog.message, yesLabel: dialog.yesLabel, onYesClick: onConfirmSubmit, onDismiss: onDimiss, isConfirm: true }, dialog.key));
                     break;
                 case 'prompt':
-                    contentDom = (_jsx(PromptDialog, { open: true, title: dialog.title, message: dialog.message, value: dialog.value, onSaveClick: onPromptSaveClick, onDismiss: onDimiss, languageMode: dialog.languageMode, isLongPrompt: dialog.isLongPrompt, saveLabel: dialog.saveLabel, required: dialog.required, readonly: dialog.readonly }));
+                    contentDom = (_jsx(PromptDialog, { open: true, title: dialog.title, message: dialog.message, value: dialog.value, onSaveClick: onPromptSaveClick, onDismiss: onDimiss, languageMode: dialog.languageMode, isLongPrompt: dialog.isLongPrompt, saveLabel: dialog.saveLabel, required: dialog.required, readonly: dialog.readonly }, dialog.key));
                     break;
                 case 'choice':
-                    contentDom = (_jsx(ChoiceDialog, { open: true, title: dialog.title, message: dialog.message, options: dialog.options, onSelect: onChoiceSelect, onDismiss: onDimiss, required: dialog.required }));
+                    contentDom = (_jsx(ChoiceDialog, { open: true, title: dialog.title, message: dialog.message, options: dialog.options, onSelect: onChoiceSelect, onDismiss: onDimiss, required: dialog.required }, dialog.key));
                     break;
                 case 'modal':
-                    contentDom = (_jsx(ModalDialog, { open: true, title: dialog.title, message: dialog.message, onDismiss: onDimiss, showCloseButton: !!dialog.showCloseButton, disableBackdropClick: !!dialog.disableBackdropClick, size: dialog.size }));
+                    contentDom = (_jsx(ModalDialog, { open: true, title: dialog.title, message: dialog.message, onDismiss: onDimiss, showCloseButton: !!dialog.showCloseButton, disableBackdropClick: !!dialog.disableBackdropClick, size: dialog.size }, dialog.key));
                     break;
             }
             return _jsx(Fragment, { children: contentDom }, idx);
@@ -74,15 +74,6 @@ export function useActionDialogs() {
     catch (err) {
         dialog = undefined;
     }
-    const dismiss = (modalIdToDismiss) => {
-        if (modalIdToDismiss) {
-            _actionDialogs = _actionDialogs.filter((modal) => modal.key !== modalIdToDismiss);
-        }
-        else {
-            _actionDialogs.pop();
-        }
-        _invalidateQueries();
-    };
     function _invalidateQueries() {
         _actionDialogs = [..._actionDialogs];
         setData(_actionDialogs);
@@ -90,7 +81,15 @@ export function useActionDialogs() {
     return {
         dialogs: data,
         dialog,
-        dismiss,
+        dismiss: (toDismissModalKey) => {
+            if (toDismissModalKey) {
+                _actionDialogs = _actionDialogs.filter((modal) => modal.key !== toDismissModalKey);
+            }
+            else {
+                _actionDialogs.pop();
+            }
+            _invalidateQueries();
+        },
         /**
          *
          This is to alert a simple message.

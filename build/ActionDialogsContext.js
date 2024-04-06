@@ -92,7 +92,7 @@ export function useActionDialogs() {
         },
         /**
          *
-         This is to alert a simple message.
+         This alerts a simple message with an OK button, informing the user of an event.
     
         ```tsx
         // then call it in your component
@@ -120,7 +120,7 @@ export function useActionDialogs() {
             });
         },
         /**
-         This is a simple text input used to ask user to enter a free form text.
+         This is a basic text input for requesting user input in free-form text, ideal for short-and-single inputs.
     
         ```tsx
         // then call it in your component
@@ -156,7 +156,7 @@ export function useActionDialogs() {
             });
         },
         /**
-         This is a yes/no confimation.
+         This prompts the user for a yes or no confirmation regarding an event.
     
         ```tsx
         // then call it in your component
@@ -196,7 +196,7 @@ export function useActionDialogs() {
         },
         /**
     
-        This is to display a list of choice which the user needs to select one of the choice
+        This presents a list of options for the user to choose from, similar to a single-select dropdown. The user must select one option.
     
         ```
         function ChoiceExample() {
@@ -257,7 +257,7 @@ export function useActionDialogs() {
             });
         },
         /**
-         This is used to show any custom modal content.
+         This displays custom modal content, suitable for complex use cases.
     
         ```tsx
         function ModalExample() {

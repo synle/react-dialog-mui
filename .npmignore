@@ -1,0 +1,9 @@
+.gitignore
+.npmignore
+.prettierignore
+.prettierrc
+src
+storybook-static
+docs
+tsconfig.json
+vite.config.js

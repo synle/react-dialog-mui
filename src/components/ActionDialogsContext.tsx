@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from 'react';
-import ActionDialogs from '.';
+import ActionDialogs from './ActionDialogs';
 import { AlertInput } from './AlertDialog';
 import { ChoiceInput, ChoiceOption } from './ChoiceDialog';
 import { ModalInput } from './ModalDialog';

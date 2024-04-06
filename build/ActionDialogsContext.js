@@ -74,15 +74,6 @@ export function useActionDialogs() {
     catch (err) {
         dialog = undefined;
     }
-    const dismiss = (modalIdToDismiss) => {
-        if (modalIdToDismiss) {
-            _actionDialogs = _actionDialogs.filter((modal) => modal.key !== modalIdToDismiss);
-        }
-        else {
-            _actionDialogs.pop();
-        }
-        _invalidateQueries();
-    };
     function _invalidateQueries() {
         _actionDialogs = [..._actionDialogs];
         setData(_actionDialogs);
@@ -90,7 +81,15 @@ export function useActionDialogs() {
     return {
         dialogs: data,
         dialog,
-        dismiss,
+        dismiss: (toDismissModalKey) => {
+            if (toDismissModalKey) {
+                _actionDialogs = _actionDialogs.filter((modal) => modal.key !== toDismissModalKey);
+            }
+            else {
+                _actionDialogs.pop();
+            }
+            _invalidateQueries();
+        },
         /**
          *
          This is to alert a simple message.

@@ -42,7 +42,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode;
 export declare function useActionDialogs(): {
     dialogs: ActionDialog[];
     dialog: any;
-    dismiss: (modalIdToDismiss?: string) => void;
+    dismiss: (toDismissModalKey?: string) => void;
     /**
      *
      This is to alert a simple message.
@@ -91,7 +91,7 @@ export declare function useActionDialogs(): {
     * @param props
     * @returns
     */
-    prompt: (props: PromptInput) => Promise<string | undefined>;
+    prompt: (props: PromptInput) => Promise<string>;
     /**
      This is a yes/no confimation.
 

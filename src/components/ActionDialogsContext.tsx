@@ -1,9 +1,8 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
-import ActionDialogs from './ActionDialogs';
-import { AlertInput } from './AlertDialog';
-import { ChoiceInput, ChoiceOption } from './ChoiceDialog';
-import { ModalInput } from './ModalDialog';
-import { PromptInput } from './PromptDialog';
+import { Fragment, ReactNode, createContext, useContext, useState } from 'react';
+import AlertDialog, { AlertInput } from './AlertDialog';
+import ChoiceDialog, { ChoiceInput, ChoiceOption } from './ChoiceDialog';
+import ModalDialog, { ModalInput } from './ModalDialog';
+import PromptDialog, { PromptInput } from './PromptDialog';
 
 type BaseDialog = {
   key: string;
@@ -67,6 +66,118 @@ export function ActionDialogsContext(props: { children: ReactNode }): ReactNode 
       {props.children}
       <ActionDialogs />
     </TargetContext.Provider>
+  );
+}
+
+
+
+type ActionDialogsProps = {};
+
+export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
+  const { dialogs, dismiss } = useActionDialogs();
+
+  if (!dialogs || dialogs.length === 0) {
+    return null;
+  }
+
+  return (
+    <>
+      {dialogs.map((dialog, idx) => {
+        if (!dialog) {
+          return null;
+        }
+
+        const onConfirmSubmit = () => {
+          dismiss();
+          dialog.onSubmit && dialog.onSubmit(true);
+        };
+        const onPromptSaveClick = (newValue?: string) => {
+          dismiss();
+          dialog.onSubmit && dialog.onSubmit(true, newValue);
+        };
+        const onChoiceSelect = (newValue?: string) => {
+          dismiss();
+          dialog.onSubmit && dialog.onSubmit(true, newValue);
+        };
+        const onDimiss = () => {
+          dismiss();
+          dialog.onSubmit && dialog.onSubmit(false);
+        };
+
+        let contentDom = <></>;
+        switch (dialog.type) {
+          case 'alert':
+            contentDom = (
+              <AlertDialog
+                open={true}
+                title='Alert'
+                message={dialog.message}
+                onDismiss={onDimiss}
+                isConfirm={false}
+              />
+            );
+            break;
+          case 'confirm':
+            contentDom = (
+              <AlertDialog
+                open={true}
+                title='Confirmation'
+                message={dialog.message}
+                yesLabel={dialog.yesLabel}
+                onYesClick={onConfirmSubmit}
+                onDismiss={onDimiss}
+                isConfirm={true}
+              />
+            );
+            break;
+          case 'prompt':
+            contentDom = (
+              <PromptDialog
+                open={true}
+                title={dialog.title}
+                message={dialog.message}
+                value={dialog.value}
+                onSaveClick={onPromptSaveClick}
+                onDismiss={onDimiss}
+                languageMode={dialog.languageMode}
+                isLongPrompt={dialog.isLongPrompt}
+                saveLabel={dialog.saveLabel}
+                required={dialog.required}
+                readonly={dialog.readonly}
+              />
+            );
+            break;
+          case 'choice':
+            contentDom = (
+              <ChoiceDialog
+                open={true}
+                title={dialog.title}
+                message={dialog.message}
+                options={dialog.options}
+                onSelect={onChoiceSelect}
+                onDismiss={onDimiss}
+                required={dialog.required}
+              />
+            );
+            break;
+          case 'modal':
+            contentDom = (
+              <ModalDialog
+                open={true}
+                title={dialog.title}
+                message={dialog.message}
+                onDismiss={onDimiss}
+                showCloseButton={!!dialog.showCloseButton}
+                disableBackdropClick={!!dialog.disableBackdropClick}
+                size={dialog.size}
+              />
+            );
+            break;
+        }
+
+        return <Fragment key={idx}>{contentDom}</Fragment>;
+      })}
+    </>
   );
 }
 
@@ -277,7 +388,36 @@ export function useActionDialogs() {
       });
     },
     /**
-     *
+     This is used to show any custom modal content.
+
+    ```tsx
+    function ModalExample() {
+      const { modal } = useActionDialogs();
+
+      const onSubmit = async () => {
+        try {
+          await modal({
+            title: 'Query Details',
+            message: <>
+              <div><strong>Name:</strong> Sample Mocked Query</div>
+              <div><strong>Status:</strong> Pending</div>
+              <div><strong>Created Date:</strong> {new Date().toLocaleDateString()}</div>
+            </>,
+            size: 'md'
+          });
+
+          // when users close out of modal
+        } catch (err) {}
+      };
+
+      return (
+        <>
+          <button onClick={onSubmit}>Show Details</button>
+        </>
+      );
+    }
+    ```
+
      * @param props
      * @returns
      */

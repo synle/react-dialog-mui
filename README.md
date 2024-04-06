@@ -11,11 +11,8 @@ npm i github:synle/react-mui-action-dialog#main;
 Use one of these import options
 
 ```tsx
-// const { ActionDialogsContext } = require('react-mui-action-dialog');
-// import { ActionDialogsContext } from 'react-mui-action-dialog';
-```
+import { ActionDialogsContext } from 'react-mui-action-dialog';
 
-```tsx
 <ActionDialogsContext>
   <YourApp>
 </ActionDialogsContext>

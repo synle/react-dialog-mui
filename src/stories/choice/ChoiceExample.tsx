@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActionDialogsContext, useActionDialogs } from '../../components';
+import { ActionDialogsContext, useActionDialogs } from 'react-mui-action-dialog';
 
 function ChoiceExample() {
   const { choice } = useActionDialogs();

@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = require("react");
+const ActionDialogs_1 = require("../../hooks/ActionDialogs");
 const AlertDialog_1 = require("./AlertDialog");
 const ChoiceDialog_1 = require("./ChoiceDialog");
 const ModalDialog_1 = require("./ModalDialog");
 const PromptDialog_1 = require("./PromptDialog");
-const ActionDialogs_1 = require("../../hooks/ActionDialogs");
 function ActionDialogs(props) {
     const { dialogs, dismiss } = (0, ActionDialogs_1.useActionDialogs)();
     if (!dialogs || dialogs.length === 0) {
@@ -50,7 +50,7 @@ function ActionDialogs(props) {
                     contentDom = ((0, jsx_runtime_1.jsx)(ModalDialog_1.default, { open: true, title: dialog.title, message: dialog.message, onDismiss: onDimiss, showCloseButton: !!dialog.showCloseButton, disableBackdropClick: !!dialog.disableBackdropClick, size: dialog.size }));
                     break;
             }
-            return (0, jsx_runtime_1.jsx)(react_1.default.Fragment, { children: contentDom }, idx);
+            return (0, jsx_runtime_1.jsx)(react_1.Fragment, { children: contentDom }, idx);
         }) }));
 }
 exports.default = ActionDialogs;

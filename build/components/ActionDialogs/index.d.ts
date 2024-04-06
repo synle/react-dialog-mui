@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import { ReactNode } from 'react';
 type ActionDialogsProps = {};
-export default function ActionDialogs(props: ActionDialogsProps): JSX.Element | null;
+export default function ActionDialogs(props: ActionDialogsProps): ReactNode;
 export {};

@@ -1,13 +1,13 @@
-import React from 'react';
+import { Fragment, ReactNode } from 'react';
+import { useActionDialogs } from '../../hooks/ActionDialogs';
 import AlertDialog from './AlertDialog';
 import ChoiceDialog from './ChoiceDialog';
 import ModalDialog from './ModalDialog';
 import PromptDialog from './PromptDialog';
-import { useActionDialogs } from '../../hooks/ActionDialogs';
 
 type ActionDialogsProps = {};
 
-export default function ActionDialogs(props: ActionDialogsProps): JSX.Element | null {
+export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
   const { dialogs, dismiss } = useActionDialogs();
 
   if (!dialogs || dialogs.length === 0) {
@@ -109,7 +109,7 @@ export default function ActionDialogs(props: ActionDialogsProps): JSX.Element | 
             break;
         }
 
-        return <React.Fragment key={idx}>{contentDom}</React.Fragment>;
+        return <Fragment key={idx}>{contentDom}</Fragment>;
       })}
     </>
   );

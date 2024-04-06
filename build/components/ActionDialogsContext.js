@@ -1,42 +1,39 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.useActionDialogs = exports.ActionDialogsContext = void 0;
-const jsx_runtime_1 = require("react/jsx-runtime");
-const react_1 = require("react");
-const ActionDialogs_1 = require("../components/ActionDialogs");
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { createContext, useContext, useState } from 'react';
+import ActionDialogs from '.';
 let _actionDialogs = [];
 let modalId = Date.now();
 //
-const TargetContext = (0, react_1.createContext)({
+const TargetContext = createContext({
     data: _actionDialogs,
     setData: (_newDialogs) => { },
 });
-function ActionDialogsContext(props) {
+export function ActionDialogsContext(props) {
     // State to hold the theme value
-    const [data, setData] = (0, react_1.useState)(_actionDialogs);
+    const [data, setData] = useState(_actionDialogs);
     // Provide the theme value and toggle function to the children components
-    return ((0, jsx_runtime_1.jsxs)(TargetContext.Provider, { value: { data, setData }, children: [props.children, (0, jsx_runtime_1.jsx)(ActionDialogs_1.default, {})] }));
+    return (_jsxs(TargetContext.Provider, { value: { data, setData }, children: [props.children, _jsx(ActionDialogs, {})] }));
 }
-exports.ActionDialogsContext = ActionDialogsContext;
-function useActionDialogs() {
-    const { data, setData } = (0, react_1.useContext)(TargetContext);
+export function useActionDialogs() {
+    const { data, setData } = useContext(TargetContext);
     /**
      This is a simple text input used to ask user to enter a free form text.
   
       ```tsx
       // then call it in your component
       function MyComponent() {
+        const { prompt } = useActionDialogs();
+  
         const onSubmit = async () => {
           try {
             const newName = await prompt({
               title: 'Rename Query',
               message: 'New Query Name',
-              value: query.name,
+              value: 'default query value',
               saveLabel: 'Save',
             });
-            await connectionQueries.onChangeQuery(query.id, {
-              name: newName,
-            });
+  
+            // when user entered and submitted the value for new name
           } catch (err) {}
         };
   
@@ -61,6 +58,8 @@ function useActionDialogs() {
       ```tsx
       // then call it in your component
       function MyComponent() {
+        const { confirm } = useActionDialogs();
+  
         const onSubmit = async () => {
           try {
             await confirm(`Do you want to delete this query?`);
@@ -176,5 +175,4 @@ function useActionDialogs() {
         modal,
     };
 }
-exports.useActionDialogs = useActionDialogs;
-//# sourceMappingURL=ActionDialogs.js.map
+//# sourceMappingURL=ActionDialogsContext.js.map

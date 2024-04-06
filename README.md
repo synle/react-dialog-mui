@@ -56,6 +56,8 @@ This is a yes/no confimation.
 ```tsx
 // then call it in your component
 function MyComponent() {
+  const { confirm } = useActionDialogs();
+
   const onSubmit = async () => {
     try {
       await confirm(`Do you want to delete this query?`);
@@ -77,17 +79,18 @@ This is a simple text input used to ask user to enter a free form text.
 ```tsx
 // then call it in your component
 function MyComponent() {
+  const { prompt } = useActionDialogs();
+
   const onSubmit = async () => {
     try {
       const newName = await prompt({
         title: 'Rename Query',
         message: 'New Query Name',
-        value: query.name,
+        value: 'default query value',
         saveLabel: 'Save',
       });
-      await connectionQueries.onChangeQuery(query.id, {
-        name: newName,
-      });
+
+      // when user entered and submitted the value for new name
     } catch (err) {}
   };
 

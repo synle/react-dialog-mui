@@ -1,7 +1,6 @@
-import { useActionDialogs } from '../index';
-import AppWrapper from './AppWrapper';
+import { ActionDialogsContext, useActionDialogs } from '../../../build';
 
-export function AlertExample() {
+function AlertExample() {
   const { alert } = useActionDialogs();
 
   const onSubmit = async () => {
@@ -15,8 +14,8 @@ export function AlertExample() {
 
 export default function () {
   return (
-    <AppWrapper>
+    <ActionDialogsContext>
       <AlertExample />
-    </AppWrapper>
+    </ActionDialogsContext>
   );
 }

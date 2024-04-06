@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActionDialogsContext, useActionDialogs } from '../../index';
+import { ActionDialogsContext, useActionDialogs } from 'react-mui-action-dialog';
 
 function ConfirmExample() {
   const { confirm } = useActionDialogs();

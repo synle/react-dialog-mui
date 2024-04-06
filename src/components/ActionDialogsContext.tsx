@@ -69,8 +69,6 @@ export function ActionDialogsContext(props: { children: ReactNode }): ReactNode 
   );
 }
 
-
-
 type ActionDialogsProps = {};
 
 export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
@@ -109,6 +107,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
           case 'alert':
             contentDom = (
               <AlertDialog
+                key={dialog.key}
                 open={true}
                 title='Alert'
                 message={dialog.message}
@@ -120,6 +119,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
           case 'confirm':
             contentDom = (
               <AlertDialog
+                key={dialog.key}
                 open={true}
                 title='Confirmation'
                 message={dialog.message}
@@ -133,6 +133,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
           case 'prompt':
             contentDom = (
               <PromptDialog
+                key={dialog.key}
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
@@ -150,6 +151,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
           case 'choice':
             contentDom = (
               <ChoiceDialog
+                key={dialog.key}
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
@@ -163,6 +165,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
           case 'modal':
             contentDom = (
               <ModalDialog
+                key={dialog.key}
                 open={true}
                 title={dialog.title}
                 message={dialog.message}

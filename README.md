@@ -1,5 +1,11 @@
 # react-mui-action-dialog
 
+## Why?
+
+The MUI Dialogs codebase is overly complex and lacks functionality. While the built-in JavaScript methods for alert, confirm, and prompt offer simplicity, they're not customizable and may fall short for complex scenarios.
+
+My aim with this library is to create a user-friendly solution that meets both ease-of-use and complex use case requirements.
+
 ## How to use?
 
 ```bash
@@ -8,7 +14,7 @@ npm i github:synle/react-mui-action-dialog#main;
 
 ### Add the action dialog context to your root
 
-Use one of these import options
+To begin, wrap your app with ActionDialogsContext, a React context consumer that manages the dialog stack state.
 
 ```tsx
 import { ActionDialogsContext } from 'react-mui-action-dialog';
@@ -20,18 +26,9 @@ import { ActionDialogsContext } from 'react-mui-action-dialog';
 
 ### Use the hook
 
-You can use the hooks to invoke the action dialogs:
-
-```tsx
-// in your component
-const { alert, prompt, confirm, choice, dismiss, modal } = useActionDialogs();
-
-// ... then call the method in your code
-```
-
 #### Alert
 
-This is to alert a simple message.
+This alerts a simple message with an OK button, informing the user of an event.
 
 <img width="203" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/027c6e41-04a3-42d3-a398-d7ac3d1d5467">
 
@@ -50,7 +47,7 @@ function MyComponent() {
 
 #### Confirm
 
-This is a yes/no confimation.
+This prompts the user for a yes or no confirmation regarding an event.
 
 <img width="219" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/ee08ab35-1774-40ba-a6c1-fc9d7a7297a9">
 
@@ -75,7 +72,7 @@ function MyComponent() {
 
 #### Prompt
 
-This is a simple text input used to ask user to enter a free form text.
+This is a basic text input for requesting user input in free-form text, ideal for short-and-single inputs.
 
 <img width="382" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/cd617969-19f6-4737-b613-d39a136a8c6e">
 
@@ -103,7 +100,7 @@ function MyComponent() {
 
 #### Choice
 
-This is to display a list of choice which the user needs to select one of the choice
+This presents a list of options for the user to choose from, similar to a single-select dropdown. The user must select one option.
 
 <img width="379" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/81140e54-77bd-45af-a28b-b134e7e6f0be">
 
@@ -145,7 +142,7 @@ function ChoiceExample() {
 
 #### Modal
 
-This is used to show any custom modal content.
+This displays custom modal content, suitable for complex use cases.
 
 <img width="438" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/cc6ae029-8d1f-482d-98e1-e1b896923aa0">
 

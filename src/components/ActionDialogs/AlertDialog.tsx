@@ -4,13 +4,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { ReactNode } from 'react';
 
 export type AlertInput = {
-  title?: string;
-  message: string | JSX.Element;
-  yesLabel?: string;
+  title?: ReactNode;
+  message: ReactNode;
+  yesLabel?: ReactNode;
   onYesClick?: () => void;
-  noLabel?: string;
+  noLabel?: ReactNode;
   isConfirm?: boolean;
 };
 
@@ -19,7 +20,7 @@ type AlertDialogProps = AlertInput & {
   onDismiss: () => void;
 };
 
-export default function AlertDialog(props: AlertDialogProps): JSX.Element | null {
+export default function AlertDialog(props: AlertDialogProps): ReactNode {
   return (
     <Dialog
       open={props.open}

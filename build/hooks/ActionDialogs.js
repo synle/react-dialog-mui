@@ -20,6 +20,33 @@ function ActionDialogsContext(props) {
 exports.ActionDialogsContext = ActionDialogsContext;
 function useActionDialogs() {
     const { data, setData } = (0, react_1.useContext)(TargetContext);
+    /**
+     This is a simple text input used to ask user to enter a free form text.
+  
+      ```tsx
+      // then call it in your component
+      function MyComponent() {
+        const onSubmit = async () => {
+          try {
+            const newName = await prompt({
+              title: 'Rename Query',
+              message: 'New Query Name',
+              value: query.name,
+              saveLabel: 'Save',
+            });
+            await connectionQueries.onChangeQuery(query.id, {
+              name: newName,
+            });
+          } catch (err) {}
+        };
+  
+        return <button onClick={onSubmit}>Rename Query?</button>;
+      }
+      ```
+  
+     * @param props
+     * @returns
+     */
     const prompt = (props) => {
         return new Promise((resolve, reject) => {
             _actionDialogs.push(Object.assign({ key: `modal.${modalId++}`, type: 'prompt', onSubmit: (yesSelected, newValue) => {
@@ -28,6 +55,29 @@ function useActionDialogs() {
             _invalidateQueries();
         });
     };
+    /**
+     This is a yes/no confimation.
+  
+      ```tsx
+      // then call it in your component
+      function MyComponent() {
+        const onSubmit = async () => {
+          try {
+            await confirm(`Do you want to delete this query?`);
+  
+            // when user selects yes
+          } catch (err) {
+            // when user selects no
+          }
+        };
+  
+        return <button onClick={onSubmit}>Delete Query?</button>;
+      }
+      ```
+     * @param message
+     * @param yesLabel
+     * @returns
+     */
     const confirm = (message, yesLabel) => {
         return new Promise((resolve, reject) => {
             _actionDialogs.push({
@@ -58,6 +108,25 @@ function useActionDialogs() {
             _invalidateQueries();
         });
     };
+    /**
+     *
+     This is to alert a simple message.
+  
+      ```tsx
+      // then call it in your component
+      function MyComponent() {
+        const onSubmit = async () => {
+          try {
+            await alert(<>Your alert message...</>);
+          } catch (err) {}
+        };
+  
+        return <button onClick={onSubmit}>My Action</button>;
+      }
+      ```
+     * @param message
+     * @returns
+     */
     const alert = (message) => {
         return new Promise((resolve, reject) => {
             _actionDialogs.push({

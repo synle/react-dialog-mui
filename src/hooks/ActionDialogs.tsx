@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { ReactNode, createContext, useContext, useState } from 'react';
 import ActionDialogs from '../components/ActionDialogs';
 import { AlertInput } from '../components/ActionDialogs/AlertDialog';
 import { ChoiceInput, ChoiceOption } from '../components/ActionDialogs/ChoiceDialog';
@@ -12,13 +12,13 @@ type BaseDialog = {
 type AlertActionDialog = BaseDialog &
   AlertInput & {
     type: 'alert';
-    message: string | JSX.Element;
+    message: ReactNode;
     onSubmit?: () => void;
   };
 
 type ConfirmActionDialog = BaseDialog & {
   type: 'confirm';
-  message: string | JSX.Element;
+  message: ReactNode;
   yesLabel?: string;
   onSubmit: (yesSelected: boolean) => void;
 };
@@ -58,7 +58,7 @@ const TargetContext = createContext({
   setData: (_newDialogs: ActionDialog[]) => {},
 });
 
-export function ActionDialogsContext(props: { children: JSX.Element }): JSX.Element | null {
+export function ActionDialogsContext(props: { children: ReactNode }): ReactNode {
   // State to hold the theme value
   const [data, setData] = useState(_actionDialogs);
   // Provide the theme value and toggle function to the children components
@@ -73,6 +73,33 @@ export function ActionDialogsContext(props: { children: JSX.Element }): JSX.Elem
 export function useActionDialogs() {
   const { data, setData } = useContext(TargetContext)!;
 
+  /**
+   This is a simple text input used to ask user to enter a free form text.
+
+    ```tsx
+    // then call it in your component
+    function MyComponent() {
+      const onSubmit = async () => {
+        try {
+          const newName = await prompt({
+            title: 'Rename Query',
+            message: 'New Query Name',
+            value: query.name,
+            saveLabel: 'Save',
+          });
+          await connectionQueries.onChangeQuery(query.id, {
+            name: newName,
+          });
+        } catch (err) {}
+      };
+
+      return <button onClick={onSubmit}>Rename Query?</button>;
+    }
+    ```
+
+   * @param props
+   * @returns
+   */
   const prompt = (props: PromptInput): Promise<string | undefined> => {
     return new Promise((resolve, reject) => {
       _actionDialogs.push({
@@ -87,7 +114,30 @@ export function useActionDialogs() {
     });
   };
 
-  const confirm = (message: string | JSX.Element, yesLabel?: string): Promise<void> => {
+  /**
+   This is a yes/no confimation.
+
+    ```tsx
+    // then call it in your component
+    function MyComponent() {
+      const onSubmit = async () => {
+        try {
+          await confirm(`Do you want to delete this query?`);
+
+          // when user selects yes
+        } catch (err) {
+          // when user selects no
+        }
+      };
+
+      return <button onClick={onSubmit}>Delete Query?</button>;
+    }
+    ```
+   * @param message
+   * @param yesLabel
+   * @returns
+   */
+  const confirm = (message: ReactNode, yesLabel?: string): Promise<void> => {
     return new Promise((resolve, reject) => {
       _actionDialogs.push({
         key: `modal.${modalId++}`,
@@ -104,7 +154,7 @@ export function useActionDialogs() {
 
   const choice = (
     title: string,
-    message: string | JSX.Element,
+    message: ReactNode,
     options: ChoiceOption[],
     required?: boolean,
   ): Promise<string> => {
@@ -124,7 +174,26 @@ export function useActionDialogs() {
     });
   };
 
-  const alert = (message: string | JSX.Element): Promise<void> => {
+  /**
+   *
+   This is to alert a simple message.
+
+    ```tsx
+    // then call it in your component
+    function MyComponent() {
+      const onSubmit = async () => {
+        try {
+          await alert(<>Your alert message...</>);
+        } catch (err) {}
+      };
+
+      return <button onClick={onSubmit}>My Action</button>;
+    }
+    ```
+   * @param message
+   * @returns
+   */
+  const alert = (message: ReactNode): Promise<void> => {
     return new Promise((resolve, reject) => {
       _actionDialogs.push({
         key: `modal.${modalId++}`,

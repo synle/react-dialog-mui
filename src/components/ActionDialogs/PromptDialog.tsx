@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
-import React, { useState } from 'react';
+import { ReactNode, SyntheticEvent, useState } from 'react';
 
 export type PromptInput = {
   title?: string;
@@ -25,7 +25,7 @@ type PromptDialogProps = PromptInput & {
   onDismiss: () => void;
 };
 
-export default function PromptDialog(props: PromptDialogProps): JSX.Element | null {
+export default function PromptDialog(props: PromptDialogProps): ReactNode {
   const [value, setValue] = useState(props.value || '');
 
   const handleClose = (forceClose = false) => {
@@ -37,7 +37,7 @@ export default function PromptDialog(props: PromptDialogProps): JSX.Element | nu
     props.onDismiss();
   };
 
-  const onSave = (e: React.SyntheticEvent) => {
+  const onSave = (e: SyntheticEvent) => {
     e.preventDefault();
     if (props.required && !value) {
       // needs to fill out an input

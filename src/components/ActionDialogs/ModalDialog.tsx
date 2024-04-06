@@ -4,14 +4,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
+import { ReactNode } from 'react';
 
 export type ModalInput = {
-  title: string;
+  title: ReactNode;
   /**
    * body of the modal
-   * @type {[type]}
    */
-  message: JSX.Element;
+  message: ReactNode;
   showCloseButton?: boolean;
   disableBackdropClick?: boolean;
   size: 'xs' | 'sm' | 'md' | 'lg';
@@ -22,12 +22,13 @@ type ModalProps = ModalInput & {
   onDismiss: () => void;
 };
 
-export default function Modal(props: ModalProps): JSX.Element | null {
+export default function Modal(props: ModalProps): ReactNode {
   const onBackdropClick = () => {
     if (props.disableBackdropClick !== true) {
       props.onDismiss();
     }
   };
+
   return (
     <Dialog
       open={props.open}

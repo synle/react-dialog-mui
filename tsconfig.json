@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "module": "CommonJS",
+    "module": "ESNext",
     "outDir": "build",
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
@@ -12,5 +12,5 @@
     "skipLibCheck": true,
     "noEmit": false
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src/stories"]
 }

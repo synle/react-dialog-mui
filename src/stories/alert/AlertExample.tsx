@@ -1,4 +1,4 @@
-import { ActionDialogsContext, useActionDialogs } from '../../../build';
+import { ActionDialogsContext, useActionDialogs } from 'react-mui-action-dialog';
 
 function AlertExample() {
   const { alert } = useActionDialogs();

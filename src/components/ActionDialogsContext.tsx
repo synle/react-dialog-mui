@@ -73,40 +73,6 @@ export function ActionDialogsContext(props: { children: ReactNode }): ReactNode 
 export function useActionDialogs() {
   const { data, setData } = useContext(TargetContext)!;
 
-  const choice = (
-    title: string,
-    message: ReactNode,
-    options: ChoiceOption[],
-    required?: boolean,
-  ): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      _actionDialogs.push({
-        key: `modal.${modalId++}`,
-        type: 'choice',
-        title,
-        message,
-        options,
-        onSubmit: (yesSelected, newValue) => {
-          yesSelected && newValue ? resolve(newValue) : reject();
-        },
-        required,
-      });
-      _invalidateQueries();
-    });
-  };
-
-  const modal = (props: ModalInput): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      _actionDialogs.push({
-        key: `modal.${modalId++}`,
-        type: 'modal',
-        onSubmit: () => {},
-        ...props,
-      });
-      _invalidateQueries();
-    });
-  };
-
   let dialog;
   try {
     if (data) {
@@ -133,9 +99,10 @@ export function useActionDialogs() {
   return {
     dialogs: data,
     dialog,
+    dismiss,
     /**
-   *
-   This is to alert a simple message.
+     *
+     This is to alert a simple message.
 
     ```tsx
     // then call it in your component
@@ -149,9 +116,9 @@ export function useActionDialogs() {
       return <button onClick={onSubmit}>My Action</button>;
     }
     ```
-   * @param message
-   * @returns
-   */
+    * @param message
+    * @returns
+    */
     alert: (message: ReactNode): Promise<void> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
@@ -162,35 +129,34 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
-
     /**
      This is a simple text input used to ask user to enter a free form text.
 
-      ```tsx
-      // then call it in your component
-      function MyComponent() {
-        const { prompt } = useActionDialogs();
+    ```tsx
+    // then call it in your component
+    function MyComponent() {
+      const { prompt } = useActionDialogs();
 
-        const onSubmit = async () => {
-          try {
-            const newName = await prompt({
-              title: 'Rename Query',
-              message: 'New Query Name',
-              value: 'default query value',
-              saveLabel: 'Save',
-            });
+      const onSubmit = async () => {
+        try {
+          const newName = await prompt({
+            title: 'Rename Query',
+            message: 'New Query Name',
+            value: 'default query value',
+            saveLabel: 'Save',
+          });
 
-            // when user entered and submitted the value for new name
-          } catch (err) {}
-        };
+          // when user entered and submitted the value for new name
+        } catch (err) {}
+      };
 
-        return <button onClick={onSubmit}>Rename Query?</button>;
-      }
-      ```
+      return <button onClick={onSubmit}>Rename Query?</button>;
+    }
+    ```
 
-     * @param props
-     * @returns
-     */
+    * @param props
+    * @returns
+    */
     prompt: (props: PromptInput): Promise<string | undefined> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
@@ -204,32 +170,31 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
-
     /**
      This is a yes/no confimation.
 
-      ```tsx
-      // then call it in your component
-      function MyComponent() {
-        const { confirm } = useActionDialogs();
+    ```tsx
+    // then call it in your component
+    function MyComponent() {
+      const { confirm } = useActionDialogs();
 
-        const onSubmit = async () => {
-          try {
-            await confirm(`Do you want to delete this query?`);
+      const onSubmit = async () => {
+        try {
+          await confirm(`Do you want to delete this query?`);
 
-            // when user selects yes
-          } catch (err) {
-            // when user selects no
-          }
-        };
+          // when user selects yes
+        } catch (err) {
+          // when user selects no
+        }
+      };
 
-        return <button onClick={onSubmit}>Delete Query?</button>;
-      }
-      ```
-     * @param message
-     * @param yesLabel
-     * @returns
-     */
+      return <button onClick={onSubmit}>Delete Query?</button>;
+    }
+    ```
+    * @param message
+    * @param yesLabel
+    * @returns
+    */
     confirm: (message: ReactNode, yesLabel?: string): Promise<void> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
@@ -244,8 +209,52 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
-    choice,
-    dismiss,
-    modal,
+    /**
+     *
+     * @param title
+     * @param message
+     * @param options
+     * @param required
+     * @returns
+     */
+    choice: (
+      title: string,
+      message: ReactNode,
+      options: ChoiceOption[],
+      required?: boolean,
+    ): Promise<string> => {
+      return new Promise((resolve, reject) => {
+        _actionDialogs.push({
+          key: `modal.${modalId++}`,
+          type: 'choice',
+          title,
+          message,
+          options,
+          onSubmit: (yesSelected, newValue) => {
+            yesSelected && newValue ? resolve(newValue) : reject();
+          },
+          required,
+        });
+        _invalidateQueries();
+      });
+    },
+    /**
+     *
+     * @param props
+     * @returns
+     */
+    modal: (props: ModalInput): Promise<void> => {
+      return new Promise((resolve, reject) => {
+        _actionDialogs.push({
+          key: `modal.${modalId++}`,
+          type: 'modal',
+          onSubmit: () => {
+            resolve();
+          },
+          ...props,
+        });
+        _invalidateQueries();
+      });
+    },
   };
 }

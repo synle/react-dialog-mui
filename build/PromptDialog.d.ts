@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
-export type PromptInput = {
+import { BaseDialogInput } from './ActionDialogsContext';
+export type PromptInput = BaseDialogInput & {
     title?: string;
     message: string;
     value?: string;
@@ -9,10 +10,8 @@ export type PromptInput = {
     required?: boolean;
     readonly?: boolean;
 };
-type PromptDialogProps = PromptInput & {
+export default function PromptDialog(props: PromptInput & {
     open: boolean;
     onSaveClick: (newValue: string) => void;
     onDismiss: () => void;
-};
-export default function PromptDialog(props: PromptDialogProps): ReactNode;
-export {};
+}): ReactNode;

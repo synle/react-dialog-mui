@@ -18,12 +18,12 @@ export type ModalInput = BaseDialogInput & {
   size: 'xs' | 'sm' | 'md' | 'lg';
 };
 
-type ModalProps = ModalInput & {
-  open: boolean;
-  onDismiss: () => void;
-};
-
-export default function Modal(props: ModalProps): ReactNode {
+export default function Modal(
+  props: ModalInput & {
+    open: boolean;
+    onDismiss: () => void;
+  },
+): ReactNode {
   const onBackdropClick = () => {
     if (props.disableBackdropClick !== true) {
       props.onDismiss();

@@ -3,9 +3,13 @@ import { AlertInput } from './AlertDialog';
 import { ChoiceInput, ChoiceOption } from './ChoiceDialog';
 import { ModalInput } from './ModalDialog';
 import { PromptInput } from './PromptDialog';
-type BaseDialog = {
+/**
+ * base type used in all the dialog input
+ */
+export type BaseDialogInput = {
     key: string;
 };
+type BaseDialog = BaseDialogInput;
 type AlertActionDialog = BaseDialog & AlertInput & {
     type: 'alert';
     message: ReactNode;

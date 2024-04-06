@@ -11,6 +11,6 @@ export default function ChoiceDialog(props) {
     if (required) {
         onClose = undefined;
     }
-    return (_jsxs(Dialog, { onClose: onClose, open: open, fullWidth: true, children: [_jsx(DialogTitle, { children: title }), _jsxs(DialogContent, { sx: { mt: 1 }, children: [message, _jsx(List, { dense: true, children: options.map((option) => (_jsxs(ListItem, { button: true, onClick: () => !option.disabled && handleListItemClick(option.value), disabled: !!option.disabled, sx: { alignItems: 'center', display: 'flex', gap: 1 }, children: [!option.startIcon ? null : option.startIcon, _jsx(ListItemText, { primary: option.label })] }, option.value))) })] })] }));
+    return (_jsxs(Dialog, { onClose: onClose, open: open, fullWidth: true, "aria-labelledby": `dialog-title-${props.key}`, "aria-describedby": `dialog-description-${props.key}`, children: [_jsx(DialogTitle, { id: `dialog-title-${props.key}`, children: title }), _jsxs(DialogContent, { sx: { mt: 1 }, id: `dialog-description-${props.key}`, children: [message, _jsx(List, { dense: true, children: options.map((option) => (_jsxs(ListItem, { button: true, onClick: () => !option.disabled && handleListItemClick(option.value), disabled: !!option.disabled, sx: { alignItems: 'center', display: 'flex', gap: 1 }, children: [!option.startIcon ? null : option.startIcon, _jsx(ListItemText, { primary: option.label })] }, option.value))) })] })] }));
 }
 //# sourceMappingURL=ChoiceDialog.js.map

@@ -20,13 +20,13 @@ export type PromptInput = BaseDialogInput & {
   readonly?: boolean;
 };
 
-type PromptDialogProps = PromptInput & {
-  open: boolean;
-  onSaveClick: (newValue: string) => void;
-  onDismiss: () => void;
-};
-
-export default function PromptDialog(props: PromptDialogProps): ReactNode {
+export default function PromptDialog(
+  props: PromptInput & {
+    open: boolean;
+    onSaveClick: (newValue: string) => void;
+    onDismiss: () => void;
+  },
+): ReactNode {
   const [value, setValue] = useState(props.value || '');
 
   const handleClose = (forceClose = false) => {

@@ -16,13 +16,13 @@ export type AlertInput = BaseDialogInput & {
   isConfirm?: boolean;
 };
 
-type AlertDialogProps = AlertInput & {
-  key: string;
-  open: boolean;
-  onDismiss: () => void;
-};
-
-export default function AlertDialog(props: AlertDialogProps): ReactNode {
+export default function AlertDialog(
+  props: AlertInput & {
+    key: string;
+    open: boolean;
+    onDismiss: () => void;
+  },
+): ReactNode {
   return (
     <Dialog
       open={props.open}

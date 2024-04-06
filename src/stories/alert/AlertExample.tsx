@@ -1,4 +1,4 @@
-import { ActionDialogsContext, useActionDialogs } from '../../index';
+import { ActionDialogsContext, useActionDialogs } from '../../../build';
 
 function AlertExample() {
   const { alert } = useActionDialogs();

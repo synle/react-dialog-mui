@@ -1,15 +1,15 @@
-/// <reference types="react" />
+import { ReactNode } from 'react';
 export type AlertInput = {
-    title?: string;
-    message: string | JSX.Element;
-    yesLabel?: string;
+    title?: ReactNode;
+    message: ReactNode;
+    yesLabel?: ReactNode;
     onYesClick?: () => void;
-    noLabel?: string;
+    noLabel?: ReactNode;
     isConfirm?: boolean;
 };
 type AlertDialogProps = AlertInput & {
     open: boolean;
     onDismiss: () => void;
 };
-export default function AlertDialog(props: AlertDialogProps): JSX.Element | null;
+export default function AlertDialog(props: AlertDialogProps): ReactNode;
 export {};

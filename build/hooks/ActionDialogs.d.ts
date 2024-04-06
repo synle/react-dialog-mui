@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import { ReactNode } from 'react';
 import { AlertInput } from '../components/ActionDialogs/AlertDialog';
 import { ChoiceInput, ChoiceOption } from '../components/ActionDialogs/ChoiceDialog';
 import { ModalInput } from '../components/ActionDialogs/ModalDialog';
@@ -8,12 +8,12 @@ type BaseDialog = {
 };
 type AlertActionDialog = BaseDialog & AlertInput & {
     type: 'alert';
-    message: string | JSX.Element;
+    message: ReactNode;
     onSubmit?: () => void;
 };
 type ConfirmActionDialog = BaseDialog & {
     type: 'confirm';
-    message: string | JSX.Element;
+    message: ReactNode;
     yesLabel?: string;
     onSubmit: (yesSelected: boolean) => void;
 };
@@ -31,15 +31,15 @@ type ModalActionDialog = BaseDialog & ModalInput & {
 };
 type ActionDialog = AlertActionDialog | ConfirmActionDialog | PromptActionDialog | ChoiceActionDialog | ModalActionDialog;
 export declare function ActionDialogsContext(props: {
-    children: JSX.Element;
-}): JSX.Element | null;
+    children: ReactNode;
+}): ReactNode;
 export declare function useActionDialogs(): {
     dialogs: ActionDialog[];
     dialog: any;
-    alert: (message: string | JSX.Element) => Promise<void>;
+    alert: (message: ReactNode) => Promise<void>;
     prompt: (props: PromptInput) => Promise<string | undefined>;
-    confirm: (message: string | JSX.Element, yesLabel?: string) => Promise<void>;
-    choice: (title: string, message: string | JSX.Element, options: ChoiceOption[], required?: boolean) => Promise<string>;
+    confirm: (message: ReactNode, yesLabel?: string) => Promise<void>;
+    choice: (title: string, message: ReactNode, options: ChoiceOption[], required?: boolean) => Promise<string>;
     dismiss: (modalIdToDismiss?: string) => void;
     modal: (props: ModalInput) => Promise<void>;
 };

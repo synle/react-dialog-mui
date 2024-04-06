@@ -1,4 +1,4 @@
-/// <reference types="react" />
+import { ReactNode } from 'react';
 export type PromptInput = {
     title?: string;
     message: string;
@@ -14,5 +14,5 @@ type PromptDialogProps = PromptInput & {
     onSaveClick: (newValue: string) => void;
     onDismiss: () => void;
 };
-export default function PromptDialog(props: PromptDialogProps): JSX.Element | null;
+export default function PromptDialog(props: PromptDialogProps): ReactNode;
 export {};

@@ -4,17 +4,18 @@ import DialogTitle from '@mui/material/DialogTitle';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import { ReactNode } from 'react';
 
 export type ChoiceOption = {
-  startIcon?: JSX.Element;
-  label: JSX.Element | string;
+  startIcon?: ReactNode;
+  label: ReactNode;
   value: string;
   disabled?: boolean;
 };
 
 export type ChoiceInput = {
   title: string;
-  message: JSX.Element | string;
+  message: ReactNode;
   options: ChoiceOption[];
   required?: boolean;
 };
@@ -25,7 +26,7 @@ type ChoiceDialogProps = ChoiceInput & {
   onDismiss: () => void;
 };
 
-export default function ChoiceDialog(props: ChoiceDialogProps): JSX.Element | null {
+export default function ChoiceDialog(props: ChoiceDialogProps): ReactNode {
   const {
     title,
     message,

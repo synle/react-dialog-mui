@@ -36,7 +36,8 @@
     "@storybook/react-vite": "^8.0.6",
     "@storybook/test": "^8.0.6",
     "storybook": "^8.0.6",
-    "typescript": "^5"
+    "typescript": "^5",
+    "react-mui-action-dialog": "github:synle/react-mui-action-dialog#main"
   },
   "dependencies": {
     "@emotion/react": "^11",

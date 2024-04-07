@@ -63,3 +63,38 @@ export function ModalExampleWithManualDismiss() {
     </>
   );
 }
+
+export function ModalExampleWithFormSubmit() {
+  const { modal } = useActionDialogs();
+  const modalRef = useActionDialogRef();
+
+  const onSubmit = async () => {
+    try {
+      await modal({
+        title: 'Login Modal',
+        message: (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              modalRef.current.dismiss();
+            }}>
+            <input type='text' placeholder='Username' />
+            <input type='password' placeholder='Password' />
+            <div>
+              <button type='submit'>Login</button>
+            </div>
+          </form>
+        ),
+        modalRef: modalRef,
+      });
+
+      // when users close out of modal
+    } catch (err) {}
+  };
+
+  return (
+    <>
+      <button onClick={onSubmit}>Show Modal</button>
+    </>
+  );
+}

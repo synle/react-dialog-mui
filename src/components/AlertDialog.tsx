@@ -29,10 +29,10 @@ export default function AlertDialog(
     <Dialog
       open={props.open}
       onClose={props.onDismiss}
-      aria-labelledby={`dialog-title-${props.key}`}
-      aria-describedby={`dialog-description-${props.key}`}>
+      aria-labelledby={`dialog-title-${props.id}`}
+      aria-describedby={`dialog-description-${props.id}`}>
       <Box sx={{ maxWidth: 600, minWidth: 400 }}>
-        <DialogTitle id={`dialog-title-${props.key}`}>
+        <DialogTitle id={`dialog-title-${props.id}`}>
           {props.title}
           <IconButton
             aria-label='close'
@@ -47,7 +47,7 @@ export default function AlertDialog(
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <Box sx={{ pt: 1 }} id={`dialog-description-${props.key}`}>
+          <Box sx={{ pt: 1 }} id={`dialog-description-${props.id}`}>
             {props.message}
           </Box>
         </DialogContent>

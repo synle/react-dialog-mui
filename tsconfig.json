@@ -3,12 +3,11 @@
     "target": "es6",
     "module": "ESNext",
     "outDir": "build",
-    "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
     "moduleResolution": "Node",
     "declaration": true,
     "sourceMap": true,
-    "strict": false,
+    "strict": true,
     "skipLibCheck": true,
     "noEmit": false
   },

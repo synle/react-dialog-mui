@@ -1,8 +1,20 @@
-import { Fragment, ReactNode, createContext, useContext, useState } from 'react';
+import { Fragment, ReactNode, RefObject, createContext, useContext, useState } from 'react';
 import AlertDialog, { AlertInput } from './AlertDialog';
 import ChoiceDialog, { ChoiceInput, ChoiceOption } from './ChoiceDialog';
 import ModalDialog, { ModalInput } from './ModalDialog';
 import PromptDialog, { PromptInput } from './PromptDialog';
+
+export type ActionDialogRef = {
+  /**
+   * The ID of the modal createc
+   */
+  id: string;
+  /**
+   * This method can be used to close / dismiss the modal programtically
+   * @returns
+   */
+  dismiss: () => void;
+};
 
 /**
  * base type used in all the dialog input
@@ -218,7 +230,7 @@ export function useActionDialogs() {
     setData(_actionDialogs);
   }
 
-  return {
+  const ActionDialogHooks = {
     dialogs: data,
     dialog,
     dismiss: (toDismissModalId?: string) => {
@@ -234,7 +246,6 @@ export function useActionDialogs() {
 This alerts a simple message with an OK button, informing the user of an event.
 
 ```tsx
-// then call it in your component
 function MyComponent() {
   const onSubmit = async () => {
     try {
@@ -277,7 +288,6 @@ function MyComponent() {
      This is a basic text input for requesting user input in free-form text, ideal for short-and-single inputs.
 
 ```tsx
-// then call it in your component
 function MyComponent() {
   const { prompt } = useActionDialogs();
 
@@ -317,7 +327,6 @@ function MyComponent() {
      This prompts the user for a yes or no confirmation regarding an event.
 
 ```tsx
-// then call it in your component
 function MyComponent() {
   const { confirm } = useActionDialogs();
 
@@ -461,20 +470,37 @@ function ModalExample() {
      * @param props
      * @returns
      */
-    modal: (props: ModalInput): Promise<void> => {
+    modal: (
+      props: ModalInput & {
+        modalRef?: RefObject<ActionDialogRef>;
+      },
+    ): Promise<void> => {
       return new Promise((resolve, reject) => {
         props.size = props.size || 'md';
 
+        const modalId = _getModalId();
+        const modalRef = props.modalRef;
+
+        if (modalRef) {
+          (modalRef.current.id = modalId),
+            (modalRef.current.dismiss = () => {
+              ActionDialogHooks.dismiss(modalId);
+            });
+        }
+
         _actionDialogs.push({
-          id: _getModalId(),
+          id: modalId,
           type: 'modal',
           onSubmit: () => {
             resolve();
           },
           ...props,
         });
+
         _invalidateQueries();
       });
     },
   };
+
+  return ActionDialogHooks;
 }

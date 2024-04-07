@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
-import AlertExample from './AlertExample';
-import ChoiceExample from './ChoiceExample';
-import ConfirmExample from './ConfirmExample';
-import ModalExample from './ModalExample';
-import PromptExample from './PromptExample';
+import { ActionDialogsContext } from 'react-mui-action-dialog';
+import { AlertExample } from './AlertExample';
+import { ChoiceExample } from './ChoiceExample';
+import { ConfirmExample } from './ConfirmExample';
+import { ModalExample } from './ModalExample';
+import { PromptExample } from './PromptExample';
 
 export default {
   title: 'Action Dialog Examples',
@@ -14,17 +15,19 @@ export default {
 
 function ExampleWrapper(props: { children: ReactNode; title: string }) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        padding: '1rem 2rem',
-        gap: '1rem',
-      }}>
-      <h1>{props.title}</h1>
-      {props.children}
-    </div>
+    <ActionDialogsContext>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          padding: '1rem 2rem',
+          gap: '1rem',
+        }}>
+        <h1>{props.title}</h1>
+        {props.children}
+      </div>
+    </ActionDialogsContext>
   );
 }
 

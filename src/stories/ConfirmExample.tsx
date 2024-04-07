@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { ActionDialogsContext, useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogs } from 'react-mui-action-dialog';
 
-function ConfirmExample() {
+export function ConfirmExample() {
   const { confirm } = useActionDialogs();
   const [deleted, setDeleted] = useState(false);
 
@@ -29,13 +29,5 @@ function ConfirmExample() {
         {deleted ? <>This query has been deleted</> : null}
       </div>
     </>
-  );
-}
-
-export default function () {
-  return (
-    <ActionDialogsContext>
-      <ConfirmExample />
-    </ActionDialogsContext>
   );
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { ActionDialogsContext, useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogs } from 'react-mui-action-dialog';
 
-function ChoiceExample() {
+export function ChoiceExample() {
   const { choice } = useActionDialogs();
   const [session, setSession] = useState('');
 
@@ -32,13 +32,5 @@ function ChoiceExample() {
         <strong>New selected session:</strong> {session}
       </div>
     </>
-  );
-}
-
-export default function () {
-  return (
-    <ActionDialogsContext>
-      <ChoiceExample />
-    </ActionDialogsContext>
   );
 }

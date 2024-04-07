@@ -154,14 +154,12 @@ export default function ActionDialogs() {
 export function useActionDialogs() {
   const { data, setData } = useContext(TargetContext)!;
 
-  let dialog: ActionDialog;
+  let dialog: ActionDialog | undefined = undefined;
   try {
     if (data) {
       dialog = data[data.length - 1];
     }
-  } catch (err) {
-    dialog = undefined;
-  }
+  } catch (err) {}
 
   function _invalidateQueries() {
     _actionDialogs = [..._actionDialogs];
@@ -251,12 +249,12 @@ function MyComponent() {
     prompt: (props: PromptInput): Promise<string> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
+          ...props,
           id: _getModalId(),
           type: 'prompt',
           onSubmit: (yesSelected, newValue) => {
-            yesSelected ? resolve(newValue) : reject();
+            yesSelected && newValue ? resolve(newValue) : reject();
           },
-          ...props,
         });
         _invalidateQueries();
       });
@@ -419,20 +417,20 @@ function ModalExample() {
         const modalId = _getModalId();
         const modalRef = props.modalRef;
 
-        if (modalRef) {
-          (modalRef.current.id = modalId),
-            (modalRef.current.dismiss = () => {
-              ActionDialogHooks.dismiss(modalId);
-            });
+        if (modalRef && modalRef.current) {
+          modalRef.current.id = modalId;
+          modalRef.current.dismiss = () => {
+            ActionDialogHooks.dismiss(modalId);
+          };
         }
 
         _actionDialogs.push({
+          ...props,
           id: modalId,
           type: 'modal',
           onSubmit: () => {
             resolve();
           },
-          ...props,
         });
 
         _invalidateQueries();

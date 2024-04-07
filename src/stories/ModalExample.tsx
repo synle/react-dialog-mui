@@ -1,5 +1,4 @@
-import { useRef } from 'react';
-import { ActionDialogRef, useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogRef, useActionDialogs } from 'react-mui-action-dialog';
 
 export function ModalExample() {
   const { modal } = useActionDialogs();
@@ -36,16 +35,18 @@ export function ModalExample() {
 
 export function ModalExampleWithManualDismiss() {
   const { modal } = useActionDialogs();
-  const modalRef = useRef<ActionDialogRef>({});
+  const modalRef = useActionDialogRef();
 
   const onSubmit = async () => {
     try {
       await modal({
-        title: 'Query Details',
+        title: 'Manual Dismiss Modal',
         message: (
           <>
             <div>
-              <strong>Name:</strong> Sample Mocked Query
+              <button onClick={() => modalRef.current.dismiss()}>
+                Manually dismiss this dialog
+              </button>
             </div>
           </>
         ),
@@ -53,12 +54,12 @@ export function ModalExampleWithManualDismiss() {
       });
 
       // when users close out of modal
-    } catch (err) { }
+    } catch (err) {}
   };
 
   return (
     <>
-      <button onClick={onSubmit}>Show Details</button>
+      <button onClick={onSubmit}>Show Modal</button>
     </>
   );
 }

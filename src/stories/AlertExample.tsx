@@ -1,6 +1,6 @@
-import { ActionDialogsContext, useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogs } from 'react-mui-action-dialog';
 
-function AlertExample() {
+export function AlertExample() {
   const { alert } = useActionDialogs();
 
   const onSubmit = async () => {
@@ -14,12 +14,4 @@ function AlertExample() {
   };
 
   return <button onClick={onSubmit}>My Action</button>;
-}
-
-export default function () {
-  return (
-    <ActionDialogsContext>
-      <AlertExample />
-    </ActionDialogsContext>
-  );
 }

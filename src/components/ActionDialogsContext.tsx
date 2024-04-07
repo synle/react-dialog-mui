@@ -13,8 +13,8 @@ export type ActionDialogRef = {
    * This method can be used to close / dismiss the modal programtically
    * @returns
    */
-  dismiss: () => void
-}
+  dismiss: () => void;
+};
 
 /**
  * base type used in all the dialog input
@@ -473,20 +473,22 @@ function ModalExample() {
      * @param props
      * @returns
      */
-    modal: (props: ModalInput & {
-      modalRef?: RefObject<ActionDialogRef>
-    }): Promise<void> => {
+    modal: (
+      props: ModalInput & {
+        modalRef?: RefObject<ActionDialogRef>;
+      },
+    ): Promise<void> => {
       return new Promise((resolve, reject) => {
         props.size = props.size || 'md';
 
         const modalId = _getModalId();
         const modalRef = props.modalRef;
 
-        if (modalRef.current){
-          modalRef.current.id = modalId,
-          modalRef.current.dismiss = () => {
-            ActionDialogHooks.dismiss(modalId);
-          }
+        if (modalRef) {
+          (modalRef.current.id = modalId),
+            (modalRef.current.dismiss = () => {
+              ActionDialogHooks.dismiss(modalId);
+            });
         }
 
         _actionDialogs.push({

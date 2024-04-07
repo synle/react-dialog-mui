@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { ActionDialogsContext, useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogs } from 'react-mui-action-dialog';
 
-function PromptExample() {
+export function PromptExample() {
   const { prompt } = useActionDialogs();
   const [name, setName] = useState('');
 
@@ -26,13 +26,5 @@ function PromptExample() {
         <strong>New query name:</strong> {name}
       </div>
     </>
-  );
-}
-
-export default function () {
-  return (
-    <ActionDialogsContext>
-      <PromptExample />
-    </ActionDialogsContext>
   );
 }

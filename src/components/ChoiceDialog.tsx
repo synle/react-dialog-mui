@@ -29,7 +29,7 @@ export default function ChoiceDialog(
     onSelect: (newValue: string) => void;
     onDismiss: () => void;
   },
-): ReactNode {
+) {
   const {
     title,
     message,

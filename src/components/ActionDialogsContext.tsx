@@ -18,7 +18,7 @@ const TargetContext = createContext({
   setData: (_newDialogs: ActionDialog[]) => {},
 });
 
-export function ActionDialogsContext(props: { children: ReactNode }): ReactNode {
+export function ActionDialogsContext(props: { children: ReactNode }) {
   const [data, setData] = useState(_actionDialogs);
 
   return (
@@ -33,7 +33,7 @@ export function ActionDialogsContext(props: { children: ReactNode }): ReactNode 
  * This is the main component used to describe the dialog construction
  * @returns
  */
-export default function ActionDialogs(): ReactNode {
+export default function ActionDialogs() {
   const { dialogs, dismiss } = useActionDialogs();
 
   if (!dialogs || dialogs.length === 0) {

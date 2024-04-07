@@ -18,7 +18,7 @@ export default function Modal(
     open: boolean;
     onDismiss: () => void;
   },
-): ReactNode {
+) {
   const onBackdropClick = () => {
     if (props.disableBackdropClick !== true) {
       props.onDismiss();

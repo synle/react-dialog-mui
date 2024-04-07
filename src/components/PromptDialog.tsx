@@ -8,7 +8,7 @@ import {
   IconButton,
   TextField,
 } from '@mui/material';
-import { ReactNode, SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { BaseDialogInput } from './types';
 
 export type PromptInput = BaseDialogInput & {
@@ -27,7 +27,7 @@ export default function PromptDialog(
     onSaveClick: (newValue: string) => void;
     onDismiss: () => void;
   },
-): ReactNode {
+) {
   const [value, setValue] = useState(props.value || '');
 
   const handleClose = (forceClose = false) => {

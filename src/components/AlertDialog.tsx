@@ -24,7 +24,7 @@ export default function AlertDialog(
     open: boolean;
     onDismiss: () => void;
   },
-): ReactNode {
+) {
   return (
     <Dialog
       open={props.open}

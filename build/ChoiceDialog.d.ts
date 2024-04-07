@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { BaseDialogInput } from './ActionDialogsContext';
+import { BaseDialogInput } from './types';
 export type ChoiceOption = {
     startIcon?: ReactNode;
     label: ReactNode;

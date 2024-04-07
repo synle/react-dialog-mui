@@ -18,6 +18,7 @@ type AlertActionDialog = BaseDialog &
     type: 'alert';
     title: ReactNode;
     message: ReactNode;
+    yesLabel?: string;
     onSubmit?: () => void;
   };
 
@@ -76,9 +77,11 @@ export function ActionDialogsContext(props: { children: ReactNode }): ReactNode 
   );
 }
 
-type ActionDialogsProps = {};
-
-export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
+/**
+ * This is the main component used to describe the dialog construction
+ * @returns
+ */
+export default function ActionDialogs(): ReactNode {
   const { dialogs, dismiss } = useActionDialogs();
 
   if (!dialogs || dialogs.length === 0) {
@@ -118,6 +121,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
+                yesLabel={dialog.yesLabel}
                 onDismiss={onDimiss}
                 isConfirm={false}
               />
@@ -191,6 +195,10 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
   );
 }
 
+/**
+ * This is the main hook for the component
+ * @returns
+ */
 export function useActionDialogs() {
   const { data, setData } = useContext(TargetContext)!;
 
@@ -221,34 +229,44 @@ export function useActionDialogs() {
     },
     /**
      *
-     This alerts a simple message with an OK button, informing the user of an event.
+This alerts a simple message with an OK button, informing the user of an event.
 
-    ```tsx
-    // then call it in your component
-    function MyComponent() {
-      const onSubmit = async () => {
-        try {
-          await alert(
-<>Your alert message...</>,
-<>Alert</> // the dialog title
-);
-        } catch (err) {}
-      };
+```tsx
+// then call it in your component
+function MyComponent() {
+  const onSubmit = async () => {
+    try {
+      await alert(
+        <>Your alert message...</>,
+        `Acknowledge`, // Optional: Yes label
+        <>Alert</>, // optional: the dialog title
+      );
+    } catch (err) {}
+  };
 
-      return <button onClick={onSubmit}>My Action</button>;
-    }
-    ```
+  return <button onClick={onSubmit}>My Action</button>;
+}
+```
     * @param message
+    * @param primaryActionLabel
     * @param title
     * @returns
     */
-    alert: (message: ReactNode, title: ReactNode = 'Alert'): Promise<void> => {
+    alert: (
+      message: ReactNode,
+      primaryActionLabel?: string,
+      title: ReactNode = 'Alert',
+    ): Promise<void> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
           key: `modal.${modalId++}`,
           type: 'alert',
           title,
           message,
+          yesLabel: primaryActionLabel || 'OK',
+          onSubmit: () => {
+            resolve();
+          },
         });
         _invalidateQueries();
       });
@@ -256,27 +274,27 @@ export function useActionDialogs() {
     /**
      This is a basic text input for requesting user input in free-form text, ideal for short-and-single inputs.
 
-    ```tsx
-    // then call it in your component
-    function MyComponent() {
-      const { prompt } = useActionDialogs();
+```tsx
+// then call it in your component
+function MyComponent() {
+  const { prompt } = useActionDialogs();
 
-      const onSubmit = async () => {
-        try {
-          const newName = await prompt({
-            title: 'Rename Query',
-            message: 'New Query Name',
-            value: 'default query value',
-            saveLabel: 'Save',
-          });
+  const onSubmit = async () => {
+    try {
+      const newName = await prompt({
+        title: 'Rename Query',
+        message: 'New Query Name',
+        value: 'default query value',
+        saveLabel: 'Save',
+      });
 
-          // when user entered and submitted the value for new name
-        } catch (err) {}
-      };
+      // when user entered and submitted the value for new name
+    } catch (err) {}
+  };
 
-      return <button onClick={onSubmit}>Rename Query?</button>;
-    }
-    ```
+  return <button onClick={onSubmit}>Rename Query?</button>;
+}
+```
 
     * @param props
     * @returns
@@ -297,28 +315,28 @@ export function useActionDialogs() {
     /**
      This prompts the user for a yes or no confirmation regarding an event.
 
-    ```tsx
-    // then call it in your component
-    function MyComponent() {
-      const { confirm } = useActionDialogs();
+```tsx
+// then call it in your component
+function MyComponent() {
+  const { confirm } = useActionDialogs();
 
-      const onSubmit = async () => {
-        try {
-          await confirm(
-<>Do you want to delete this query?</>,
-`Delete`, // Yes label
-<>Confirmation?</>, // optional: the dialog title
-);
+  const onSubmit = async () => {
+    try {
+      await confirm(
+        <>Do you want to delete this query?</>,
+        `Delete`, // Optional: Yes label
+        <>Confirmation?</>, // optional: the dialog title
+      );
 
-          // when user selects yes
-        } catch (err) {
-          // when user selects no
-        }
-      };
-
-      return <button onClick={onSubmit}>Delete Query?</button>;
+      // when user selects yes
+    } catch (err) {
+      // when user selects no
     }
-    ```
+  };
+
+  return <button onClick={onSubmit}>Delete Query?</button>;
+}
+```
     * @param message
     * @param yesLabel
     * @param title
@@ -347,42 +365,41 @@ export function useActionDialogs() {
 
     This presents a list of options for the user to choose from, similar to a single-select dropdown. The user must select one option.
 
-    ```
-    function ChoiceExample() {
-      const { choice } = useActionDialogs();
-      const [session, setSession] = useState('');
+```tsx
+function ChoiceExample() {
+  const { choice } = useActionDialogs();
+  const [session, setSession] = useState('');
 
-      const onSubmit = async () => {
-        try {
-          const newSession = await choice(
-            'Switch session',
-            'Select one of the following session:',
-            [
-              { label: 'Session 1', value: 'session_1' },
-              { label: 'Session 2', value: 'session_2' },
-              { label: 'Session 3', value: 'session_3' },
-            ],
-            true, // required
-          );
-
-          // when user selected a choice
-          setSession(newSession);
-        } catch (err) {
-          setSession('');
-        }
-      };
-
-      return (
-        <>
-          <button onClick={onSubmit}>Switch Session</button>
-          <div>
-            <strong>New selected session:</strong> {session}
-          </div>
-        </>
+  const onSubmit = async () => {
+    try {
+      const newSession = await choice(
+        'Switch session',
+        'Select one of the following session:',
+        [
+          { label: 'Session 1', value: 'session_1' },
+          { label: 'Session 2', value: 'session_2' },
+          { label: 'Session 3', value: 'session_3' },
+        ],
+        true, // required
       );
-    }
-    ```
 
+      // when user selected a choice
+      setSession(newSession);
+    } catch (err) {
+      setSession('');
+    }
+  };
+
+  return (
+    <>
+      <button onClick={onSubmit}>Switch Session</button>
+      <div>
+        <strong>New selected session:</strong> {session}
+      </div>
+    </>
+  );
+}
+```
      * @param title
      * @param message
      * @param options
@@ -413,34 +430,33 @@ export function useActionDialogs() {
     /**
      This displays custom modal content, suitable for complex use cases.
 
-    ```tsx
-    function ModalExample() {
-      const { modal } = useActionDialogs();
+```tsx
+function ModalExample() {
+  const { modal } = useActionDialogs();
 
-      const onSubmit = async () => {
-        try {
-          await modal({
-            title: 'Query Details',
-            message: <>
-              <div><strong>Name:</strong> Sample Mocked Query</div>
-              <div><strong>Status:</strong> Pending</div>
-              <div><strong>Created Date:</strong> {new Date().toLocaleDateString()}</div>
-            </>,
-            size: 'md'
-          });
+  const onSubmit = async () => {
+    try {
+      await modal({
+        title: 'Query Details',
+        message: <>
+          <div><strong>Name:</strong> Sample Mocked Query</div>
+          <div><strong>Status:</strong> Pending</div>
+          <div><strong>Created Date:</strong> {new Date().toLocaleDateString()}</div>
+        </>,
+        size: 'md'
+      });
 
-          // when users close out of modal
-        } catch (err) {}
-      };
+      // when users close out of modal
+    } catch (err) {}
+  };
 
-      return (
-        <>
-          <button onClick={onSubmit}>Show Details</button>
-        </>
-      );
-    }
-    ```
-
+  return (
+    <>
+      <button onClick={onSubmit}>Show Details</button>
+    </>
+  );
+}
+```
      * @param props
      * @returns
      */

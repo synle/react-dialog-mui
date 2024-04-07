@@ -2,6 +2,8 @@
 
 This React library simplifies the usage of Material-UI dialogs, removing the need to manage states manually. It offers convenient replicas of standard JavaScript dialog methods such as `alert`, `confirm`, and `prompt`, streamlining the implementation of common UX flows.
 
+The library internally utilizes React Context to handle states, ensuring compatibility with most versions of React from version 17 onward.
+
 ## Why?
 
 The MUI Dialogs codebase is overly complex and lacks functionality. While the built-in JavaScript methods for alert, confirm, and prompt offer simplicity, they're not customizable and may fall short for complex scenarios.
@@ -45,6 +47,7 @@ function MyComponent() {
     try {
       await alert(
         <>Your alert message...</>,
+        `Acknowledge`, // Optional: Yes label
         <>Alert</>, // optional: the dialog title
       );
     } catch (err) {}
@@ -69,7 +72,7 @@ function MyComponent() {
     try {
       await confirm(
         <>Do you want to delete this query?</>,
-        `Delete`, // Yes label
+        `Delete`, // Optional: Yes label
         <>Confirmation?</>, // optional: the dialog title
       );
 

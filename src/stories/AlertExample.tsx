@@ -7,6 +7,7 @@ function AlertExample() {
     try {
       await alert(
         <>Your alert message...</>,
+        `Acknowledge`, // Optional: Yes label
         <>Alert</>, // optional: the dialog title
       );
     } catch (err) {}

@@ -9,7 +9,7 @@ function ConfirmExample() {
     try {
       await confirm(
         <>Do you want to delete this query?</>,
-        `Delete`, // Yes label
+        `Delete`, // Optional: Yes label
         <>Confirmation?</>, // optional: the dialog title
       );
 

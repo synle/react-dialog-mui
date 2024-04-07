@@ -1,12 +1,15 @@
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
+import CloseIcon from '@mui/icons-material/Close';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+} from '@mui/material';
 import { ReactNode } from 'react';
 import { BaseDialogInput } from './ActionDialogsContext';
-
 export type ChoiceOption = {
   startIcon?: ReactNode;
   label: ReactNode;
@@ -50,7 +53,20 @@ export default function ChoiceDialog(
       fullWidth={true}
       aria-labelledby={`dialog-title-${props.key}`}
       aria-describedby={`dialog-description-${props.key}`}>
-      <DialogTitle id={`dialog-title-${props.key}`}>{title}</DialogTitle>
+      <DialogTitle id={`dialog-title-${props.key}`}>
+        {title}
+        <IconButton
+          aria-label='close'
+          onClick={props.onDismiss}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
       <DialogContent sx={{ mt: 1 }} id={`dialog-description-${props.key}`}>
         {message}
         <List dense>

@@ -183,7 +183,6 @@ function ModalExample() {
             </div>
           </>
         ),
-        size: 'md',
       });
 
       // when users close out of modal

@@ -18,7 +18,6 @@ export type ChoiceOption = {
 };
 
 export type ChoiceInput = BaseDialogInput & {
-  title: string;
   message: ReactNode;
   options: ChoiceOption[];
   required?: boolean;
@@ -51,9 +50,9 @@ export default function ChoiceDialog(
       onClose={onClose}
       open={open}
       fullWidth={true}
-      aria-labelledby={`dialog-title-${props.key}`}
-      aria-describedby={`dialog-description-${props.key}`}>
-      <DialogTitle id={`dialog-title-${props.key}`}>
+      aria-labelledby={`dialog-title-${props.id}`}
+      aria-describedby={`dialog-description-${props.id}`}>
+      <DialogTitle id={`dialog-title-${props.id}`}>
         {title}
         <IconButton
           aria-label='close'
@@ -67,7 +66,7 @@ export default function ChoiceDialog(
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent sx={{ mt: 1 }} id={`dialog-description-${props.key}`}>
+      <DialogContent sx={{ mt: 1 }} id={`dialog-description-${props.id}`}>
         {message}
         <List dense>
           {options.map((option) => (

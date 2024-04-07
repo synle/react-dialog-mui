@@ -51,6 +51,7 @@ export function ModalExampleWithManualDismiss() {
           </>
         ),
         modalRef: modalRef,
+        size: 'sm',
       });
 
       // when users close out of modal
@@ -77,15 +78,17 @@ export function ModalExampleWithFormSubmit() {
             onSubmit={(e) => {
               e.preventDefault();
               modalRef.current.dismiss();
-            }}>
-            <input type='text' placeholder='Username' />
-            <input type='password' placeholder='Password' />
+            }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <input type='text' placeholder='Username' required />
+            <input type='password' placeholder='Password' required />
             <div>
               <button type='submit'>Login</button>
             </div>
           </form>
         ),
         modalRef: modalRef,
+        size: 'sm',
       });
 
       // when users close out of modal

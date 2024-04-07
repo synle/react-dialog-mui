@@ -3,7 +3,11 @@ import { ActionDialogsContext } from 'react-mui-action-dialog';
 import { AlertExample } from './AlertExample';
 import { ChoiceExample } from './ChoiceExample';
 import { ConfirmExample } from './ConfirmExample';
-import { ModalExample, ModalExampleWithManualDismiss } from './ModalExample';
+import {
+  ModalExample,
+  ModalExampleWithFormSubmit,
+  ModalExampleWithManualDismiss,
+} from './ModalExample';
 import { PromptExample } from './PromptExample';
 
 export default {
@@ -31,39 +35,43 @@ function ExampleWrapper(props: { children: ReactNode; title: string }) {
   );
 }
 
-export const SimpleAlertExample = () => {
+export const Alert = () => {
   return (
     <ExampleWrapper title='Simple Alert Example'>
+      <div>This is a simple example with alert.</div>
       <AlertExample />
     </ExampleWrapper>
   );
 };
 
-export const SimpleChoiceExample = () => {
+export const Choice = () => {
   return (
     <ExampleWrapper title='Simple Choice Example'>
+      <div>This is a simple example with choice.</div>
       <ChoiceExample />
     </ExampleWrapper>
   );
 };
 
-export const SimpleConfirmExample = () => {
+export const Confirm = () => {
   return (
     <ExampleWrapper title='Simple Confirm Example'>
+      <div>This is a simple example with confirm.</div>
       <ConfirmExample />
     </ExampleWrapper>
   );
 };
 
-export const SimpleModalExample = () => {
+export const Modal = () => {
   return (
     <ExampleWrapper title='Simple Modal Example'>
+      <div>This is a simple example with modal with custom content.</div>
       <ModalExample />
     </ExampleWrapper>
   );
 };
 
-export const SimpleModalExampleWithManualDismiss = () => {
+export const ModalWithManualDismiss = () => {
   return (
     <ExampleWrapper title='Simple Modal Example with manual dismiss'>
       <div>
@@ -75,7 +83,19 @@ export const SimpleModalExampleWithManualDismiss = () => {
   );
 };
 
-export const SimplePromptExample = () => {
+export const ModalWithFormSubmit = () => {
+  return (
+    <ExampleWrapper title='Simple Modal Example with Form Submit'>
+      <div>
+        The example shows how you can use `modalRef` to programmitcally close out the dialog after
+        the form submission
+      </div>
+      <ModalExampleWithFormSubmit />
+    </ExampleWrapper>
+  );
+};
+
+export const Prompt = () => {
   return (
     <ExampleWrapper title='Simple Prompt Example'>
       <PromptExample />

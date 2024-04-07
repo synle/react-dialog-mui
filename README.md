@@ -197,6 +197,97 @@ function ModalExample() {
 }
 ```
 
+#### Dismiss the modal programmatically
+
+For custom modals, manual dismissal post-action, like form submission or interactions, is crucial. This can be achieved via useActionDialogRef and .dismiss(). Here's a sample code snippet.
+
+##### Dismiss via button click.
+
+This example features a modal with a dismiss button, allowing control from your component.
+
+![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/d51e1726-bdb0-4d99-86cd-79d87d730afc)
+
+```tsx
+import { useActionDialogRef, useActionDialogs } from 'react-mui-action-dialog';
+
+export function ModalExampleWithManualDismiss() {
+  const { modal } = useActionDialogs();
+  const modalRef = useActionDialogRef();
+
+  const onSubmit = async () => {
+    try {
+      await modal({
+        title: 'Manual Dismiss Modal',
+        message: (
+          <>
+            <div>
+              <button onClick={() => modalRef.current.dismiss()}>
+                Manually dismiss this dialog
+              </button>
+            </div>
+          </>
+        ),
+        modalRef: modalRef,
+        size: 'sm',
+      });
+
+      // when users close out of modal
+    } catch (err) {}
+  };
+
+  return (
+    <>
+      <button onClick={onSubmit}>Show Modal</button>
+    </>
+  );
+}
+```
+
+##### Dismiss via form submission
+
+This example features a modal with a form. Upon form submission, the modal closes automatically.
+
+![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/3b9896cd-d334-4b40-8503-385e55b5bc78)
+
+```tsx
+export function ModalExampleWithFormSubmit() {
+  const { modal } = useActionDialogs();
+  const modalRef = useActionDialogRef();
+
+  const onSubmit = async () => {
+    try {
+      await modal({
+        title: 'Login Modal',
+        message: (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              modalRef.current.dismiss();
+            }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <input type='text' placeholder='Username' required />
+            <input type='password' placeholder='Password' required />
+            <div>
+              <button type='submit'>Login</button>
+            </div>
+          </form>
+        ),
+        modalRef: modalRef,
+        size: 'sm',
+      });
+
+      // when users close out of modal
+    } catch (err) {}
+  };
+
+  return (
+    <>
+      <button onClick={onSubmit}>Show Modal</button>
+    </>
+  );
+}
+```
+
 #### Additional Samples:
 
 For more code samples, you can find them in the Storybook examples located here: https://github.com/synle/react-mui-action-dialog/tree/main/src/stories
@@ -204,5 +295,5 @@ For more code samples, you can find them in the Storybook examples located here:
 ## Future Plans
 
 - [ ] Set up CI/CD pipeline to release this as an official npm package.
-- [ ] Enhance the dismiss dialog API for easy dismissal of custom dialog content.
+- [x] Enhance the dismiss dialog API for easy dismissal of custom dialog content.
 - [ ] Implement support for multi-select in the choice dialog.

@@ -4,8 +4,16 @@ import ChoiceDialog, { ChoiceInput, ChoiceOption } from './ChoiceDialog';
 import ModalDialog, { ModalInput } from './ModalDialog';
 import PromptDialog, { PromptInput } from './PromptDialog';
 
-export type ModalRef = {
-  dismiss?: () => void
+export type ActionDialogRef = {
+  /**
+   * The ID of the modal createc
+   */
+  id: string;
+  /**
+   * This method can be used to close / dismiss the modal programtically
+   * @returns
+   */
+  dismiss: () => void
 }
 
 /**
@@ -466,14 +474,16 @@ function ModalExample() {
      * @returns
      */
     modal: (props: ModalInput & {
-      modalRef?: RefObject<ModalRef>
+      modalRef?: RefObject<ActionDialogRef>
     }): Promise<void> => {
       return new Promise((resolve, reject) => {
         props.size = props.size || 'md';
 
         const modalId = _getModalId();
         const modalRef = props.modalRef;
-        if (!modalRef.current){
+
+        if (modalRef.current){
+          modalRef.current.id = modalId,
           modalRef.current.dismiss = () => {
             ActionDialogHooks.dismiss(modalId);
           }
@@ -487,6 +497,7 @@ function ModalExample() {
           },
           ...props,
         });
+
         _invalidateQueries();
       });
     },

@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
+import { ActionDialogsContext } from 'react-mui-action-dialog';
 import AlertExample from './AlertExample';
 import ChoiceExample from './ChoiceExample';
 import ConfirmExample from './ConfirmExample';
-import ModalExample from './ModalExample';
+import { ModalExample, ModalExampleWithManualDismiss } from './ModalExample';
 import PromptExample from './PromptExample';
 
 export default {
@@ -14,6 +15,7 @@ export default {
 
 function ExampleWrapper(props: { children: ReactNode; title: string }) {
   return (
+    <ActionDialogsContext>
     <div
       style={{
         display: 'flex',
@@ -25,6 +27,7 @@ function ExampleWrapper(props: { children: ReactNode; title: string }) {
       <h1>{props.title}</h1>
       {props.children}
     </div>
+    </ActionDialogsContext>
   );
 }
 
@@ -56,6 +59,14 @@ export const SimpleModalExample = () => {
   return (
     <ExampleWrapper title='Simple Modal Example'>
       <ModalExample />
+    </ExampleWrapper>
+  );
+};
+
+export const SimpleModalExampleWithManualDismiss = () => {
+  return (
+    <ExampleWrapper title='Simple Modal Example with manual dismiss'>
+      <ModalExampleWithManualDismiss />
     </ExampleWrapper>
   );
 };

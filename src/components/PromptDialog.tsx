@@ -12,7 +12,6 @@ import { ReactNode, SyntheticEvent, useState } from 'react';
 import { BaseDialogInput } from './ActionDialogsContext';
 
 export type PromptInput = BaseDialogInput & {
-  title?: string;
   message: string;
   value?: string;
   isLongPrompt?: boolean;
@@ -62,7 +61,7 @@ export default function PromptDialog(
       aria-describedby={`dialog-description-${props.key}`}>
       <form onSubmit={onSave}>
         <DialogTitle id={`dialog-title-${props.key}`}>
-          {props.title || 'Prompt'}
+          {props.title}
           <IconButton
             aria-label='close'
             onClick={() => handleClose(true)}

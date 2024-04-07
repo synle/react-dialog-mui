@@ -182,7 +182,7 @@ function ModalExample() {
               <strong>Created Date:</strong> {new Date().toLocaleDateString()}
             </div>
           </>
-        )
+        ),
       });
 
       // when users close out of modal

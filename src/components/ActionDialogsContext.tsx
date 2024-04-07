@@ -9,6 +9,7 @@ import PromptDialog, { PromptInput } from './PromptDialog';
  */
 export type BaseDialogInput = {
   key: string;
+  title: ReactNode;
 };
 
 type BaseDialog = BaseDialogInput;
@@ -16,7 +17,6 @@ type BaseDialog = BaseDialogInput;
 type AlertActionDialog = BaseDialog &
   AlertInput & {
     type: 'alert';
-    title: ReactNode;
     message: ReactNode;
     yesLabel?: string;
     onSubmit?: () => void;
@@ -24,7 +24,6 @@ type AlertActionDialog = BaseDialog &
 
 type ConfirmActionDialog = BaseDialog & {
   type: 'confirm';
-  title: ReactNode;
   message: ReactNode;
   yesLabel?: string;
   onSubmit: (yesSelected: boolean) => void;
@@ -295,7 +294,6 @@ function MyComponent() {
   return <button onClick={onSubmit}>Rename Query?</button>;
 }
 ```
-
     * @param props
     * @returns
     */

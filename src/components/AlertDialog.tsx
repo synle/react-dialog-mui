@@ -12,7 +12,6 @@ import { ReactNode } from 'react';
 import { BaseDialogInput } from './ActionDialogsContext';
 
 export type AlertInput = BaseDialogInput & {
-  title?: ReactNode;
   message: ReactNode;
   yesLabel?: ReactNode;
   onYesClick?: () => void;
@@ -22,7 +21,6 @@ export type AlertInput = BaseDialogInput & {
 
 export default function AlertDialog(
   props: AlertInput & {
-    key: string;
     open: boolean;
     onDismiss: () => void;
   },
@@ -35,7 +33,7 @@ export default function AlertDialog(
       aria-describedby={`dialog-description-${props.key}`}>
       <Box sx={{ maxWidth: 600, minWidth: 400 }}>
         <DialogTitle id={`dialog-title-${props.key}`}>
-          {props.title || 'Alert'}
+          {props.title}
           <IconButton
             aria-label='close'
             onClick={props.onDismiss}

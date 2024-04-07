@@ -1,6 +1,6 @@
-import { ActionDialogsContext, useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogs } from 'react-mui-action-dialog';
 
-function ModalExample() {
+export function ModalExample() {
   const { modal } = useActionDialogs();
 
   const onSubmit = async () => {
@@ -30,13 +30,5 @@ function ModalExample() {
     <>
       <button onClick={onSubmit}>Show Details</button>
     </>
-  );
-}
-
-export default function () {
-  return (
-    <ActionDialogsContext>
-      <ModalExample />
-    </ActionDialogsContext>
   );
 }

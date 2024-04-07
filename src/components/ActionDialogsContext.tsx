@@ -462,6 +462,8 @@ function ModalExample() {
      */
     modal: (props: ModalInput): Promise<void> => {
       return new Promise((resolve, reject) => {
+        props.size = props.size || 'md';
+
         _actionDialogs.push({
           key: `modal.${modalId++}`,
           type: 'modal',

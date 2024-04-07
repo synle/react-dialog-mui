@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { BaseDialogInput } from './ActionDialogsContext';
 export type ModalInput = BaseDialogInput & {
-    title: ReactNode;
     /**
      * body of the modal
      */

@@ -7,7 +7,6 @@ export type ChoiceOption = {
     disabled?: boolean;
 };
 export type ChoiceInput = BaseDialogInput & {
-    title: string;
     message: ReactNode;
     options: ChoiceOption[];
     required?: boolean;

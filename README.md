@@ -15,6 +15,7 @@ My aim with this library is to create a user-friendly solution that meets both e
 Currently, it's hosted on GitHub. My plan is to transition it into an official npm package.
 
 ```bash
+# install from github
 npm i github:synle/react-mui-action-dialog#main;
 ```
 
@@ -39,7 +40,8 @@ This alerts a simple message with an OK button, informing the user of an event.
 ![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/7811010b-3c3b-45f3-ae9d-6144641c585f)
 
 ```tsx
-// then call it in your component
+import { useActionDialogs } from 'react-mui-action-dialog';
+
 function MyComponent() {
   const { alert } = useActionDialogs();
 
@@ -64,7 +66,8 @@ This prompts the user for a yes or no confirmation regarding an event.
 ![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/ec9217d4-407a-4c7f-8fb2-67b4630c86e1)
 
 ```tsx
-// then call it in your component
+import { useActionDialogs } from 'react-mui-action-dialog';
+
 function MyComponent() {
   const { confirm } = useActionDialogs();
 
@@ -93,7 +96,8 @@ This is a basic text input for requesting user input in free-form text, ideal fo
 ![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/e3eade16-0fec-44d7-aa2e-aad9deaf3b55)
 
 ```tsx
-// then call it in your component
+import { useActionDialogs } from 'react-mui-action-dialog';
+
 function MyComponent() {
   const { prompt } = useActionDialogs();
 
@@ -197,12 +201,159 @@ function ModalExample() {
 }
 ```
 
+#### Reference your own component
+
+If you prefer not to use inline components, you can define your component separately and then include it in the react hook.
+
+![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/492ad10f-125c-4eb7-917b-6e893a878b4e)
+
+```tsx
+import { useActionDialogs } from 'react-mui-action-dialog';
+
+function MyChildComponent() {
+  return (
+    <>
+      <div>Hello world</div>
+    </>
+  );
+}
+
+export function ModalExampleWithChildComponent() {
+  const { modal } = useActionDialogs();
+
+  const onSubmit = async () => {
+    try {
+      await modal({
+        title: 'Simple Modal',
+        message: <MyChildComponent />,
+        modalRef: modalRef,
+        size: 'sm',
+      });
+
+      // when users close out of modal
+    } catch (err) {}
+  };
+
+  return (
+    <>
+      <button onClick={onSubmit}>Show Modal</button>
+    </>
+  );
+}
+```
+
+##### Dismiss the modal programmatically
+
+For custom modals, manual dismissal post-action, like form submission or interactions, is crucial. This can be achieved via useActionDialogRef and .dismiss(). Here's a sample code snippet.
+
+###### Dismiss via button click
+
+This example features a modal with a dismiss button, allowing control from your component.
+
+![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/d51e1726-bdb0-4d99-86cd-79d87d730afc)
+
+```tsx
+import { useActionDialogRef, useActionDialogs } from 'react-mui-action-dialog';
+
+export function ModalExampleWithManualDismiss() {
+  const { modal } = useActionDialogs();
+  const modalRef = useActionDialogRef();
+
+  const onSubmit = async () => {
+    try {
+      await modal({
+        title: 'Manual Dismiss Modal',
+        message: (
+          <>
+            <div>
+              <button onClick={() => modalRef.current.dismiss()}>
+                Manually dismiss this dialog
+              </button>
+            </div>
+          </>
+        ),
+        modalRef: modalRef,
+        size: 'sm',
+      });
+
+      // when users close out of modal
+    } catch (err) {}
+  };
+
+  return (
+    <>
+      <button onClick={onSubmit}>Show Modal</button>
+    </>
+  );
+}
+```
+
+###### Dismiss via form submission
+
+This example features a modal with a form. Upon form submission, the modal closes automatically.
+
+![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/3b9896cd-d334-4b40-8503-385e55b5bc78)
+
+```tsx
+import { useActionDialogRef, useActionDialogs } from 'react-mui-action-dialog';
+
+export function ModalExampleWithFormSubmit() {
+  const { modal } = useActionDialogs();
+  const modalRef = useActionDialogRef();
+
+  const onSubmit = async () => {
+    try {
+      await modal({
+        title: 'Login Modal',
+        message: (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              modalRef.current.dismiss();
+            }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <input type='text' placeholder='Username' required />
+            <input type='password' placeholder='Password' required />
+            <div>
+              <button type='submit'>Login</button>
+            </div>
+          </form>
+        ),
+        modalRef: modalRef,
+        size: 'sm',
+      });
+
+      // when users close out of modal
+    } catch (err) {}
+  };
+
+  return (
+    <>
+      <button onClick={onSubmit}>Show Modal</button>
+    </>
+  );
+}
+```
+
 #### Additional Samples:
 
-For more code samples, you can find them in the Storybook examples located here: https://github.com/synle/react-mui-action-dialog/tree/main/src/stories
+For more code samples, you can find them in the Storybook examples located here: https://github.com/synle/react-mui-action-dialog/tree/main/src/stories .
+
+I published a blog post, you can refer to the link for more information about the motivation behind this library here: https://www.linkedin.com/article/edit/7182404170941972480/
+
+### Local Dev Storybook
+
+I've set up the Storybook locally. You can interact with the live demo on your local machine. Use the following setup:
+
+```bash
+npm install
+npm run dev
+
+# then open http://localhost:6006/
+```
 
 ## Future Plans
 
-- [ ] Set up CI/CD pipeline to release this as an official npm package.
-- [ ] Enhance the dismiss dialog API for easy dismissal of custom dialog content.
+- [x] Set up CI/CD pipeline to release this as an official npm package.
+- [x] Enhance the dismiss dialog API for easy dismissal of custom dialog content.
 - [ ] Implement support for multi-select in the choice dialog.

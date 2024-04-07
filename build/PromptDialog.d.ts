@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { BaseDialogInput } from './ActionDialogsContext';
 export type PromptInput = BaseDialogInput & {
-    title?: string;
     message: string;
     value?: string;
     isLongPrompt?: boolean;

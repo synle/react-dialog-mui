@@ -16,12 +16,14 @@ type BaseDialog = BaseDialogInput;
 type AlertActionDialog = BaseDialog &
   AlertInput & {
     type: 'alert';
+    title: ReactNode;
     message: ReactNode;
     onSubmit?: () => void;
   };
 
 type ConfirmActionDialog = BaseDialog & {
   type: 'confirm';
+  title: ReactNode;
   message: ReactNode;
   yesLabel?: string;
   onSubmit: (yesSelected: boolean) => void;
@@ -114,7 +116,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
               <AlertDialog
                 key={dialog.key}
                 open={true}
-                title='Alert'
+                title={dialog.title}
                 message={dialog.message}
                 onDismiss={onDimiss}
                 isConfirm={false}
@@ -126,7 +128,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
               <AlertDialog
                 key={dialog.key}
                 open={true}
-                title='Confirmation'
+                title={dialog.title}
                 message={dialog.message}
                 yesLabel={dialog.yesLabel}
                 onYesClick={onConfirmSubmit}
@@ -226,7 +228,10 @@ export function useActionDialogs() {
     function MyComponent() {
       const onSubmit = async () => {
         try {
-          await alert(<>Your alert message...</>);
+          await alert(
+<>Your alert message...</>,
+<>Alert</> // the dialog title
+);
         } catch (err) {}
       };
 
@@ -234,13 +239,15 @@ export function useActionDialogs() {
     }
     ```
     * @param message
+    * @param title
     * @returns
     */
-    alert: (message: ReactNode): Promise<void> => {
+    alert: (message: ReactNode, title: ReactNode = 'Alert'): Promise<void> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
           key: `modal.${modalId++}`,
           type: 'alert',
+          title,
           message,
         });
         _invalidateQueries();
@@ -297,7 +304,11 @@ export function useActionDialogs() {
 
       const onSubmit = async () => {
         try {
-          await confirm(`Do you want to delete this query?`);
+          await confirm(
+<>Do you want to delete this query?</>,
+`Delete`, // Yes label
+<>Confirmation?</>, // optional: the dialog title
+);
 
           // when user selects yes
         } catch (err) {
@@ -310,13 +321,19 @@ export function useActionDialogs() {
     ```
     * @param message
     * @param yesLabel
+    * @param title
     * @returns
     */
-    confirm: (message: ReactNode, yesLabel?: string): Promise<void> => {
+    confirm: (
+      message: ReactNode,
+      yesLabel?: string,
+      title: ReactNode = 'Confirmation',
+    ): Promise<void> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
           key: `modal.${modalId++}`,
           type: 'confirm',
+          title,
           message,
           yesLabel,
           onSubmit: (yesSelected) => {

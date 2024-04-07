@@ -1,5 +1,7 @@
 # react-mui-action-dialog
 
+This React library simplifies the usage of Material-UI dialogs, removing the need to manage states manually. It offers convenient replicas of standard JavaScript dialog methods such as `alert`, `confirm`, and `prompt`, streamlining the implementation of common UX flows.
+
 ## Why?
 
 The MUI Dialogs codebase is overly complex and lacks functionality. While the built-in JavaScript methods for alert, confirm, and prompt offer simplicity, they're not customizable and may fall short for complex scenarios.
@@ -41,7 +43,10 @@ function MyComponent() {
 
   const onSubmit = async () => {
     try {
-      await alert(<>Your alert message...</>);
+      await alert(
+        <>Your alert message...</>,
+        <>Alert</>, // optional: the dialog title
+      );
     } catch (err) {}
   };
 
@@ -62,7 +67,11 @@ function MyComponent() {
 
   const onSubmit = async () => {
     try {
-      await confirm(`Do you want to delete this query?`);
+      await confirm(
+        <>Do you want to delete this query?</>,
+        `Delete`, // Yes label
+        <>Confirmation?</>, // optional: the dialog title
+      );
 
       // when user selects yes
     } catch (err) {
@@ -187,6 +196,7 @@ function ModalExample() {
 ```
 
 ## Future Plans
+
 - [ ] Set up CI/CD pipeline to release this as an official npm package.
 - [ ] Enhance the dismiss dialog API for easy dismissal of custom dialog content.
 - [ ] Implement support for multi-select in the choice dialog.

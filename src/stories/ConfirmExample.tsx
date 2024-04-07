@@ -7,7 +7,11 @@ function ConfirmExample() {
 
   const onSubmit = async () => {
     try {
-      await confirm(`Do you want to delete this query?`);
+      await confirm(
+        <>Do you want to delete this query?</>,
+        `Delete`, // Yes label
+        <>Confirmation?</>, // optional: the dialog title
+      );
 
       // when user selects yes
       setDeleted(true);

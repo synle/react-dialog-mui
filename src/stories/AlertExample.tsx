@@ -5,7 +5,10 @@ function AlertExample() {
 
   const onSubmit = async () => {
     try {
-      await alert(<>Your alert message...</>);
+      await alert(
+        <>Your alert message...</>,
+        <>Alert</>, // optional: the dialog title
+      );
     } catch (err) {}
   };
 

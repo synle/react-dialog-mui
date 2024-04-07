@@ -8,8 +8,8 @@ function ChoiceExample() {
   const onSubmit = async () => {
     try {
       const newSession = await choice(
-        'Switch session',
-        'Select one of the following session:',
+        'Switch session', // the dialog title
+        'Select one of the following sessions:', // the question for the input
         [
           { label: 'Session 1', value: 'session_1' },
           { label: 'Session 2', value: 'session_2' },

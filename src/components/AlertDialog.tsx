@@ -1,9 +1,13 @@
-import { Box } from '@mui/material';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import CloseIcon from '@mui/icons-material/Close';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from '@mui/material';
 import { ReactNode } from 'react';
 import { BaseDialogInput } from './ActionDialogsContext';
 
@@ -29,8 +33,21 @@ export default function AlertDialog(
       onClose={props.onDismiss}
       aria-labelledby={`dialog-title-${props.key}`}
       aria-describedby={`dialog-description-${props.key}`}>
-      <div style={{ maxWidth: 400 }}>
-        <DialogTitle id={`dialog-title-${props.key}`}>{props.title || 'Alert'}</DialogTitle>
+      <Box sx={{ maxWidth: 600, minWidth: 400 }}>
+        <DialogTitle id={`dialog-title-${props.key}`}>
+          {props.title || 'Alert'}
+          <IconButton
+            aria-label='close'
+            onClick={props.onDismiss}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 1 }} id={`dialog-description-${props.key}`}>
             {props.message}
@@ -52,7 +69,7 @@ export default function AlertDialog(
             </>
           )}
         </DialogActions>
-      </div>
+      </Box>
     </Dialog>
   );
 }

@@ -1,5 +1,9 @@
 # react-mui-action-dialog
 
+This React library simplifies the usage of Material-UI dialogs, removing the need to manage states manually. It offers convenient replicas of standard JavaScript dialog methods such as `alert`, `confirm`, and `prompt`, streamlining the implementation of common UX flows.
+
+The library internally utilizes React Context to handle states, ensuring compatibility with most versions of React from version 17 onward.
+
 ## Why?
 
 The MUI Dialogs codebase is overly complex and lacks functionality. While the built-in JavaScript methods for alert, confirm, and prompt offer simplicity, they're not customizable and may fall short for complex scenarios.
@@ -32,7 +36,7 @@ import { ActionDialogsContext } from 'react-mui-action-dialog';
 
 This alerts a simple message with an OK button, informing the user of an event.
 
-<img width="203" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/027c6e41-04a3-42d3-a398-d7ac3d1d5467">
+![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/7811010b-3c3b-45f3-ae9d-6144641c585f)
 
 ```tsx
 // then call it in your component
@@ -41,7 +45,11 @@ function MyComponent() {
 
   const onSubmit = async () => {
     try {
-      await alert(<>Your alert message...</>);
+      await alert(
+        <>The query has successfully executed, yielding 200 records in 15 seconds.</>,
+        `Acknowledge`, // Optional: Yes label
+        <>Query Result</>, // Optional: the dialog title
+      );
     } catch (err) {}
   };
 
@@ -53,7 +61,7 @@ function MyComponent() {
 
 This prompts the user for a yes or no confirmation regarding an event.
 
-<img width="219" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/ee08ab35-1774-40ba-a6c1-fc9d7a7297a9">
+![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/ec9217d4-407a-4c7f-8fb2-67b4630c86e1)
 
 ```tsx
 // then call it in your component
@@ -62,7 +70,11 @@ function MyComponent() {
 
   const onSubmit = async () => {
     try {
-      await confirm(`Do you want to delete this query?`);
+      await confirm(
+        <>Do you want to delete this query?</>,
+        `Delete`, // Optional: Yes label
+        <>Confirmation?</>, // Optional: the dialog title
+      );
 
       // when user selects yes
     } catch (err) {
@@ -78,7 +90,7 @@ function MyComponent() {
 
 This is a basic text input for requesting user input in free-form text, ideal for short-and-single inputs.
 
-<img width="382" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/cd617969-19f6-4737-b613-d39a136a8c6e">
+![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/e3eade16-0fec-44d7-aa2e-aad9deaf3b55)
 
 ```tsx
 // then call it in your component
@@ -106,7 +118,7 @@ function MyComponent() {
 
 This presents a list of options for the user to choose from, similar to a single-select dropdown. The user must select one option.
 
-<img width="379" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/81140e54-77bd-45af-a28b-b134e7e6f0be">
+![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/54be7d21-2fa7-46cd-b5d9-c5d000061837)
 
 ```tsx
 function ChoiceExample() {
@@ -116,8 +128,8 @@ function ChoiceExample() {
   const onSubmit = async () => {
     try {
       const newSession = await choice(
-        'Switch session',
-        'Select one of the following session:',
+        'Switch session', // the dialog title
+        'Select one of the following sessions:', // the question for the input
         [
           { label: 'Session 1', value: 'session_1' },
           { label: 'Session 2', value: 'session_2' },
@@ -148,7 +160,7 @@ function ChoiceExample() {
 
 This displays custom modal content, suitable for complex use cases.
 
-<img width="438" alt="image" src="https://github.com/synle/react-mui-action-dialog/assets/3792401/cc6ae029-8d1f-482d-98e1-e1b896923aa0">
+![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/89f18eeb-a6cb-4b28-bb12-03c3dd5afaad)
 
 ```tsx
 function ModalExample() {
@@ -186,7 +198,12 @@ function ModalExample() {
 }
 ```
 
+#### Additional Samples:
+
+For more code samples, you can find them in the Storybook examples located here: https://github.com/synle/react-mui-action-dialog/tree/main/src/stories
+
 ## Future Plans
+
 - [ ] Set up CI/CD pipeline to release this as an official npm package.
 - [ ] Enhance the dismiss dialog API for easy dismissal of custom dialog content.
 - [ ] Implement support for multi-select in the choice dialog.

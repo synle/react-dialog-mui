@@ -1,11 +1,13 @@
 import CloseIcon from '@mui/icons-material/Close';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import TextField from '@mui/material/TextField';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  TextField,
+} from '@mui/material';
 import { ReactNode, SyntheticEvent, useState } from 'react';
 import { BaseDialogInput } from './ActionDialogsContext';
 
@@ -99,7 +101,7 @@ export default function PromptDialog(
         </DialogContent>
         {props.readonly !== true && (
           <DialogActions sx={{ display: 'flex', gap: 2, justifyContent: 'end' }}>
-            <Button type='submit' disabled={isDisabled}>
+            <Button type='submit' disabled={isDisabled} variant='contained'>
               {props.saveLabel || 'Save Changes'}
             </Button>
           </DialogActions>

@@ -9,7 +9,7 @@ import {
   IconButton,
 } from '@mui/material';
 import { ReactNode } from 'react';
-import { BaseDialogInput } from './ActionDialogsContext';
+import { BaseDialogInput } from './types';
 
 export type AlertInput = BaseDialogInput & {
   message: ReactNode;

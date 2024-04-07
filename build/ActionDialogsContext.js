@@ -1,5 +1,5 @@
 import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
-import { Fragment, createContext, useContext, useState } from 'react';
+import { Fragment, createContext, useContext, useRef, useState } from 'react';
 import AlertDialog from './AlertDialog';
 import ChoiceDialog from './ChoiceDialog';
 import ModalDialog from './ModalDialog';
@@ -332,4 +332,15 @@ export function useActionDialogs() {
     };
     return ActionDialogHooks;
 }
+/**
+ * This hook can be used to dismiss the modal programatically
+ * @returns
+ */
+export const useActionDialogRef = () => {
+    // here we attempt to provide a skeleton for the ref, the actual assignment of these happen when the dialog is hooked up
+    return useRef({
+        id: '',
+        dismiss: () => { },
+    });
+};
 //# sourceMappingURL=ActionDialogsContext.js.map

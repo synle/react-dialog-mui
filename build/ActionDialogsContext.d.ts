@@ -1,52 +1,8 @@
 import { ReactNode, RefObject } from 'react';
-import { AlertInput } from './AlertDialog';
-import { ChoiceInput, ChoiceOption } from './ChoiceDialog';
+import { ChoiceOption } from './ChoiceDialog';
 import { ModalInput } from './ModalDialog';
 import { PromptInput } from './PromptDialog';
-export type ActionDialogRef = {
-    /**
-     * The ID of the modal createc
-     */
-    id: string;
-    /**
-     * This method can be used to close / dismiss the modal programtically
-     * @returns
-     */
-    dismiss: () => void;
-};
-/**
- * base type used in all the dialog input
- */
-export type BaseDialogInput = {
-    id: string;
-    title: ReactNode;
-};
-type BaseDialog = BaseDialogInput;
-type AlertActionDialog = BaseDialog & AlertInput & {
-    type: 'alert';
-    message: ReactNode;
-    yesLabel?: string;
-    onSubmit?: () => void;
-};
-type ConfirmActionDialog = BaseDialog & {
-    type: 'confirm';
-    message: ReactNode;
-    yesLabel?: string;
-    onSubmit: (yesSelected: boolean) => void;
-};
-type ChoiceActionDialog = BaseDialog & ChoiceInput & {
-    type: 'choice';
-    onSubmit: (yesSelected: boolean, selectedChoice?: string) => void;
-};
-type PromptActionDialog = BaseDialog & PromptInput & {
-    type: 'prompt';
-    onSubmit: (yesSelected: boolean, newValue?: string) => void;
-};
-type ModalActionDialog = BaseDialog & ModalInput & {
-    type: 'modal';
-    onSubmit: (closed: boolean) => void;
-};
-type ActionDialog = AlertActionDialog | ConfirmActionDialog | PromptActionDialog | ChoiceActionDialog | ModalActionDialog;
+import { ActionDialog, ActionDialogRef } from './types';
 export declare function ActionDialogsContext(props: {
     children: ReactNode;
 }): ReactNode;
@@ -228,4 +184,8 @@ function ModalExample() {
         modalRef?: RefObject<ActionDialogRef>;
     }) => Promise<void>;
 };
-export {};
+/**
+ * This hook can be used to dismiss the modal programatically
+ * @returns
+ */
+export declare const useActionDialogRef: () => import("react").MutableRefObject<ActionDialogRef>;

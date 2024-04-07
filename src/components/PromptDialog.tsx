@@ -9,7 +9,7 @@ import {
   TextField,
 } from '@mui/material';
 import { ReactNode, SyntheticEvent, useState } from 'react';
-import { BaseDialogInput } from './ActionDialogsContext';
+import { BaseDialogInput } from './types';
 
 export type PromptInput = BaseDialogInput & {
   message: string;

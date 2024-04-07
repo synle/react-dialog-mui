@@ -1,76 +1,15 @@
-import { Fragment, ReactNode, RefObject, createContext, useContext, useState } from 'react';
-import AlertDialog, { AlertInput } from './AlertDialog';
-import ChoiceDialog, { ChoiceInput, ChoiceOption } from './ChoiceDialog';
+import { Fragment, ReactNode, RefObject, createContext, useContext, useRef, useState } from 'react';
+import AlertDialog from './AlertDialog';
+import ChoiceDialog, { ChoiceOption } from './ChoiceDialog';
 import ModalDialog, { ModalInput } from './ModalDialog';
 import PromptDialog, { PromptInput } from './PromptDialog';
-
-export type ActionDialogRef = {
-  /**
-   * The ID of the modal createc
-   */
-  id: string;
-  /**
-   * This method can be used to close / dismiss the modal programtically
-   * @returns
-   */
-  dismiss: () => void;
-};
-
-/**
- * base type used in all the dialog input
- */
-export type BaseDialogInput = {
-  id: string;
-  title: ReactNode;
-};
-
-type BaseDialog = BaseDialogInput;
-
-type AlertActionDialog = BaseDialog &
-  AlertInput & {
-    type: 'alert';
-    message: ReactNode;
-    yesLabel?: string;
-    onSubmit?: () => void;
-  };
-
-type ConfirmActionDialog = BaseDialog & {
-  type: 'confirm';
-  message: ReactNode;
-  yesLabel?: string;
-  onSubmit: (yesSelected: boolean) => void;
-};
-
-type ChoiceActionDialog = BaseDialog &
-  ChoiceInput & {
-    type: 'choice';
-    onSubmit: (yesSelected: boolean, selectedChoice?: string) => void;
-  };
-
-type PromptActionDialog = BaseDialog &
-  PromptInput & {
-    type: 'prompt';
-    onSubmit: (yesSelected: boolean, newValue?: string) => void;
-  };
-
-type ModalActionDialog = BaseDialog &
-  ModalInput & {
-    type: 'modal';
-    onSubmit: (closed: boolean) => void;
-  };
-
-type ActionDialog =
-  | AlertActionDialog
-  | ConfirmActionDialog
-  | PromptActionDialog
-  | ChoiceActionDialog
-  | ModalActionDialog;
+import { ActionDialog, ActionDialogRef } from './types';
 
 let _actionDialogs: ActionDialog[] = [];
 
-let modalId = 0;
+let _modalIdx = 0;
 function _getModalId() {
-  return `modal.${modalId++}.${Date.now()}`;
+  return `modal.${_modalIdx++}.${Date.now()}`;
 }
 
 //
@@ -80,9 +19,8 @@ const TargetContext = createContext({
 });
 
 export function ActionDialogsContext(props: { children: ReactNode }): ReactNode {
-  // State to hold the theme value
   const [data, setData] = useState(_actionDialogs);
-  // Provide the theme value and toggle function to the children components
+
   return (
     <TargetContext.Provider value={{ data, setData }}>
       {props.children}
@@ -216,7 +154,7 @@ export default function ActionDialogs(): ReactNode {
 export function useActionDialogs() {
   const { data, setData } = useContext(TargetContext)!;
 
-  let dialog;
+  let dialog: ActionDialog;
   try {
     if (data) {
       dialog = data[data.length - 1];
@@ -504,3 +442,15 @@ function ModalExample() {
 
   return ActionDialogHooks;
 }
+
+/**
+ * This hook can be used to dismiss the modal programatically
+ * @returns
+ */
+export const useActionDialogRef = () => {
+  // here we attempt to provide a skeleton for the ref, the actual assignment of these happen when the dialog is hooked up
+  return useRef<ActionDialogRef>({
+    id: '',
+    dismiss: () => {},
+  });
+};

@@ -4,7 +4,6 @@ import { ReactNode } from 'react';
 import { BaseDialogInput } from './ActionDialogsContext';
 
 export type ModalInput = BaseDialogInput & {
-  title: ReactNode;
   /**
    * body of the modal
    */
@@ -32,9 +31,9 @@ export default function Modal(
       onClose={onBackdropClick}
       fullWidth={true}
       maxWidth={props.size}
-      aria-labelledby={`dialog-title-${props.key}`}
-      aria-describedby={`dialog-description-${props.key}`}>
-      <DialogTitle id={`dialog-title-${props.key}`}>
+      aria-labelledby={`dialog-title-${props.id}`}
+      aria-describedby={`dialog-description-${props.id}`}>
+      <DialogTitle id={`dialog-title-${props.id}`}>
         {props.title}
         {props.showCloseButton && (
           <IconButton
@@ -50,7 +49,7 @@ export default function Modal(
           </IconButton>
         )}
       </DialogTitle>
-      <DialogContent id={`dialog-description-${props.key}`}>
+      <DialogContent id={`dialog-description-${props.id}`}>
         <Box sx={{ pt: 1 }}>{props.message}</Box>
       </DialogContent>
     </Dialog>

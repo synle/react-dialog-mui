@@ -12,7 +12,6 @@ import { ReactNode, SyntheticEvent, useState } from 'react';
 import { BaseDialogInput } from './ActionDialogsContext';
 
 export type PromptInput = BaseDialogInput & {
-  title?: string;
   message: string;
   value?: string;
   isLongPrompt?: boolean;
@@ -58,11 +57,11 @@ export default function PromptDialog(
       open={props.open}
       fullWidth={true}
       maxWidth={props.isLongPrompt ? 'lg' : 'sm'}
-      aria-labelledby={`dialog-title-${props.key}`}
-      aria-describedby={`dialog-description-${props.key}`}>
+      aria-labelledby={`dialog-title-${props.id}`}
+      aria-describedby={`dialog-description-${props.id}`}>
       <form onSubmit={onSave}>
-        <DialogTitle id={`dialog-title-${props.key}`}>
-          {props.title || 'Prompt'}
+        <DialogTitle id={`dialog-title-${props.id}`}>
+          {props.title}
           <IconButton
             aria-label='close'
             onClick={() => handleClose(true)}
@@ -75,7 +74,7 @@ export default function PromptDialog(
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent dividers id={`dialog-description-${props.key}`}>
+        <DialogContent dividers id={`dialog-description-${props.id}`}>
           {props.isLongPrompt ? (
             <TextField
               label={props.message}

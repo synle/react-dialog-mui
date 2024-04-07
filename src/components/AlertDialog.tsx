@@ -12,7 +12,6 @@ import { ReactNode } from 'react';
 import { BaseDialogInput } from './ActionDialogsContext';
 
 export type AlertInput = BaseDialogInput & {
-  title?: ReactNode;
   message: ReactNode;
   yesLabel?: ReactNode;
   onYesClick?: () => void;
@@ -22,7 +21,6 @@ export type AlertInput = BaseDialogInput & {
 
 export default function AlertDialog(
   props: AlertInput & {
-    key: string;
     open: boolean;
     onDismiss: () => void;
   },
@@ -31,11 +29,11 @@ export default function AlertDialog(
     <Dialog
       open={props.open}
       onClose={props.onDismiss}
-      aria-labelledby={`dialog-title-${props.key}`}
-      aria-describedby={`dialog-description-${props.key}`}>
+      aria-labelledby={`dialog-title-${props.id}`}
+      aria-describedby={`dialog-description-${props.id}`}>
       <Box sx={{ maxWidth: 600, minWidth: 400 }}>
-        <DialogTitle id={`dialog-title-${props.key}`}>
-          {props.title || 'Alert'}
+        <DialogTitle id={`dialog-title-${props.id}`}>
+          {props.title}
           <IconButton
             aria-label='close'
             onClick={props.onDismiss}
@@ -49,7 +47,7 @@ export default function AlertDialog(
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <Box sx={{ pt: 1 }} id={`dialog-description-${props.key}`}>
+          <Box sx={{ pt: 1 }} id={`dialog-description-${props.id}`}>
             {props.message}
           </Box>
         </DialogContent>

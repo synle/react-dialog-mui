@@ -8,7 +8,8 @@ import PromptDialog, { PromptInput } from './PromptDialog';
  * base type used in all the dialog input
  */
 export type BaseDialogInput = {
-  key: string;
+  id: string;
+  title: ReactNode;
 };
 
 type BaseDialog = BaseDialogInput;
@@ -16,7 +17,6 @@ type BaseDialog = BaseDialogInput;
 type AlertActionDialog = BaseDialog &
   AlertInput & {
     type: 'alert';
-    title: ReactNode;
     message: ReactNode;
     yesLabel?: string;
     onSubmit?: () => void;
@@ -24,7 +24,6 @@ type AlertActionDialog = BaseDialog &
 
 type ConfirmActionDialog = BaseDialog & {
   type: 'confirm';
-  title: ReactNode;
   message: ReactNode;
   yesLabel?: string;
   onSubmit: (yesSelected: boolean) => void;
@@ -57,7 +56,10 @@ type ActionDialog =
 
 let _actionDialogs: ActionDialog[] = [];
 
-let modalId = Date.now();
+let modalId = 0;
+function _getModalId() {
+  return `modal.${modalId++}.${Date.now()}`;
+}
 
 //
 const TargetContext = createContext({
@@ -117,7 +119,7 @@ export default function ActionDialogs(): ReactNode {
           case 'alert':
             contentDom = (
               <AlertDialog
-                key={dialog.key}
+                id={dialog.id}
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
@@ -130,7 +132,7 @@ export default function ActionDialogs(): ReactNode {
           case 'confirm':
             contentDom = (
               <AlertDialog
-                key={dialog.key}
+                id={dialog.id}
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
@@ -144,7 +146,7 @@ export default function ActionDialogs(): ReactNode {
           case 'prompt':
             contentDom = (
               <PromptDialog
-                key={dialog.key}
+                id={dialog.id}
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
@@ -162,7 +164,7 @@ export default function ActionDialogs(): ReactNode {
           case 'choice':
             contentDom = (
               <ChoiceDialog
-                key={dialog.key}
+                id={dialog.id}
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
@@ -176,7 +178,7 @@ export default function ActionDialogs(): ReactNode {
           case 'modal':
             contentDom = (
               <ModalDialog
-                key={dialog.key}
+                id={dialog.id}
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
@@ -219,9 +221,9 @@ export function useActionDialogs() {
   return {
     dialogs: data,
     dialog,
-    dismiss: (toDismissModalKey?: string) => {
-      if (toDismissModalKey) {
-        _actionDialogs = _actionDialogs.filter((modal) => modal.key !== toDismissModalKey);
+    dismiss: (toDismissModalId?: string) => {
+      if (toDismissModalId) {
+        _actionDialogs = _actionDialogs.filter((modal) => modal.id !== toDismissModalId);
       } else {
         _actionDialogs.pop();
       }
@@ -259,7 +261,7 @@ function MyComponent() {
     ): Promise<void> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
-          key: `modal.${modalId++}`,
+          id: _getModalId(),
           type: 'alert',
           title,
           message,
@@ -295,14 +297,13 @@ function MyComponent() {
   return <button onClick={onSubmit}>Rename Query?</button>;
 }
 ```
-
     * @param props
     * @returns
     */
     prompt: (props: PromptInput): Promise<string> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
-          key: `modal.${modalId++}`,
+          id: _getModalId(),
           type: 'prompt',
           onSubmit: (yesSelected, newValue) => {
             yesSelected ? resolve(newValue) : reject();
@@ -349,7 +350,7 @@ function MyComponent() {
     ): Promise<void> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
-          key: `modal.${modalId++}`,
+          id: _getModalId(),
           type: 'confirm',
           title,
           message,
@@ -414,7 +415,7 @@ function ChoiceExample() {
     ): Promise<string> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
-          key: `modal.${modalId++}`,
+          id: _getModalId(),
           type: 'choice',
           title,
           message,
@@ -462,8 +463,10 @@ function ModalExample() {
      */
     modal: (props: ModalInput): Promise<void> => {
       return new Promise((resolve, reject) => {
+        props.size = props.size || 'md';
+
         _actionDialogs.push({
-          key: `modal.${modalId++}`,
+          id: _getModalId(),
           type: 'modal',
           onSubmit: () => {
             resolve();

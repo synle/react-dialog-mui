@@ -1,0 +1,26 @@
+name: npm publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      build:
+        description: 'Trigger a manual build'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }} # NPM authentication

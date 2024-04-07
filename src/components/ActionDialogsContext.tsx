@@ -1,8 +1,12 @@
-import { Fragment, ReactNode, createContext, useContext, useState } from 'react';
+import { Fragment, ReactNode, RefObject, createContext, useContext, useState } from 'react';
 import AlertDialog, { AlertInput } from './AlertDialog';
 import ChoiceDialog, { ChoiceInput, ChoiceOption } from './ChoiceDialog';
 import ModalDialog, { ModalInput } from './ModalDialog';
 import PromptDialog, { PromptInput } from './PromptDialog';
+
+export type ModalRef = {
+  dismiss?: () => void
+}
 
 /**
  * base type used in all the dialog input
@@ -218,7 +222,7 @@ export function useActionDialogs() {
     setData(_actionDialogs);
   }
 
-  return {
+  const ActionDialogHooks = {
     dialogs: data,
     dialog,
     dismiss: (toDismissModalId?: string) => {
@@ -461,12 +465,22 @@ function ModalExample() {
      * @param props
      * @returns
      */
-    modal: (props: ModalInput): Promise<void> => {
+    modal: (props: ModalInput & {
+      modalRef?: RefObject<ModalRef>
+    }): Promise<void> => {
       return new Promise((resolve, reject) => {
         props.size = props.size || 'md';
 
+        const modalId = _getModalId();
+        const modalRef = props.modalRef;
+        if (!modalRef.current){
+          modalRef.current.dismiss = () => {
+            ActionDialogHooks.dismiss(modalId);
+          }
+        }
+
         _actionDialogs.push({
-          id: _getModalId(),
+          id: modalId,
           type: 'modal',
           onSubmit: () => {
             resolve();
@@ -477,4 +491,6 @@ function ModalExample() {
       });
     },
   };
+
+  return ActionDialogHooks;
 }

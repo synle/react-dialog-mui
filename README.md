@@ -16,7 +16,7 @@ Currently, it's hosted on GitHub. My plan is to transition it into an official n
 
 ```bash
 # install from github
-npm i github:synle/react-mui-action-dialog#main;
+npm i github:synle/react-mui-action-dialog#main
 ```
 
 ### Add the action dialog context to your root

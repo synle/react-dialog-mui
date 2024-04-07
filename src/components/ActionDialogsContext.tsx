@@ -177,7 +177,7 @@ export default function ActionDialogs(props: ActionDialogsProps): ReactNode {
                 title={dialog.title}
                 message={dialog.message}
                 onDismiss={onDimiss}
-                showCloseButton={!!dialog.showCloseButton}
+                showCloseButton={!!dialog.showCloseButton || true}
                 disableBackdropClick={!!dialog.disableBackdropClick}
                 size={dialog.size}
               />

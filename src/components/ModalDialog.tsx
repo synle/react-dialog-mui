@@ -1,9 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
-import { Box } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
+import { Box, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
 import { ReactNode } from 'react';
 import { BaseDialogInput } from './ActionDialogsContext';
 

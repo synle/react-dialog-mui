@@ -247,7 +247,12 @@ function MyComponent() {
     * @param props
     * @returns
     */
-    prompt: (props: PromptInput): Promise<string> => {
+    prompt: (
+      props: Partial<PromptInput> & {
+        title: ReactNode;
+        message: string;
+      },
+    ): Promise<string> => {
       return new Promise((resolve, reject) => {
         _actionDialogs.push({
           ...props,
@@ -408,13 +413,13 @@ function ModalExample() {
      * @returns
      */
     modal: (
-      props: ModalInput & {
+      props: Partial<ModalInput> & {
+        title: ReactNode;
+        message: ReactNode;
         modalRef?: RefObject<ActionDialogRef>;
       },
     ): Promise<void> => {
       return new Promise((resolve, reject) => {
-        props.size = props.size || 'md';
-
         const modalId = _getModalId();
         const modalRef = props.modalRef;
 
@@ -432,6 +437,7 @@ function ModalExample() {
           onSubmit: () => {
             resolve();
           },
+          size: props.size || 'md',
         });
 
         _invalidateQueries();

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogs } from 'react-dialog-mui';
 
 export function PromptExample() {
   const { prompt } = useActionDialogs();

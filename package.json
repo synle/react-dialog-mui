@@ -1,7 +1,7 @@
 {
-  "name": "react-mui-action-dialog",
-  "version": "0.0.0",
-  "description": "react-mui-action-dialog",
+  "name": "react-dialog-mui",
+  "version": "0.0.1",
+  "description": "This React library simplifies the usage of Material-UI dialogs, removing the need to manage states manually.",
   "main": "build",
   "scripts": {
     "prebuild": "rm -rf build",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/synle/react-mui-action-dialog.git"
+    "url": "git+https://github.com/synle/react-dialog-mui.git"
   },
   "author": "Sy Le",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/synle/react-mui-action-dialog/issues"
+    "url": "https://github.com/synle/react-dialog-mui/issues"
   },
-  "homepage": "https://github.com/synle/react-mui-action-dialog#readme",
+  "homepage": "https://github.com/synle/react-dialog-mui#readme",
   "devDependencies": {
     "@chromatic-com/storybook": "^1.3.1",
     "@storybook/addon-essentials": "^8.0.6",

@@ -20,8 +20,8 @@ yarn add react-dialog-mui
 
 I've created some repos using Create React Application script. You can reference the sample repos here:
 
-- With typescript: https://github.com/synle/react-mui-action-dialog-cra-ts-sample
-- With javascript: https://github.com/synle/react-mui-action-dialog-cra-js-sample
+- With typescript: https://github.com/synle/react-dialog-mui-cra-ts-sample
+- With javascript: https://github.com/synle/react-dialog-mui-cra-js-sample
 
 ### Add the action dialog context to your root
 
@@ -41,7 +41,7 @@ import { ActionDialogsContext } from 'react-dialog-mui';
 
 This alerts a simple message with an OK button, informing the user of an event.
 
-![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/7811010b-3c3b-45f3-ae9d-6144641c585f)
+![image](https://github.com/synle/react-dialog-mui/assets/3792401/7811010b-3c3b-45f3-ae9d-6144641c585f)
 
 ```tsx
 import { useActionDialogs } from 'react-dialog-mui';
@@ -67,7 +67,7 @@ function MyComponent() {
 
 This prompts the user for a yes or no confirmation regarding an event.
 
-![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/ec9217d4-407a-4c7f-8fb2-67b4630c86e1)
+![image](https://github.com/synle/react-dialog-mui/assets/3792401/ec9217d4-407a-4c7f-8fb2-67b4630c86e1)
 
 ```tsx
 import { useActionDialogs } from 'react-dialog-mui';
@@ -97,7 +97,7 @@ function MyComponent() {
 
 This is a basic text input for requesting user input in free-form text, ideal for short-and-single inputs.
 
-![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/e3eade16-0fec-44d7-aa2e-aad9deaf3b55)
+![image](https://github.com/synle/react-dialog-mui/assets/3792401/e3eade16-0fec-44d7-aa2e-aad9deaf3b55)
 
 ```tsx
 import { useActionDialogs } from 'react-dialog-mui';
@@ -126,7 +126,7 @@ function MyComponent() {
 
 This presents a list of options for the user to choose from, similar to a single-select dropdown. The user must select one option.
 
-![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/54be7d21-2fa7-46cd-b5d9-c5d000061837)
+![image](https://github.com/synle/react-dialog-mui/assets/3792401/54be7d21-2fa7-46cd-b5d9-c5d000061837)
 
 ```tsx
 function ChoiceExample() {
@@ -168,7 +168,7 @@ function ChoiceExample() {
 
 This displays custom modal content, suitable for complex use cases.
 
-![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/89f18eeb-a6cb-4b28-bb12-03c3dd5afaad)
+![image](https://github.com/synle/react-dialog-mui/assets/3792401/89f18eeb-a6cb-4b28-bb12-03c3dd5afaad)
 
 ```tsx
 function ModalExample() {
@@ -209,7 +209,7 @@ function ModalExample() {
 
 If you prefer not to use inline components, you can define your component separately and then include it in the react hook.
 
-![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/492ad10f-125c-4eb7-917b-6e893a878b4e)
+![image](https://github.com/synle/react-dialog-mui/assets/3792401/492ad10f-125c-4eb7-917b-6e893a878b4e)
 
 ```tsx
 import { useActionDialogs } from 'react-dialog-mui';
@@ -254,7 +254,7 @@ For custom modals, manual dismissal post-action, like form submission or interac
 
 This example features a modal with a dismiss button, allowing control from your component.
 
-![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/d51e1726-bdb0-4d99-86cd-79d87d730afc)
+![image](https://github.com/synle/react-dialog-mui/assets/3792401/d51e1726-bdb0-4d99-86cd-79d87d730afc)
 
 ```tsx
 import { useActionDialogRef, useActionDialogs } from 'react-dialog-mui';
@@ -296,7 +296,7 @@ export function ModalExampleWithManualDismiss() {
 
 This example features a modal with a form. Upon form submission, the modal closes automatically.
 
-![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/3b9896cd-d334-4b40-8503-385e55b5bc78)
+![image](https://github.com/synle/react-dialog-mui/assets/3792401/3b9896cd-d334-4b40-8503-385e55b5bc78)
 
 ```tsx
 import { useActionDialogRef, useActionDialogs } from 'react-dialog-mui';
@@ -341,7 +341,7 @@ export function ModalExampleWithFormSubmit() {
 
 #### Additional Samples:
 
-For more code samples, you can find them in the Storybook examples located here: https://github.com/synle/react-mui-action-dialog/tree/main/src/stories .
+For more code samples, you can find them in the Storybook examples located here: https://github.com/synle/react-dialog-mui/tree/main/src/stories .
 
 I published a blog post, you can refer to the link for more information about the motivation behind this library here: https://www.linkedin.com/article/edit/7182404170941972480/
 

@@ -49,9 +49,10 @@ This alerts a simple message with an OK button, informing the user of an event.
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/7811010b-3c3b-45f3-ae9d-6144641c585f)
 
 ```tsx
+// Useful for displaying messages.
 import { useActionDialogs } from 'react-dialog-mui';
 
-function MyComponent() {
+function AlertExample() {
   const { alert } = useActionDialogs();
 
   const onSubmit = async () => {

@@ -6,7 +6,7 @@ export default defineConfig({
   resolve: {
     // this is mostly for local dev storybook to reference local module
     alias: {
-      'react-mui-action-dialog': path.resolve(__dirname, 'src/components'),
+      'react-dialog-mui': path.resolve(__dirname, 'src/components'),
     },
   },
 });

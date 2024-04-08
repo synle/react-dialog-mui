@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { ActionDialogsContext } from 'react-mui-action-dialog';
+import { ActionDialogsContext } from 'react-dialog-mui';
 import { AlertExample } from './AlertExample';
 import { ChoiceExample } from './ChoiceExample';
 import { ConfirmExample } from './ConfirmExample';

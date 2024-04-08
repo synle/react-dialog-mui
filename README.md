@@ -1,4 +1,4 @@
-# react-mui-action-dialog
+# react-dialog-mui
 
 This React library simplifies the usage of Material-UI dialogs, removing the need to manage states manually. It offers convenient replicas of standard JavaScript dialog methods such as `alert`, `confirm`, and `prompt`, streamlining the implementation of common UX flows.
 
@@ -12,19 +12,23 @@ My aim with this library is to create a user-friendly solution that meets both e
 
 ## How to use?
 
-Currently, it's hosted on GitHub. My plan is to transition it into an official npm package.
-
 ```bash
-# install from github
-npm i github:synle/react-mui-action-dialog#main
+npm install --save react-dialog-mui
+
+yarn add react-dialog-mui
 ```
+
+I've created some repos using Create React Application script. You can reference the sample repos here:
+
+- With typescript: https://github.com/synle/react-mui-action-dialog-cra-ts-sample
+- With javascript: https://github.com/synle/react-mui-action-dialog-cra-js-sample
 
 ### Add the action dialog context to your root
 
 To begin, wrap your app with ActionDialogsContext, a React context consumer that manages the dialog stack state.
 
 ```tsx
-import { ActionDialogsContext } from 'react-mui-action-dialog';
+import { ActionDialogsContext } from 'react-dialog-mui';
 
 <ActionDialogsContext>
   <YourApp>
@@ -40,7 +44,7 @@ This alerts a simple message with an OK button, informing the user of an event.
 ![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/7811010b-3c3b-45f3-ae9d-6144641c585f)
 
 ```tsx
-import { useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogs } from 'react-dialog-mui';
 
 function MyComponent() {
   const { alert } = useActionDialogs();
@@ -66,7 +70,7 @@ This prompts the user for a yes or no confirmation regarding an event.
 ![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/ec9217d4-407a-4c7f-8fb2-67b4630c86e1)
 
 ```tsx
-import { useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogs } from 'react-dialog-mui';
 
 function MyComponent() {
   const { confirm } = useActionDialogs();
@@ -96,7 +100,7 @@ This is a basic text input for requesting user input in free-form text, ideal fo
 ![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/e3eade16-0fec-44d7-aa2e-aad9deaf3b55)
 
 ```tsx
-import { useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogs } from 'react-dialog-mui';
 
 function MyComponent() {
   const { prompt } = useActionDialogs();
@@ -208,7 +212,7 @@ If you prefer not to use inline components, you can define your component separa
 ![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/492ad10f-125c-4eb7-917b-6e893a878b4e)
 
 ```tsx
-import { useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogs } from 'react-dialog-mui';
 
 function MyChildComponent() {
   return (
@@ -253,7 +257,7 @@ This example features a modal with a dismiss button, allowing control from your 
 ![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/d51e1726-bdb0-4d99-86cd-79d87d730afc)
 
 ```tsx
-import { useActionDialogRef, useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogRef, useActionDialogs } from 'react-dialog-mui';
 
 export function ModalExampleWithManualDismiss() {
   const { modal } = useActionDialogs();
@@ -295,7 +299,7 @@ This example features a modal with a form. Upon form submission, the modal close
 ![image](https://github.com/synle/react-mui-action-dialog/assets/3792401/3b9896cd-d334-4b40-8503-385e55b5bc78)
 
 ```tsx
-import { useActionDialogRef, useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogRef, useActionDialogs } from 'react-dialog-mui';
 
 export function ModalExampleWithFormSubmit() {
   const { modal } = useActionDialogs();

@@ -1,4 +1,4 @@
-import { useActionDialogRef, useActionDialogs } from 'react-mui-action-dialog';
+import { useActionDialogRef, useActionDialogs } from 'react-dialog-mui';
 
 export function ModalExample() {
   const { modal } = useActionDialogs();

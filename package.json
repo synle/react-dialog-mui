@@ -1,7 +1,7 @@
 {
-  "name": "react-mui-action-dialog",
-  "version": "0.0.0",
-  "description": "react-mui-action-dialog",
+  "name": "react-dialog-mui",
+  "version": "0.0.1",
+  "description": "This React library simplifies the usage of Material-UI dialogs, removing the need to manage states manually.",
   "main": "build",
   "scripts": {
     "prebuild": "rm -rf build",

@@ -13,8 +13,5 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-    "node_modules",
-    "src/stories"
-  ]
+  "exclude": ["node_modules", "src/stories"]
 }

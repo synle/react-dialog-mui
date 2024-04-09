@@ -16,6 +16,7 @@ export function ChoiceExample() {
           { label: 'Session 2', value: 'session_2' },
           { label: 'Session 3', value: 'session_3' },
         ],
+        session, // selected value
         true, // required
       );
 
@@ -31,6 +32,43 @@ export function ChoiceExample() {
       <button onClick={onSubmit}>Switch Session</button>
       <div>
         <strong>New selected session:</strong> {session}
+      </div>
+    </>
+  );
+}
+
+export function ChoiceExampleWithMultiselect() {
+  const { choiceMultiple } = useActionDialogs();
+  const [favContacts, setFavContacts] = useState<string[]>([]);
+
+  const onSubmit = async () => {
+    try {
+      const newFavContacts = await choiceMultiple(
+        'Update Favorite Contacts', // the dialog title
+        'Select contacts to add to the favorite list:', // the question for the input
+        [
+          { label: 'John Doe', value: 'John Doe' },
+          { label: 'Alice Smith', value: 'Alice Smith' },
+          { label: 'Michael Johnson', value: 'Michael Johnson', disabled: true },
+          { label: 'Emily Brown', value: 'Emily Brown' },
+          { label: 'Daniel Wilson', value: 'Daniel Wilson' },
+        ],
+        favContacts, // selected options
+        true, // required
+      );
+
+      // when user selected a choice
+      setFavContacts(newFavContacts);
+    } catch (err) {
+      setFavContacts([]);
+    }
+  };
+
+  return (
+    <>
+      <button onClick={onSubmit}>Update Favorite Contacts</button>
+      <div>
+        <strong>New selected favorite contacts:</strong> {JSON.stringify(favContacts)}
       </div>
     </>
   );

@@ -31,12 +31,8 @@ To begin, wrap your app with ActionDialogsContext, a React context consumer that
 // then wrap your app with with the ActionDialogContext
 import { ActionDialogsContext } from 'react-dialog-mui';
 
-function YourApp(){
-  return (
-    <ActionDialogsContext>
-      // your app code
-    </ActionDialogsContext>
-  )
+function YourApp() {
+  return <ActionDialogsContext>// your app code</ActionDialogsContext>;
 }
 ```
 

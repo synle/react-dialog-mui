@@ -40,12 +40,18 @@ export type ActionDialog = BaseDialogInput &
         onSubmit: (yesSelected: boolean) => void;
       }
     | ({
-        type: 'choice';
-        onSubmit: (yesSelected: boolean, selectedChoice?: string) => void;
+        type: 'choice-single';
+        onSubmit: (selectedChoice?: string) => void;
+        value?: string
+      } & ChoiceInput)
+    | ({
+        type: 'choice-multiple';
+        onSubmit: (selectedOptions: string[]) => void;
+        value?: string[],
       } & ChoiceInput)
     | ({
         type: 'prompt';
-        onSubmit: (yesSelected: boolean, newValue?: string) => void;
+        onSubmit: (newValue: string) => void;
       } & PromptInput)
     | ({
         type: 'modal';

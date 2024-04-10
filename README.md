@@ -252,6 +252,9 @@ This displays custom modal content, suitable for complex use cases.
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/89f18eeb-a6cb-4b28-bb12-03c3dd5afaad)
 
 ```tsx
+import React from 'react';
+import { useActionDialogs } from 'react-dialog-mui';
+
 function ModalExample() {
   const { modal } = useActionDialogs();
 
@@ -293,6 +296,7 @@ If you prefer not to use inline components, you can define your component separa
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/492ad10f-125c-4eb7-917b-6e893a878b4e)
 
 ```tsx
+import React from 'react';
 import { useActionDialogs } from 'react-dialog-mui';
 
 function MyChildComponent() {
@@ -336,6 +340,7 @@ Manual dismissal post-action, like form submission or interactions can be achiev
 This example shows how to set up `modalRef` and calling `dismiss` to dimiss the alert
 
 ```tsx
+import React from 'react';
 import { useActionDialogs, useActionDialogRef } from 'react-dialog-mui';
 
 export function AlertExampleWithManualDismiss() {

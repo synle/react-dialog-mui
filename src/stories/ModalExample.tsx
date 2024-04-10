@@ -1,3 +1,4 @@
+import React from 'react';
 import { useActionDialogRef, useActionDialogs } from 'react-dialog-mui';
 
 export function ModalExample() {

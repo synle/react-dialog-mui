@@ -9,8 +9,17 @@ import { ActionDialog, ActionDialogRef, BaseActionDialogInput } from './types';
 let _actionDialogs: ActionDialog[] = [];
 
 let _modalIdx = 0;
-function _getModalId() {
-  return `modal.${_modalIdx++}.${Date.now()}`;
+function _getModalId(modalRef?: RefObject<ActionDialogRef>) {
+  const modalId = `modal.${_modalIdx++}.${Date.now()}`;
+
+  if (modalRef && modalRef.current) {
+    modalRef.current.id = modalId;
+    modalRef.current.dismiss = () => {
+      ActionDialogHooks.dismiss(modalRef.current.id);
+    };
+  }
+
+  return modalId;
 }
 
 //
@@ -211,8 +220,10 @@ export function useActionDialogs() {
       return new Promise((resolve, reject) => {
         const { title, message, yesLabel } = props;
 
+        const modalId = _getModalId(props.modalRef);
+
         _actionDialogs.push({
-          id: _getModalId(),
+          id: modalId,
           type: 'alert',
           title: title || 'Alert',
           message,
@@ -239,8 +250,10 @@ export function useActionDialogs() {
       return new Promise((resolve, reject) => {
         const { title, message, yesLabel } = props;
 
+        const modalId = _getModalId(props.modalRef);
+
         _actionDialogs.push({
-          id: _getModalId(),
+          id: modalId,
           type: 'confirm',
           title: title || 'Confirmation?',
           message,
@@ -263,8 +276,10 @@ export function useActionDialogs() {
       return new Promise((resolve, reject) => {
         const { title, message } = props;
 
+        const modalId = _getModalId(props.modalRef);
+
         _actionDialogs.push({
-          id: _getModalId(),
+          id: modalId,
           type: 'prompt',
           title: title || 'Prompt?',
           message,
@@ -293,8 +308,10 @@ export function useActionDialogs() {
       return new Promise((resolve, reject) => {
         const { title, message, options, required, value } = props;
 
+        const modalId = _getModalId(props.modalRef);
+
         _actionDialogs.push({
-          id: _getModalId(),
+          id: modalId,
           type: 'choice-single',
           title,
           message,
@@ -332,8 +349,10 @@ export function useActionDialogs() {
       return new Promise((resolve, reject) => {
         const { title, message, options, required, value } = props;
 
+        const modalId = _getModalId(props.modalRef);
+
         _actionDialogs.push({
-          id: _getModalId(),
+          id: modalId,
           type: 'choice-multiple',
           title,
           message,
@@ -357,15 +376,7 @@ export function useActionDialogs() {
      */
     modal: (props: BaseActionDialogInput & Partial<ModalInput>): Promise<void> => {
       return new Promise((resolve, reject) => {
-        const modalId = _getModalId();
-        const modalRef = props.modalRef;
-
-        if (modalRef && modalRef.current) {
-          modalRef.current.id = modalId;
-          modalRef.current.dismiss = () => {
-            ActionDialogHooks.dismiss(modalId);
-          };
-        }
+        const modalId = _getModalId(props.modalRef);
 
         _actionDialogs.push({
           ...props,

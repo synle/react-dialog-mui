@@ -40,5 +40,7 @@ it('ChoiceExample should render the component', async () => {
   ).toMatchInlineSnapshot(`"Switch session"`);
   expect(
     component.container.querySelector('.MuiDialogContent-root')?.textContent,
-  ).toMatchInlineSnapshot(`"Select one of the following sessions:Session 1Session 2Session 3"`);
+  ).toMatchInlineSnapshot(
+    `"Select one of the following sessions:Session 1Session 2Session 3Session 4Apply"`,
+  );
 });

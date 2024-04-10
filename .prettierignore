@@ -2,6 +2,7 @@
 *.spec.jsx
 *.spec.ts
 *.spec.jsx
+.github
 build
 dist
 storybook-static

@@ -1,8 +1,8 @@
 import React from 'react';
 import { ReactNode } from 'react';
 import { ActionDialogsContext } from 'react-dialog-mui';
-import { AlertExample } from './AlertExample';
-import { ChoiceExample } from './ChoiceExample';
+import { AlertExample, AlertExampleWithManualDismiss } from './AlertExample';
+import { ChoiceExample, ChoiceExampleWithMultiselect } from './ChoiceExample';
 import { ConfirmExample } from './ConfirmExample';
 import {
   ModalExample,
@@ -46,11 +46,19 @@ export const Alert = () => {
   );
 };
 
-export const Choice = () => {
+export const AlertWithManualDismiss = () => {
   return (
-    <ExampleWrapper title='Simple Choice Example'>
-      <div>This is a simple example with choice.</div>
-      <ChoiceExample />
+    <ExampleWrapper title='Simple Alert Example with manual dismiss'>
+      <div>This is a simple example with alert with manual dismiss.</div>
+      <AlertExampleWithManualDismiss />
+    </ExampleWrapper>
+  );
+};
+
+export const Prompt = () => {
+  return (
+    <ExampleWrapper title='Simple Prompt Example'>
+      <PromptExample />
     </ExampleWrapper>
   );
 };
@@ -60,6 +68,24 @@ export const Confirm = () => {
     <ExampleWrapper title='Simple Confirm Example'>
       <div>This is a simple example with confirm.</div>
       <ConfirmExample />
+    </ExampleWrapper>
+  );
+};
+
+export const Choice = () => {
+  return (
+    <ExampleWrapper title='Simple Choice Example with single-select'>
+      <div>This is a simple example with single-select choice.</div>
+      <ChoiceExample />
+    </ExampleWrapper>
+  );
+};
+
+export const ChoiceWithMultiselect = () => {
+  return (
+    <ExampleWrapper title='Simple Choice Example with multi-select'>
+      <div>This is a simple example with multi-select choice.</div>
+      <ChoiceExampleWithMultiselect />
     </ExampleWrapper>
   );
 };
@@ -102,14 +128,6 @@ export const ModalWithFormSubmit = () => {
         the form submission
       </div>
       <ModalExampleWithFormSubmit />
-    </ExampleWrapper>
-  );
-};
-
-export const Prompt = () => {
-  return (
-    <ExampleWrapper title='Simple Prompt Example'>
-      <PromptExample />
     </ExampleWrapper>
   );
 };

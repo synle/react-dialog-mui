@@ -1,10 +1,11 @@
+.github
 .gitignore
 .npmignore
 .npmrc
 .prettierignore
 .prettierrc
+docs
 src
 storybook-static
-docs
 tsconfig.json
 vite.config.js

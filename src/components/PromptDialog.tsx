@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   Button,
@@ -13,11 +13,10 @@ import { SyntheticEvent, useState } from 'react';
 import { BaseDialogInput } from './types';
 
 export type PromptInput = BaseDialogInput & {
-  message: string;
+  message: ReactNode;
   value?: string;
   isLongPrompt?: boolean;
   saveLabel?: string;
-  languageMode?: string;
   required?: boolean;
   readonly?: boolean;
 };
@@ -102,7 +101,7 @@ export default function PromptDialog(
         {props.readonly !== true && (
           <DialogActions sx={{ display: 'flex', gap: 2, justifyContent: 'end' }}>
             <Button type='submit' disabled={isDisabled} variant='contained'>
-              {props.saveLabel || 'Save Changes'}
+              {props.saveLabel || 'Save'}
             </Button>
           </DialogActions>
         )}

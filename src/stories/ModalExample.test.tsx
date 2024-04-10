@@ -2,7 +2,7 @@ import React from 'react';
 import { test, describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import { ActionDialogsContext } from 'react-dialog-mui';
-import { AlertExample } from './AlertExample';
+import { ModalExample } from './ModalExample';
 import { ChoiceExample } from './ChoiceExample';
 import { ConfirmExample } from './ConfirmExample';
 import {
@@ -24,21 +24,23 @@ vi.mock('@mui/material', async (importOriginal) => {
   };
 });
 
-it('ConfirmExample should render the component', async () => {
+it('ModalExample should render the component', async () => {
   const component = render(
     <ActionDialogsContext>
-      <ConfirmExample />
+      <ModalExample />
     </ActionDialogsContext>,
   );
   const button = component.container.querySelector('button');
-  expect(button?.innerHTML).toMatchInlineSnapshot(`"Delete Query?"`);
+  expect(button?.innerHTML).toMatchInlineSnapshot(`"Show Details"`);
 
   // open modal and test content
   fireEvent.click(button);
   expect(
     component.container.querySelector('.MuiDialogTitle-root')?.textContent,
-  ).toMatchInlineSnapshot(`"Confirmation?"`);
+  ).toMatchInlineSnapshot(`"Query Details"`);
   expect(
-    component.container.querySelector('.MuiDialogContent-root')?.textContent,
-  ).toMatchInlineSnapshot(`"Do you want to delete this query?"`);
+    component.container
+      .querySelector('.MuiDialogContent-root')
+      ?.textContent.includes(`Name: Sample Mocked QueryStatus: PendingCreated Date:`),
+  ).toBe(true);
 });

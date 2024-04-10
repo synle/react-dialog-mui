@@ -13,10 +13,6 @@ import {
 } from './ModalExample';
 import { PromptExample } from './PromptExample';
 
-function waitForSeconds(sec = 0.3) {
-  return new Promise((resolve) => setTimeout(resolve, sec * 1000));
-}
-
 // Replace the original Dialog with the mock component
 vi.mock('@mui/material', async (importOriginal) => {
   const mod = await importOriginal<typeof import('@mui/material')>();
@@ -32,15 +28,20 @@ it('PromptExample should render the component', async () => {
   const component = render(
     <ActionDialogsContext>
       <PromptExample />
-      < /ActionDialogsContext>,
-      );
-      const button = component.container.querySelector('button');
-      expect(button?.innerHTML).toMatchInlineSnapshot(`"Rename Query?"`);
+    </ActionDialogsContext>,
+  );
+  const button = component.container.querySelector('button');
+  expect(button?.innerHTML).toMatchInlineSnapshot(`"Rename Query?"`);
 
-      // open modal and test content
-      fireEvent.click(button);
-      await waitForSeconds();
-      expect(
-      component.container.querySelector('.MuiDialogTitle-root')?.textContent,
-      ).toMatchInlineSnapshot(`"Rename Query"`)
+  // open modal and test content
+  fireEvent.click(button);
+  expect(
+    component.container.querySelector('.MuiDialogTitle-root')?.textContent,
+  ).toMatchInlineSnapshot(`"Rename Query"`);
+  expect(
+    component.container.querySelector('.MuiDialogContent-root')?.textContent,
+  ).toMatchInlineSnapshot(`"New Query NameNew Query Name"`);
+  expect(
+    component.container.querySelector('.MuiDialogActions-root')?.textContent,
+  ).toMatchInlineSnapshot(`"Save"`);
 });

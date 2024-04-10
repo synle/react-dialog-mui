@@ -13,10 +13,6 @@ import {
 } from './ModalExample';
 import { PromptExample } from './PromptExample';
 
-function waitForSeconds(sec = 0.3) {
-  return new Promise((resolve) => setTimeout(resolve, sec * 1000));
-}
-
 // Replace the original Dialog with the mock component
 vi.mock('@mui/material', async (importOriginal) => {
   const mod = await importOriginal<typeof import('@mui/material')>();
@@ -27,7 +23,6 @@ vi.mock('@mui/material', async (importOriginal) => {
     },
   };
 });
-
 
 it('ChoiceExample should render the component', async () => {
   const component = render(
@@ -40,8 +35,10 @@ it('ChoiceExample should render the component', async () => {
 
   // open modal and test content
   fireEvent.click(button);
-  await waitForSeconds();
   expect(
     component.container.querySelector('.MuiDialogTitle-root')?.textContent,
-  ).toMatchInlineSnapshot(`"Switch session"`)
+  ).toMatchInlineSnapshot(`"Switch session"`);
+  expect(
+    component.container.querySelector('.MuiDialogContent-root')?.textContent,
+  ).toMatchInlineSnapshot(`"Select one of the following sessions:Session 1Session 2Session 3"`);
 });

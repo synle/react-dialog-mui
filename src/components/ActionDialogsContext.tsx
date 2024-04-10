@@ -254,14 +254,16 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
-    choice: (
-      title: string,
-      message: ReactNode,
-      options: ChoiceOption[],
-      value?: string,
-      required?: boolean,
-    ): Promise<string> => {
+    choiceSingle: (props: {
+      title: string;
+      message: ReactNode;
+      options: ChoiceOption[];
+      required?: boolean;
+      value?: string;
+    }): Promise<string> => {
       return new Promise((resolve, reject) => {
+        const { title, message, options, required, value } = props;
+
         _actionDialogs.push({
           id: _getModalId(),
           type: 'choice-single',
@@ -277,19 +279,22 @@ export function useActionDialogs() {
             reject();
           },
           required,
-          value
+          value,
         });
+
         _invalidateQueries();
       });
     },
-    choiceMultiple: (
-      title: string,
-      message: ReactNode,
-      options: ChoiceOption[],
-      value?: string[],
-      required?: boolean,
-    ): Promise<string[]> => {
+    choiceMultiple: (props: {
+      title: string;
+      message: ReactNode;
+      options: ChoiceOption[];
+      required?: boolean;
+      value?: string[];
+    }): Promise<string[]> => {
       return new Promise((resolve, reject) => {
+        const { title, message, options, required, value } = props;
+
         _actionDialogs.push({
           id: _getModalId(),
           type: 'choice-multiple',
@@ -300,8 +305,9 @@ export function useActionDialogs() {
             resolve(newValue);
           },
           required,
-          value
+          value,
         });
+
         _invalidateQueries();
       });
     },

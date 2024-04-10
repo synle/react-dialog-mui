@@ -42,12 +42,12 @@ export type ActionDialog = BaseDialogInput &
     | ({
         type: 'choice-single';
         onSubmit: (selectedChoice?: string) => void;
-        value?: string
+        value?: string;
       } & ChoiceInput)
     | ({
         type: 'choice-multiple';
         onSubmit: (selectedOptions: string[]) => void;
-        value?: string[],
+        value?: string[];
       } & ChoiceInput)
     | ({
         type: 'prompt';

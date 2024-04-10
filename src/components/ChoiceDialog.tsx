@@ -32,7 +32,7 @@ export type ChoiceInput = BaseDialogInput & {
 export function SingleChoiceDialog(
   props: ChoiceInput & {
     open: boolean;
-    value?: string
+    value?: string;
     onSelect: (newValue?: string) => void;
     onDismiss: () => void;
   },
@@ -45,14 +45,16 @@ export function SingleChoiceDialog(
     required,
     onDismiss: handleClose,
     onSelect,
-    value
+    value,
   } = props;
 
   const [selectedOption, setSelectedOption] = useState<string | undefined>(value);
 
   let onClose: (() => void) | undefined = handleClose;
+  let disabled = false;
   if (required) {
     onClose = undefined;
+    disabled = !selectedOption;
   }
 
   return (
@@ -83,32 +85,34 @@ export function SingleChoiceDialog(
             const checked = selectedOption === option.value;
             const labelId = `dialog-title-${props.id}-choice.${idx}`;
             const onOptionSelected = () => {
+              if (option.disabled) {
+                return;
+              }
               setSelectedOption(option.value);
             };
 
-            return <ListItem
-              onClick={onOptionSelected}
-              key={option.value}
-              sx={{ alignItems: 'center', display: 'flex', gap: 1 }}>
-              <ListItemIcon>
-                <Checkbox
-                  checked={checked}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ 'aria-labelledby': labelId }}
-                  disabled={option.disabled}
-                />
-              </ListItemIcon>
-              {!option.startIcon ? null : option.startIcon}
-              <ListItemText primary={option.label} />
-            </ListItem>
+            return (
+              <ListItem
+                onClick={onOptionSelected}
+                key={option.value}
+                sx={{ alignItems: 'center', display: 'flex', gap: 1 }}>
+                <ListItemIcon>
+                  <Checkbox
+                    checked={checked}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{ 'aria-labelledby': labelId }}
+                    disabled={option.disabled}
+                  />
+                </ListItemIcon>
+                {!option.startIcon ? null : option.startIcon}
+                <ListItemText primary={option.label} />
+              </ListItem>
+            );
           })}
         </List>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button
-            onClick={() => onSelect(selectedOption)}
-            autoFocus
-            variant='contained'>
+          <Button onClick={() => onSelect(selectedOption)} variant='contained' disabled={disabled}>
             Apply
           </Button>
         </Box>
@@ -125,7 +129,16 @@ export function MultipleChoiceDialog(
     onDismiss: () => void;
   },
 ) {
-  const { title, message, options, open, required, onDismiss: handleClose, onSelect, value } = props;
+  const {
+    title,
+    message,
+    options,
+    open,
+    required,
+    onDismiss: handleClose,
+    onSelect,
+    value,
+  } = props;
 
   const [selectedOptions, setSelectedOptions] = useState<string[]>(value || []);
 
@@ -162,6 +175,10 @@ export function MultipleChoiceDialog(
             const checked = selectedOptions?.includes(option.value);
             const labelId = `dialog-title-${props.id}-choice.${idx}`;
             const onOptionSelected = () => {
+              if (option.disabled) {
+                return;
+              }
+
               let newSelectedOptions = selectedOptions;
               if (!checked) {
                 newSelectedOptions?.push(option.value);
@@ -194,10 +211,7 @@ export function MultipleChoiceDialog(
           })}
         </List>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button
-            onClick={() => onSelect(selectedOptions)}
-            autoFocus
-            variant='contained'>
+          <Button onClick={() => onSelect(selectedOptions)} variant='contained'>
             Apply
           </Button>
         </Box>

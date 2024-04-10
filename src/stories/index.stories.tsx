@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactNode } from 'react';
 import { ActionDialogsContext } from 'react-dialog-mui';
-import { AlertExample } from './AlertExample';
+import { AlertExample, AlertExampleWithManualDismiss } from './AlertExample';
 import { ChoiceExample, ChoiceExampleWithMultiselect } from './ChoiceExample';
 import { ConfirmExample } from './ConfirmExample';
 import {
@@ -42,6 +42,15 @@ export const Alert = () => {
     <ExampleWrapper title='Simple Alert Example'>
       <div>This is a simple example with alert.</div>
       <AlertExample />
+    </ExampleWrapper>
+  );
+};
+
+export const AlertWithManualDismiss = () => {
+  return (
+    <ExampleWrapper title='Simple Alert Example with manual dismiss'>
+      <div>This is a simple example with alert with manual dismiss.</div>
+      <AlertExampleWithManualDismiss />
     </ExampleWrapper>
   );
 };

@@ -45,7 +45,7 @@ export type ActionDialog = BaseActionDialogInput & {
         type: 'confirm';
         message: ReactNode;
         yesLabel?: string;
-        onSubmit: (yesSelected: boolean) => void;
+        onSubmit: () => void;
       }
     | ({
         type: 'choice-single';

@@ -9,13 +9,13 @@ import { ActionDialog, ActionDialogRef, BaseActionDialogInput } from './types';
 let _actionDialogs: ActionDialog[] = [];
 
 let _modalIdx = 0;
-function _getModalId(modalRef?: RefObject<ActionDialogRef>) {
+function _getModalId(modalRef: RefObject<ActionDialogRef>, dismiss: (id: string) => void) {
   const modalId = `modal.${_modalIdx++}.${Date.now()}`;
 
   if (modalRef && modalRef.current) {
     modalRef.current.id = modalId;
     modalRef.current.dismiss = () => {
-      ActionDialogHooks.dismiss(modalRef.current.id);
+      dismiss(modalId);
     };
   }
 
@@ -90,7 +90,7 @@ export default function ActionDialogs() {
                 yesLabel={dialog.yesLabel}
                 onYesClick={() => {
                   dismiss();
-                  dialog.onSubmit && dialog.onSubmit(true);
+                  dialog.onSubmit && dialog.onSubmit();
                 }}
                 onDismiss={onDimiss}
                 isConfirm={true}
@@ -220,7 +220,7 @@ export function useActionDialogs() {
       return new Promise((resolve, reject) => {
         const { title, message, yesLabel } = props;
 
-        const modalId = _getModalId(props.modalRef);
+        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
 
         _actionDialogs.push({
           id: modalId,
@@ -250,7 +250,7 @@ export function useActionDialogs() {
       return new Promise((resolve, reject) => {
         const { title, message, yesLabel } = props;
 
-        const modalId = _getModalId(props.modalRef);
+        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
 
         _actionDialogs.push({
           id: modalId,
@@ -258,8 +258,8 @@ export function useActionDialogs() {
           title: title || 'Confirmation?',
           message,
           yesLabel,
-          onSubmit: (yesSelected) => {
-            yesSelected ? resolve() : reject();
+          onSubmit: () => {
+            resolve();
           },
         });
         _invalidateQueries();
@@ -274,15 +274,16 @@ export function useActionDialogs() {
      */
     prompt: (props: BaseActionDialogInput & Partial<PromptInput>): Promise<string> => {
       return new Promise((resolve, reject) => {
-        const { title, message } = props;
+        const { title, message, value } = props;
 
-        const modalId = _getModalId(props.modalRef);
+        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
 
         _actionDialogs.push({
           id: modalId,
           type: 'prompt',
           title: title || 'Prompt?',
           message,
+          value,
           onSubmit: (newValue) => {
             newValue ? resolve(newValue) : reject();
           },
@@ -308,7 +309,7 @@ export function useActionDialogs() {
       return new Promise((resolve, reject) => {
         const { title, message, options, required, value } = props;
 
-        const modalId = _getModalId(props.modalRef);
+        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
 
         _actionDialogs.push({
           id: modalId,
@@ -316,6 +317,8 @@ export function useActionDialogs() {
           title,
           message,
           options,
+          required,
+          value,
           onSubmit: (newValue) => {
             if (newValue) {
               return resolve(newValue);
@@ -324,8 +327,6 @@ export function useActionDialogs() {
             // else
             reject();
           },
-          required,
-          value,
         });
 
         _invalidateQueries();
@@ -349,7 +350,7 @@ export function useActionDialogs() {
       return new Promise((resolve, reject) => {
         const { title, message, options, required, value } = props;
 
-        const modalId = _getModalId(props.modalRef);
+        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
 
         _actionDialogs.push({
           id: modalId,
@@ -357,11 +358,11 @@ export function useActionDialogs() {
           title,
           message,
           options,
+          required,
+          value,
           onSubmit: (newValue) => {
             resolve(newValue);
           },
-          required,
-          value,
         });
 
         _invalidateQueries();
@@ -376,16 +377,16 @@ export function useActionDialogs() {
      */
     modal: (props: BaseActionDialogInput & Partial<ModalInput>): Promise<void> => {
       return new Promise((resolve, reject) => {
-        const modalId = _getModalId(props.modalRef);
+        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
 
         _actionDialogs.push({
           ...props,
           id: modalId,
           type: 'modal',
+          size: props.size || 'sm',
           onSubmit: () => {
             resolve();
           },
-          size: props.size || 'md',
         });
 
         _invalidateQueries();

@@ -329,7 +329,37 @@ export function ModalExampleWithChildComponent() {
 
 ##### Dismiss the modal programmatically
 
-For custom modals, manual dismissal post-action, like form submission or interactions, is crucial. This can be achieved via useActionDialogRef and .dismiss(). Here's a sample code snippet.
+Manual dismissal post-action, like form submission or interactions can be achieved via `useActionDialogRef` and `dismiss()`. Here's a sample code snippet.
+
+###### Simplest example with Alert
+
+This example shows how to set up `modalRef` and calling `dismiss` to dimiss the alert
+
+```tsx
+import { useActionDialogs, useActionDialogRef } from 'react-dialog-mui';
+
+export function AlertExampleWithManualDismiss() {
+  const { alert } = useActionDialogs();
+  const modalRef = useActionDialogRef();
+
+  const onSubmit = async () => {
+    try {
+      await alert({
+        title: <>Query Result</>,
+        message: (
+          <>
+            <div>The query has successfully executed.</div>
+            <button onClick={() => modalRef.current.dismiss()}>Close this modal and retry</button>
+          </>
+        ),
+        modalRef,
+      });
+    } catch (err) {}
+  };
+
+  return <button onClick={onSubmit}>My Action</button>;
+}
+```
 
 ###### Dismiss via button click
 
@@ -338,6 +368,7 @@ This example features a modal with a dismiss button, allowing control from your 
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/d51e1726-bdb0-4d99-86cd-79d87d730afc)
 
 ```tsx
+import React from 'react';
 import { useActionDialogRef, useActionDialogs } from 'react-dialog-mui';
 
 export function ModalExampleWithManualDismiss() {
@@ -380,6 +411,7 @@ This example features a modal with a form. Upon form submission, the modal close
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/3b9896cd-d334-4b40-8503-385e55b5bc78)
 
 ```tsx
+import React from 'react';
 import { useActionDialogRef, useActionDialogs } from 'react-dialog-mui';
 
 export function ModalExampleWithFormSubmit() {

@@ -9,4 +9,8 @@ export default defineConfig({
       'react-dialog-mui': path.resolve(__dirname, 'src/components'),
     },
   },
+  test: {
+    global: true,
+    environment: 'jsdom',
+  },
 });

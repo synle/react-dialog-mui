@@ -101,7 +101,7 @@ export default function PromptDialog(
         {props.readonly !== true && (
           <DialogActions sx={{ display: 'flex', gap: 2, justifyContent: 'end' }}>
             <Button type='submit' disabled={isDisabled} variant='contained'>
-              {props.saveLabel || 'Save Changes'}
+              {props.saveLabel || 'Save'}
             </Button>
           </DialogActions>
         )}

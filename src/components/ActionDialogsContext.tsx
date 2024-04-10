@@ -196,6 +196,13 @@ export function useActionDialogs() {
       }
       _invalidateQueries();
     },
+    /**
+     * This alerts a simple message with an OK button, informing the user of an event. Useful for displaying messages.
+     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#alert
+     *
+     * @param props
+     * @returns
+     */
     alert: (
       props: BaseActionDialogInput & {
         yesLabel?: string;
@@ -217,6 +224,13 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
+    /**
+     * This prompts the user for a yes or no confirmation regarding an event.
+     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#confirm
+     *
+     * @param props
+     * @returns
+     */
     confirm: (
       props: BaseActionDialogInput & {
         yesLabel?: string;
@@ -238,6 +252,13 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
+    /**
+     * This is a basic text input for requesting user input in free-form text, ideal for short-and-single inputs.
+     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#prompt
+     *
+     * @param props
+     * @returns
+     */
     prompt: (props: BaseActionDialogInput & Partial<PromptInput>): Promise<string> => {
       return new Promise((resolve, reject) => {
         const { title, message } = props;
@@ -254,6 +275,14 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
+    /**
+     * This presents a list of options for the user to choose from, similar to a single-select dropdown.
+     * The user must select one option.
+     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#single-select-choice
+     *
+     * @param props
+     * @returns
+     */
     choiceSingle: (
       props: BaseActionDialogInput & {
         options: ChoiceOption[];
@@ -285,6 +314,14 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
+    /**
+     * This presents a list of options for the user to choose from, similar to a checkbox list.
+     * The user can select more than options from the list.
+     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#multi-select-choice
+     *
+     * @param props
+     * @returns
+     */
     choiceMultiple: (
       props: BaseActionDialogInput & {
         options: ChoiceOption[];
@@ -311,6 +348,13 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
+    /**
+     * This displays custom modal content, suitable for complex use cases.
+     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#modal
+     *
+     * @param props
+     * @returns
+     */
     modal: (props: BaseActionDialogInput & Partial<ModalInput>): Promise<void> => {
       return new Promise((resolve, reject) => {
         const modalId = _getModalId();

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, RefObject } from 'react';
 import { AlertInput } from './AlertDialog';
 import { ChoiceInput } from './ChoiceDialog';
 import { ModalInput } from './ModalDialog';
@@ -25,8 +25,16 @@ export type BaseDialogInput = {
   title: ReactNode;
 };
 
-export type ActionDialog = BaseDialogInput &
-  (
+export type BaseActionDialogInput = {
+  id?: string;
+  title: ReactNode;
+  message: ReactNode;
+  modalRef?: RefObject<ActionDialogRef>;
+};
+
+export type ActionDialog = BaseActionDialogInput & {
+  id: string;
+} & (
     | (AlertInput & {
         type: 'alert';
         message: ReactNode;
@@ -41,13 +49,13 @@ export type ActionDialog = BaseDialogInput &
       }
     | ({
         type: 'choice-single';
-        onSubmit: (selectedChoice?: string) => void;
         value?: string;
+        onSubmit: (selectedChoice?: string) => void;
       } & ChoiceInput)
     | ({
         type: 'choice-multiple';
-        onSubmit: (selectedOptions: string[]) => void;
         value?: string[];
+        onSubmit: (selectedOptions: string[]) => void;
       } & ChoiceInput)
     | ({
         type: 'prompt';

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   Button,
@@ -13,11 +13,10 @@ import { SyntheticEvent, useState } from 'react';
 import { BaseDialogInput } from './types';
 
 export type PromptInput = BaseDialogInput & {
-  message: string;
+  message: ReactNode;
   value?: string;
   isLongPrompt?: boolean;
   saveLabel?: string;
-  languageMode?: string;
   required?: boolean;
   readonly?: boolean;
 };

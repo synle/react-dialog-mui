@@ -4,7 +4,7 @@ import AlertDialog from './AlertDialog';
 import { ChoiceOption, SingleChoiceDialog, MultipleChoiceDialog } from './ChoiceDialog';
 import ModalDialog, { ModalInput } from './ModalDialog';
 import PromptDialog, { PromptInput } from './PromptDialog';
-import { ActionDialog, ActionDialogRef } from './types';
+import { ActionDialog, ActionDialogRef, BaseActionDialogInput } from './types';
 
 let _actionDialogs: ActionDialog[] = [];
 
@@ -48,25 +48,8 @@ export default function ActionDialogs() {
           return null;
         }
 
-        const onConfirmSubmit = () => {
-          dismiss();
-          dialog.onSubmit && dialog.onSubmit(true);
-        };
-        const onPromptSaveClick = (newValue?: string) => {
-          dismiss();
-          dialog.onSubmit && dialog.onSubmit(true, newValue);
-        };
-        const onSingleChoiceSelect = (newValue?: string) => {
-          dismiss();
-          dialog.onSubmit && dialog.onSubmit(newValue);
-        };
-        const onMultipleChoiceSelect = (newValue: string[]) => {
-          dismiss();
-          dialog.onSubmit && dialog.onSubmit(newValue);
-        };
         const onDimiss = () => {
           dismiss();
-          dialog.onSubmit && dialog.onSubmit(false);
         };
 
         let contentDom = <></>;
@@ -79,6 +62,10 @@ export default function ActionDialogs() {
                 title={dialog.title}
                 message={dialog.message}
                 yesLabel={dialog.yesLabel}
+                onYesClick={() => {
+                  dismiss();
+                  dialog.onSubmit && dialog.onSubmit();
+                }}
                 onDismiss={onDimiss}
                 isConfirm={false}
               />
@@ -92,7 +79,10 @@ export default function ActionDialogs() {
                 title={dialog.title}
                 message={dialog.message}
                 yesLabel={dialog.yesLabel}
-                onYesClick={onConfirmSubmit}
+                onYesClick={() => {
+                  dismiss();
+                  dialog.onSubmit && dialog.onSubmit(true);
+                }}
                 onDismiss={onDimiss}
                 isConfirm={true}
               />
@@ -106,9 +96,11 @@ export default function ActionDialogs() {
                 title={dialog.title}
                 message={dialog.message}
                 value={dialog.value}
-                onSaveClick={onPromptSaveClick}
+                onSaveClick={(newValue: string) => {
+                  dismiss();
+                  dialog.onSubmit && dialog.onSubmit(newValue);
+                }}
                 onDismiss={onDimiss}
-                languageMode={dialog.languageMode}
                 isLongPrompt={dialog.isLongPrompt}
                 saveLabel={dialog.saveLabel}
                 required={dialog.required}
@@ -125,7 +117,10 @@ export default function ActionDialogs() {
                 message={dialog.message}
                 value={dialog?.value}
                 options={dialog.options}
-                onSelect={onSingleChoiceSelect}
+                onSelect={(newValue?: string) => {
+                  dismiss();
+                  dialog.onSubmit && dialog.onSubmit(newValue);
+                }}
                 onDismiss={onDimiss}
                 required={dialog.required}
               />
@@ -140,7 +135,10 @@ export default function ActionDialogs() {
                 message={dialog.message}
                 value={dialog?.value}
                 options={dialog.options}
-                onSelect={onMultipleChoiceSelect}
+                onSelect={(newValue: string[]) => {
+                  dismiss();
+                  dialog.onSubmit && dialog.onSubmit(newValue);
+                }}
                 onDismiss={onDimiss}
                 required={dialog.required}
               />
@@ -199,17 +197,19 @@ export function useActionDialogs() {
       _invalidateQueries();
     },
     alert: (
-      message: ReactNode,
-      primaryActionLabel?: string,
-      title: ReactNode = 'Alert',
+      props: BaseActionDialogInput & {
+        yesLabel?: string;
+      },
     ): Promise<void> => {
       return new Promise((resolve, reject) => {
+        const { title, message, yesLabel } = props;
+
         _actionDialogs.push({
           id: _getModalId(),
           type: 'alert',
-          title,
+          title: title || 'Alert',
           message,
-          yesLabel: primaryActionLabel || 'OK',
+          yesLabel: yesLabel || 'OK',
           onSubmit: () => {
             resolve();
           },
@@ -217,34 +217,18 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
-    prompt: (
-      props: Partial<PromptInput> & {
-        title: ReactNode;
-        message: string;
-      },
-    ): Promise<string> => {
-      return new Promise((resolve, reject) => {
-        _actionDialogs.push({
-          ...props,
-          id: _getModalId(),
-          type: 'prompt',
-          onSubmit: (newValue) => {
-            newValue ? resolve(newValue) : reject();
-          },
-        });
-        _invalidateQueries();
-      });
-    },
     confirm: (
-      message: ReactNode,
-      yesLabel?: string,
-      title: ReactNode = 'Confirmation',
+      props: BaseActionDialogInput & {
+        yesLabel?: string;
+      },
     ): Promise<void> => {
       return new Promise((resolve, reject) => {
+        const { title, message, yesLabel } = props;
+
         _actionDialogs.push({
           id: _getModalId(),
           type: 'confirm',
-          title,
+          title: title || 'Confirmation?',
           message,
           yesLabel,
           onSubmit: (yesSelected) => {
@@ -254,13 +238,29 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
-    choiceSingle: (props: {
-      title: string;
-      message: ReactNode;
-      options: ChoiceOption[];
-      required?: boolean;
-      value?: string;
-    }): Promise<string> => {
+    prompt: (props: BaseActionDialogInput & Partial<PromptInput>): Promise<string> => {
+      return new Promise((resolve, reject) => {
+        const { title, message } = props;
+
+        _actionDialogs.push({
+          id: _getModalId(),
+          type: 'prompt',
+          title: title || 'Prompt?',
+          message,
+          onSubmit: (newValue) => {
+            newValue ? resolve(newValue) : reject();
+          },
+        });
+        _invalidateQueries();
+      });
+    },
+    choiceSingle: (
+      props: BaseActionDialogInput & {
+        options: ChoiceOption[];
+        required?: boolean;
+        value?: string;
+      },
+    ): Promise<string> => {
       return new Promise((resolve, reject) => {
         const { title, message, options, required, value } = props;
 
@@ -285,13 +285,13 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
-    choiceMultiple: (props: {
-      title: string;
-      message: ReactNode;
-      options: ChoiceOption[];
-      required?: boolean;
-      value?: string[];
-    }): Promise<string[]> => {
+    choiceMultiple: (
+      props: BaseActionDialogInput & {
+        options: ChoiceOption[];
+        required?: boolean;
+        value?: string[];
+      },
+    ): Promise<string[]> => {
       return new Promise((resolve, reject) => {
         const { title, message, options, required, value } = props;
 
@@ -311,13 +311,7 @@ export function useActionDialogs() {
         _invalidateQueries();
       });
     },
-    modal: (
-      props: Partial<ModalInput> & {
-        title: ReactNode;
-        message: ReactNode;
-        modalRef?: RefObject<ActionDialogRef>;
-      },
-    ): Promise<void> => {
+    modal: (props: BaseActionDialogInput & Partial<ModalInput>): Promise<void> => {
       return new Promise((resolve, reject) => {
         const modalId = _getModalId();
         const modalRef = props.modalRef;

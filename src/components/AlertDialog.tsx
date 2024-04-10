@@ -62,7 +62,7 @@ export default function AlertDialog(
             </>
           ) : (
             <>
-              <Button onClick={props.onDismiss} autoFocus variant='contained'>
+              <Button onClick={props.onYesClick} autoFocus variant='contained'>
                 {props.yesLabel || 'OK'}
               </Button>
             </>

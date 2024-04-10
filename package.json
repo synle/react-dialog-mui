@@ -7,7 +7,8 @@
     "prebuild": "rm -rf build",
     "build": "tsc --project tsconfig.json",
     "format": "npx prettier --config ./.prettierrc --write **/*.{ts,tsx,js,jsx,scss,yml,html,json,md}",
-    "test": "echo \"Error: no test specified\"",
+    "test": "vitest",
+    "citest": "CI=true vitest",
     "dev": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -31,8 +32,11 @@
     "@storybook/react": "^8.0.6",
     "@storybook/react-vite": "^8.0.6",
     "@storybook/test": "^8.0.6",
+    "@testing-library/react": "^14.3.0",
+    "jsdom": "^24.0.0",
     "storybook": "^8.0.6",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^1.4.0"
   },
   "dependencies": {
     "@emotion/react": "^11",

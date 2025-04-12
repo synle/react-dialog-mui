@@ -1,12 +1,14 @@
-import React from 'react';
-import { Fragment, ReactNode, RefObject, createContext, useContext, useRef, useState } from 'react';
+import React, { Fragment, ReactNode, RefObject, useRef } from 'react';
 import AlertDialog from './AlertDialog';
-import { ChoiceOption, SingleChoiceDialog, MultipleChoiceDialog } from './ChoiceDialog';
+import { ChoiceOption, MultipleChoiceDialog, SingleChoiceDialog } from './ChoiceDialog';
 import ModalDialog, { ModalInput } from './ModalDialog';
 import PromptDialog, { PromptInput } from './PromptDialog';
+import { Store, useStore } from './store';
 import { ActionDialog, ActionDialogRef, BaseActionDialogInput } from './types';
 
-let _actionDialogs: ActionDialog[] = [];
+const _dialogStore = new Store<{ data: ActionDialog[] }>({
+  data: [],
+});
 
 let _modalIdx = 0;
 function _getModalId(modalRef: RefObject<ActionDialogRef>, dismiss: (id: string) => void) {
@@ -22,20 +24,12 @@ function _getModalId(modalRef: RefObject<ActionDialogRef>, dismiss: (id: string)
   return modalId;
 }
 
-//
-const TargetContext = createContext({
-  data: _actionDialogs,
-  setData: (_newDialogs: ActionDialog[]) => {},
-});
-
 export function ActionDialogsContext(props: { children: ReactNode }) {
-  const [data, setData] = useState(_actionDialogs);
-
   return (
-    <TargetContext.Provider value={{ data, setData }}>
+    <>
       {props.children}
       <ActionDialogs />
-    </TargetContext.Provider>
+    </>
   );
 }
 
@@ -45,6 +39,8 @@ export function ActionDialogsContext(props: { children: ReactNode }) {
  */
 export default function ActionDialogs() {
   const { dialogs, dismiss } = useActionDialogs();
+
+  console.log('ActionDialogs', dialogs, dismiss);
 
   if (!dialogs || dialogs.length === 0) {
     return null;
@@ -176,26 +172,41 @@ export default function ActionDialogs() {
 }
 
 /**
- * This is the main hook for the component
+ * This hook can be used to dismiss the modal programatically
  * @returns
  */
+export const useActionDialogRef = () => {
+  // here we attempt to provide a skeleton for the ref, the actual assignment of these happen when the dialog is hooked up
+  return useRef<ActionDialogRef>({
+    id: '',
+    dismiss: () => {},
+  });
+};
+
 export function useActionDialogs() {
-  const { data, setData } = useContext(TargetContext)!;
+  let _actionDialogs = useStore(_dialogStore, (s) => s.data);
 
   let dialog: ActionDialog | undefined = undefined;
   try {
-    if (data) {
-      dialog = data[data.length - 1];
+    if (_actionDialogs) {
+      dialog = _actionDialogs[_actionDialogs.length - 1];
     }
   } catch (err) {}
 
+  console.log('=== dialogStore');
+  console.log('dialog', dialog);
+  console.log('_actionDialogs', _actionDialogs);
+  console.log('======== \n\n');
+
   function _invalidateQueries() {
     _actionDialogs = [..._actionDialogs];
-    setData(_actionDialogs);
+    _dialogStore.setState({
+      data: _actionDialogs,
+    });
   }
 
   const ActionDialogHooks = {
-    dialogs: data,
+    dialogs: _actionDialogs,
     dialog,
     dismiss: (toDismissModalId?: string) => {
       if (toDismissModalId) {
@@ -396,15 +407,3 @@ export function useActionDialogs() {
 
   return ActionDialogHooks;
 }
-
-/**
- * This hook can be used to dismiss the modal programatically
- * @returns
- */
-export const useActionDialogRef = () => {
-  // here we attempt to provide a skeleton for the ref, the actual assignment of these happen when the dialog is hooked up
-  return useRef<ActionDialogRef>({
-    id: '',
-    dismiss: () => {},
-  });
-};

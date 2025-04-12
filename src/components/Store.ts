@@ -1,4 +1,3 @@
-// store.ts
 import { useEffect, useState } from 'react';
 
 type Listener<T> = (state: T) => void;
@@ -36,7 +35,9 @@ export function useStore<T, U>(store: Store<T>, selector: (state: T) => U): U {
       setSelectedState(selector(newState));
     };
     const unsubscribe = store.subscribe(update);
-    return unsubscribe;
+    return () => {
+      unsubscribe();
+    };
   }, [store, selector]);
 
   return selectedState;

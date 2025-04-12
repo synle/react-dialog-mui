@@ -478,4 +478,4 @@ npm run dev
 
 - [x] Set up CI/CD pipeline to release this as an official npm package.
 - [x] Enhance the dismiss dialog API for easy dismissal of custom dialog content.
-- [ ] Implement support for multi-select in the choice dialog.
+- [x] Implement support for multi-select in the choice dialog.

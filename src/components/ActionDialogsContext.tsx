@@ -11,36 +11,13 @@ const _dialogStore = new Store<{ data: ActionDialog[] }>({
 });
 
 let _modalIdx = 0;
-function _getModalId(modalRef: RefObject<ActionDialogRef>, dismiss: (id: string) => void) {
-  const modalId = `modal.${_modalIdx++}.${Date.now()}`;
-
-  if (modalRef && modalRef.current) {
-    modalRef.current.id = modalId;
-    modalRef.current.dismiss = () => {
-      dismiss(modalId);
-    };
-  }
-
-  return modalId;
-}
-
-export function ActionDialogsContext(props: { children: ReactNode }) {
-  return (
-    <>
-      {props.children}
-      <ActionDialogs />
-    </>
-  );
-}
 
 /**
  * This is the main component used to describe the dialog construction
  * @returns
  */
-export default function ActionDialogs() {
+function ActionDialogs() {
   const { dialogs, dismiss } = useActionDialogs();
-
-  console.log('ActionDialogs', dialogs, dismiss);
 
   if (!dialogs || dialogs.length === 0) {
     return null;
@@ -171,6 +148,15 @@ export default function ActionDialogs() {
   );
 }
 
+export function ActionDialogsContext(props: { children: ReactNode }) {
+  return (
+    <>
+      {props.children}
+      <ActionDialogs />
+    </>
+  );
+}
+
 /**
  * This hook can be used to dismiss the modal programatically
  * @returns
@@ -184,225 +170,112 @@ export const useActionDialogRef = () => {
 };
 
 export function useActionDialogs() {
-  let _actionDialogs = useStore(_dialogStore, (s) => s.data);
-
-  let dialog: ActionDialog | undefined = undefined;
-  try {
-    if (_actionDialogs) {
-      dialog = _actionDialogs[_actionDialogs.length - 1];
-    }
-  } catch (err) {}
-
-  console.log('=== dialogStore');
-  console.log('dialog', dialog);
-  console.log('_actionDialogs', _actionDialogs);
-  console.log('======== \n\n');
+  let dialogs = useStore(_dialogStore, (s) => s.data) || [];
+  let dialog = dialogs.length > 0 ? dialogs[dialogs.length - 1] : undefined;
 
   function _invalidateQueries() {
-    _actionDialogs = [..._actionDialogs];
     _dialogStore.setState({
-      data: _actionDialogs,
+      data: [...dialogs],
+    });
+  }
+
+  function _getModalId(modalRef: RefObject<ActionDialogRef>, dismiss: (id: string) => void) {
+    const modalId = `modal.${_modalIdx++}.${Date.now()}`;
+
+    if (modalRef && modalRef.current) {
+      modalRef.current.id = modalId;
+      modalRef.current.dismiss = () => {
+        dismiss(modalId);
+      };
+    }
+
+    return modalId;
+  }
+
+  function createDialog<T>(
+    type: string,
+    props: BaseActionDialogInput & any,
+    defaultTitle: string = '',
+    customHandler?: (resolve: (value: T) => void, reject: () => void, newValue?: any) => void,
+  ): Promise<T> {
+    return new Promise((resolve, reject) => {
+      const { title, message, ...restProps } = props;
+
+      // We need to pass the dismiss function directly here
+      const dismiss = (toDismissModalId?: string) => {
+        if (toDismissModalId) {
+          dialogs = dialogs.filter((modal) => modal.id !== toDismissModalId);
+        } else {
+          dialogs.pop();
+        }
+        _invalidateQueries();
+      };
+
+      const modalId = _getModalId(props.modalRef!, dismiss);
+
+      dialogs.push({
+        id: modalId,
+        type,
+        title: title || defaultTitle,
+        message,
+        ...restProps,
+        onSubmit: (newValue?: any) => {
+          if (customHandler) {
+            customHandler(resolve, reject, newValue);
+          } else {
+            resolve(newValue as T);
+          }
+        },
+      });
+
+      _invalidateQueries();
     });
   }
 
   const ActionDialogHooks = {
-    dialogs: _actionDialogs,
+    dialogs,
     dialog,
     dismiss: (toDismissModalId?: string) => {
       if (toDismissModalId) {
-        _actionDialogs = _actionDialogs.filter((modal) => modal.id !== toDismissModalId);
+        dialogs = dialogs.filter((modal) => modal.id !== toDismissModalId);
       } else {
-        _actionDialogs.pop();
+        dialogs.pop();
       }
       _invalidateQueries();
     },
-    /**
-     * This alerts a simple message with an OK button, informing the user of an event. Useful for displaying messages.
-     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#alert
-     *
-     * @param props
-     * @returns
-     */
-    alert: (
-      props: BaseActionDialogInput & {
-        yesLabel?: string;
-      },
-    ): Promise<void> => {
-      return new Promise((resolve, reject) => {
-        const { title, message, yesLabel } = props;
 
-        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
+    alert: (props: BaseActionDialogInput & { yesLabel?: string }): Promise<void> =>
+      createDialog('alert', { ...props, yesLabel: props.yesLabel || 'OK' }, 'Alert'),
 
-        _actionDialogs.push({
-          id: modalId,
-          type: 'alert',
-          title: title || 'Alert',
-          message,
-          yesLabel: yesLabel || 'OK',
-          onSubmit: () => {
-            resolve();
-          },
-        });
-        _invalidateQueries();
-      });
-    },
-    /**
-     * This prompts the user for a yes or no confirmation regarding an event.
-     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#confirm
-     *
-     * @param props
-     * @returns
-     */
-    confirm: (
-      props: BaseActionDialogInput & {
-        yesLabel?: string;
-      },
-    ): Promise<void> => {
-      return new Promise((resolve, reject) => {
-        const { title, message, yesLabel } = props;
+    confirm: (props: BaseActionDialogInput & { yesLabel?: string }): Promise<void> =>
+      createDialog('confirm', props, 'Confirmation?'),
 
-        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
+    prompt: (props: BaseActionDialogInput & Partial<PromptInput>): Promise<string> =>
+      createDialog('prompt', props, 'Prompt?', (resolve, reject, newValue) => {
+        newValue ? resolve(newValue) : reject();
+      }),
 
-        _actionDialogs.push({
-          id: modalId,
-          type: 'confirm',
-          title: title || 'Confirmation?',
-          message,
-          yesLabel,
-          onSubmit: () => {
-            resolve();
-          },
-        });
-        _invalidateQueries();
-      });
-    },
-    /**
-     * This is a basic text input for requesting user input in free-form text, ideal for short-and-single inputs.
-     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#prompt
-     *
-     * @param props
-     * @returns
-     */
-    prompt: (props: BaseActionDialogInput & Partial<PromptInput>): Promise<string> => {
-      return new Promise((resolve, reject) => {
-        const { title, message, value } = props;
-
-        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
-
-        _actionDialogs.push({
-          id: modalId,
-          type: 'prompt',
-          title: title || 'Prompt?',
-          message,
-          value,
-          onSubmit: (newValue) => {
-            newValue ? resolve(newValue) : reject();
-          },
-        });
-        _invalidateQueries();
-      });
-    },
-    /**
-     * This presents a list of options for the user to choose from, similar to a single-select dropdown.
-     * The user must select one option.
-     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#single-select-choice
-     *
-     * @param props
-     * @returns
-     */
     choiceSingle: (
       props: BaseActionDialogInput & {
         options: ChoiceOption[];
         required?: boolean;
         value?: string;
       },
-    ): Promise<string> => {
-      return new Promise((resolve, reject) => {
-        const { title, message, options, required, value } = props;
+    ): Promise<string> =>
+      createDialog('choice-single', props, '', (resolve, reject, newValue) => {
+        newValue ? resolve(newValue) : reject();
+      }),
 
-        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
-
-        _actionDialogs.push({
-          id: modalId,
-          type: 'choice-single',
-          title,
-          message,
-          options,
-          required,
-          value,
-          onSubmit: (newValue) => {
-            if (newValue) {
-              return resolve(newValue);
-            }
-
-            // else
-            reject();
-          },
-        });
-
-        _invalidateQueries();
-      });
-    },
-    /**
-     * This presents a list of options for the user to choose from, similar to a checkbox list.
-     * The user can select more than options from the list.
-     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#multi-select-choice
-     *
-     * @param props
-     * @returns
-     */
     choiceMultiple: (
       props: BaseActionDialogInput & {
         options: ChoiceOption[];
         required?: boolean;
         value?: string[];
       },
-    ): Promise<string[]> => {
-      return new Promise((resolve, reject) => {
-        const { title, message, options, required, value } = props;
+    ): Promise<string[]> => createDialog('choice-multiple', props),
 
-        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
-
-        _actionDialogs.push({
-          id: modalId,
-          type: 'choice-multiple',
-          title,
-          message,
-          options,
-          required,
-          value,
-          onSubmit: (newValue) => {
-            resolve(newValue);
-          },
-        });
-
-        _invalidateQueries();
-      });
-    },
-    /**
-     * This displays custom modal content, suitable for complex use cases.
-     * https://github.com/synle/react-dialog-mui?tab=readme-ov-file#modal
-     *
-     * @param props
-     * @returns
-     */
-    modal: (props: BaseActionDialogInput & Partial<ModalInput>): Promise<void> => {
-      return new Promise((resolve, reject) => {
-        const modalId = _getModalId(props.modalRef!, ActionDialogHooks.dismiss);
-
-        _actionDialogs.push({
-          ...props,
-          id: modalId,
-          type: 'modal',
-          size: props.size || 'sm',
-          onSubmit: () => {
-            resolve();
-          },
-        });
-
-        _invalidateQueries();
-      });
-    },
+    modal: (props: BaseActionDialogInput & Partial<ModalInput>): Promise<void> =>
+      createDialog('modal', { ...props, size: props.size || 'sm' }),
   };
 
   return ActionDialogHooks;

@@ -3,7 +3,7 @@ import AlertDialog from './AlertDialog';
 import { ChoiceOption, MultipleChoiceDialog, SingleChoiceDialog } from './ChoiceDialog';
 import ModalDialog, { ModalInput } from './ModalDialog';
 import PromptDialog, { PromptInput } from './PromptDialog';
-import { Store, useStore } from './store';
+import { Store, useStore } from './Store';
 import { ActionDialog, ActionDialogRef, BaseActionDialogInput } from './types';
 
 const _dialogStore = new Store<{ data: ActionDialog[] }>({

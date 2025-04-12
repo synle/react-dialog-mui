@@ -16,13 +16,9 @@ export class Store<T> {
   }
 
   setState(newState: Partial<T>) {
-    try {
-      this.state = { ...this.state, ...newState };
-      for (const listener of this.listeners) {
-        listener(this.state);
-      }
-    } catch (err) {
-      console.log('errr', err);
+    this.state = { ...this.state, ...newState };
+    for (const listener of this.listeners) {
+      listener(this.state);
     }
   }
 

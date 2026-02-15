@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, SyntheticEvent, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   Button,
@@ -9,7 +9,6 @@ import {
   IconButton,
   TextField,
 } from '@mui/material';
-import { SyntheticEvent, useState } from 'react';
 import { BaseDialogInput } from './types';
 
 export type PromptInput = BaseDialogInput & {
@@ -75,28 +74,16 @@ export default function PromptDialog(
           </IconButton>
         </DialogTitle>
         <DialogContent dividers id={`dialog-description-${props.id}`}>
-          {props.isLongPrompt ? (
-            <TextField
-              label={props.message}
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              required={props.required}
-              size='small'
-              multiline
-              fullWidth
-              autoFocus
-            />
-          ) : (
-            <TextField
-              label={props.message}
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              required={props.required}
-              size='small'
-              fullWidth
-              autoFocus
-            />
-          )}
+          <TextField
+            label={props.message}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            required={props.required}
+            size='small'
+            multiline={!!props.isLongPrompt}
+            fullWidth
+            autoFocus
+          />
         </DialogContent>
         {props.readonly !== true && (
           <DialogActions sx={{ display: 'flex', gap: 2, justifyContent: 'end' }}>

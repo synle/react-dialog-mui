@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type Listener<T> = (state: T) => void;
 
@@ -28,17 +28,23 @@ export class Store<T> {
 }
 
 export function useStore<T, U>(store: Store<T>, selector: (state: T) => U): U {
+  const selectorRef = useRef(selector);
+  selectorRef.current = selector;
+
   const [selectedState, setSelectedState] = useState(() => selector(store.getState()));
 
+  const stableSubscribe = useCallback(
+    (newState: T) => {
+      const nextValue = selectorRef.current(newState);
+      setSelectedState((prev) => (Object.is(prev, nextValue) ? prev : nextValue));
+    },
+    [store],
+  );
+
   useEffect(() => {
-    const update = (newState: T) => {
-      setSelectedState(selector(newState));
-    };
-    const unsubscribe = store.subscribe(update);
-    return () => {
-      unsubscribe();
-    };
-  }, [store, selector]);
+    const unsubscribe = store.subscribe(stableSubscribe);
+    return unsubscribe;
+  }, [store, stableSubscribe]);
 
   return selectedState;
 }

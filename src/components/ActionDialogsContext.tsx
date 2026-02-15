@@ -14,7 +14,6 @@ let _modalIdx = 0;
 
 /**
  * This is the main component used to describe the dialog construction
- * @returns
  */
 function ActionDialogs() {
   const { dialogs, dismiss } = useActionDialogs();
@@ -30,29 +29,13 @@ function ActionDialogs() {
           return null;
         }
 
-        const onDimiss = () => {
+        const onDismiss = () => {
           dismiss();
         };
 
         let contentDom = <></>;
         switch (dialog.type) {
           case 'alert':
-            contentDom = (
-              <AlertDialog
-                id={dialog.id}
-                open={true}
-                title={dialog.title}
-                message={dialog.message}
-                yesLabel={dialog.yesLabel}
-                onYesClick={() => {
-                  dismiss();
-                  dialog.onSubmit && dialog.onSubmit();
-                }}
-                onDismiss={onDimiss}
-                isConfirm={false}
-              />
-            );
-            break;
           case 'confirm':
             contentDom = (
               <AlertDialog
@@ -63,10 +46,10 @@ function ActionDialogs() {
                 yesLabel={dialog.yesLabel}
                 onYesClick={() => {
                   dismiss();
-                  dialog.onSubmit && dialog.onSubmit();
+                  dialog.onSubmit?.();
                 }}
-                onDismiss={onDimiss}
-                isConfirm={true}
+                onDismiss={onDismiss}
+                isConfirm={dialog.type === 'confirm'}
               />
             );
             break;
@@ -80,9 +63,9 @@ function ActionDialogs() {
                 value={dialog.value}
                 onSaveClick={(newValue: string) => {
                   dismiss();
-                  dialog.onSubmit && dialog.onSubmit(newValue);
+                  dialog.onSubmit?.(newValue);
                 }}
-                onDismiss={onDimiss}
+                onDismiss={onDismiss}
                 isLongPrompt={dialog.isLongPrompt}
                 saveLabel={dialog.saveLabel}
                 required={dialog.required}
@@ -97,13 +80,13 @@ function ActionDialogs() {
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
-                value={dialog?.value}
+                value={dialog.value}
                 options={dialog.options}
                 onSelect={(newValue?: string) => {
                   dismiss();
-                  dialog.onSubmit && dialog.onSubmit(newValue);
+                  dialog.onSubmit?.(newValue);
                 }}
-                onDismiss={onDimiss}
+                onDismiss={onDismiss}
                 required={dialog.required}
               />
             );
@@ -115,13 +98,13 @@ function ActionDialogs() {
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
-                value={dialog?.value}
+                value={dialog.value}
                 options={dialog.options}
                 onSelect={(newValue: string[]) => {
                   dismiss();
-                  dialog.onSubmit && dialog.onSubmit(newValue);
+                  dialog.onSubmit?.(newValue);
                 }}
-                onDismiss={onDimiss}
+                onDismiss={onDismiss}
                 required={dialog.required}
               />
             );
@@ -133,8 +116,8 @@ function ActionDialogs() {
                 open={true}
                 title={dialog.title}
                 message={dialog.message}
-                onDismiss={onDimiss}
-                showCloseButton={!!dialog.showCloseButton || true}
+                onDismiss={onDismiss}
+                showCloseButton={dialog.showCloseButton !== false}
                 disableBackdropClick={!!dialog.disableBackdropClick}
                 size={dialog.size}
               />
@@ -159,7 +142,6 @@ export function ActionDialogsContext(props: { children: ReactNode }) {
 
 /**
  * This hook can be used to dismiss the modal programatically
- * @returns
  */
 export const useActionDialogRef = () => {
   // here we attempt to provide a skeleton for the ref, the actual assignment of these happen when the dialog is hooked up
@@ -194,9 +176,9 @@ export function useActionDialogs() {
 
   function createDialog<T>(
     type: string,
-    props: BaseActionDialogInput & any,
+    props: BaseActionDialogInput & Record<string, unknown>,
     defaultTitle: string = '',
-    customHandler?: (resolve: (value: T) => void, reject: () => void, newValue?: any) => void,
+    customHandler?: (resolve: (value: T) => void, reject: () => void, newValue?: unknown) => void,
   ): Promise<T> {
     return new Promise((resolve, reject) => {
       const { title, message, ...restProps } = props;
@@ -219,7 +201,7 @@ export function useActionDialogs() {
         title: title || defaultTitle,
         message,
         ...restProps,
-        onSubmit: (newValue?: any) => {
+        onSubmit: (newValue?: unknown) => {
           if (customHandler) {
             customHandler(resolve, reject, newValue);
           } else {
@@ -252,7 +234,7 @@ export function useActionDialogs() {
 
     prompt: (props: BaseActionDialogInput & Partial<PromptInput>): Promise<string> =>
       createDialog('prompt', props, 'Prompt?', (resolve, reject, newValue) => {
-        newValue ? resolve(newValue) : reject();
+        newValue ? resolve(newValue as string) : reject();
       }),
 
     choiceSingle: (
@@ -263,7 +245,7 @@ export function useActionDialogs() {
       },
     ): Promise<string> =>
       createDialog('choice-single', props, '', (resolve, reject, newValue) => {
-        newValue ? resolve(newValue) : reject();
+        newValue ? resolve(newValue as string) : reject();
       }),
 
     choiceMultiple: (

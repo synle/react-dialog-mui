@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   Box,
@@ -9,7 +9,6 @@ import {
   DialogTitle,
   IconButton,
 } from '@mui/material';
-import { ReactNode } from 'react';
 import { BaseDialogInput } from './types';
 
 export type AlertInput = BaseDialogInput & {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   Box,
@@ -13,7 +13,6 @@ import {
   ListItemIcon,
   Checkbox,
 } from '@mui/material';
-import { ReactNode } from 'react';
 import { BaseDialogInput } from './types';
 
 export type ChoiceOption = {
@@ -179,15 +178,15 @@ export function MultipleChoiceDialog(
                 return;
               }
 
-              let newSelectedOptions = selectedOptions;
               if (!checked) {
-                newSelectedOptions?.push(option.value);
+                setSelectedOptions([...selectedOptions, option.value]);
               } else {
-                newSelectedOptions = newSelectedOptions?.filter(
-                  (targetOptionValue) => targetOptionValue !== option.value,
+                setSelectedOptions(
+                  selectedOptions.filter(
+                    (targetOptionValue) => targetOptionValue !== option.value,
+                  ),
                 );
               }
-              setSelectedOptions([...newSelectedOptions]);
             };
 
             return (

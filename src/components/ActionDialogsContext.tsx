@@ -4,9 +4,9 @@ import { ChoiceOption, MultipleChoiceDialog, SingleChoiceDialog } from './Choice
 import ModalDialog, { ModalInput } from './ModalDialog';
 import PromptDialog, { PromptInput } from './PromptDialog';
 import { Store, useStore } from './Store';
-import { ActionDialog, ActionDialogRef, BaseActionDialogInput } from './types';
+import { ActionDialog, ActionDialogRef, BaseActionDialogInput, ActionDialogType } from './types';
 
-const _dialogStore = new Store<{ data: ActionDialog[] }>({
+export const _dialogStore = new Store<{ data: ActionDialog[] }>({
   data: [],
 });
 
@@ -175,7 +175,7 @@ export function useActionDialogs() {
   }
 
   function createDialog<T>(
-    type: string,
+    type: ActionDialogType,
     props: BaseActionDialogInput & Record<string, unknown>,
     defaultTitle: string = '',
     customHandler?: (resolve: (value: T) => void, reject: () => void, newValue?: unknown) => void,
@@ -195,6 +195,7 @@ export function useActionDialogs() {
 
       const modalId = _getModalId(props.modalRef!, dismiss);
 
+      //@ts-ignore
       dialogs.push({
         id: modalId,
         type,

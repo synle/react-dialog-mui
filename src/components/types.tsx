@@ -32,6 +32,13 @@ export type BaseActionDialogInput = {
   modalRef?: RefObject<ActionDialogRef>;
 };
 
+export type ActionDialogType = 'alert'
+| 'confirm'
+| 'choice-single'
+| 'choice-multiple'
+| 'prompt'
+| 'modal'
+
 export type ActionDialog = BaseActionDialogInput & {
   id: string;
 } & (

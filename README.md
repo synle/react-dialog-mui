@@ -31,7 +31,7 @@ To begin, wrap your app with ActionDialogsContext, a React context consumer that
 
 ```tsx
 // then wrap your app with with the ActionDialogContext
-import { ActionDialogsContext } from 'react-dialog-mui';
+import { ActionDialogsContext } from "react-dialog-mui";
 
 function YourApp() {
   return (
@@ -51,8 +51,8 @@ This alerts a simple message with an OK button, informing the user of an event. 
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/7811010b-3c3b-45f3-ae9d-6144641c585f)
 
 ```tsx
-import React from 'react';
-import { useActionDialogs } from 'react-dialog-mui';
+import React from "react";
+import { useActionDialogs } from "react-dialog-mui";
 
 export function AlertExample() {
   const { alert } = useActionDialogs();
@@ -61,7 +61,12 @@ export function AlertExample() {
     try {
       await alert({
         title: <>Query Result</>,
-        message: <>The query has successfully executed, yielding 200 records in 15 seconds.</>,
+        message: (
+          <>
+            The query has successfully executed, yielding 200 records in 15
+            seconds.
+          </>
+        ),
         yesLabel: `Acknowledge`,
       });
     } catch (err) {}
@@ -78,8 +83,8 @@ This prompts the user for a yes or no confirmation regarding an event.
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/ec9217d4-407a-4c7f-8fb2-67b4630c86e1)
 
 ```tsx
-import React, { useState } from 'react';
-import { useActionDialogs } from 'react-dialog-mui';
+import React, { useState } from "react";
+import { useActionDialogs } from "react-dialog-mui";
 
 export function ConfirmExample() {
   const { confirm } = useActionDialogs();
@@ -120,20 +125,20 @@ This is a basic text input for requesting user input in free-form text, ideal fo
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/e3eade16-0fec-44d7-aa2e-aad9deaf3b55)
 
 ```tsx
-import React, { useState } from 'react';
-import { useActionDialogs } from 'react-dialog-mui';
+import React, { useState } from "react";
+import { useActionDialogs } from "react-dialog-mui";
 
 export function PromptExample() {
   const { prompt } = useActionDialogs();
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
 
   const onSubmit = async () => {
     try {
       const newName = await prompt({
-        title: 'Rename Query',
-        message: 'New Query Name',
+        title: "Rename Query",
+        message: "New Query Name",
         value: name,
-        saveLabel: 'Save',
+        saveLabel: "Save",
       });
 
       // when user entered and submitted the value for new name
@@ -159,23 +164,23 @@ This presents a list of options for the user to choose from, similar to a single
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/1e9474c7-f5e0-42e0-98c2-d15996603bef)
 
 ```tsx
-import React, { useState } from 'react';
-import { useActionDialogs } from 'react-dialog-mui';
+import React, { useState } from "react";
+import { useActionDialogs } from "react-dialog-mui";
 
 export function SingleSelectChoiceExample() {
   const { choiceSingle } = useActionDialogs();
-  const [session, setSession] = useState('');
+  const [session, setSession] = useState("");
 
   const onSubmit = async () => {
     try {
       const newSession = await choiceSingle({
-        title: 'Switch session', // the dialog title
-        message: 'Select one of the following sessions:', // the question for the input
+        title: "Switch session", // the dialog title
+        message: "Select one of the following sessions:", // the question for the input
         options: [
-          { label: 'Session 1', value: 'session_1' },
-          { label: 'Session 2', value: 'session_2' },
-          { label: 'Session 3', value: 'session_3' },
-          { label: 'Session 4', value: 'session_4', disabled: true },
+          { label: "Session 1", value: "session_1" },
+          { label: "Session 2", value: "session_2" },
+          { label: "Session 3", value: "session_3" },
+          { label: "Session 4", value: "session_4", disabled: true },
         ],
         value: session,
         required: true,
@@ -184,7 +189,7 @@ export function SingleSelectChoiceExample() {
       // when user selected a choice
       setSession(newSession);
     } catch (err) {
-      setSession('');
+      setSession("");
     }
   };
 
@@ -206,8 +211,8 @@ This presents a list of options for the user to choose from, similar to a checkb
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/3ffa65f3-513a-4daf-aa9e-09b982df9aee)
 
 ```tsx
-import React, { useState } from 'react';
-import { useActionDialogs } from 'react-dialog-mui';
+import React, { useState } from "react";
+import { useActionDialogs } from "react-dialog-mui";
 
 export function MultiSelectChoiceExample() {
   const { choiceMultiple } = useActionDialogs();
@@ -216,14 +221,18 @@ export function MultiSelectChoiceExample() {
   const onSubmit = async () => {
     try {
       const newFavContacts = await choiceMultiple({
-        title: 'Update Favorite Contacts',
-        message: 'Select contacts to add to the favorite list:',
+        title: "Update Favorite Contacts",
+        message: "Select contacts to add to the favorite list:",
         options: [
-          { label: 'John Doe', value: 'John Doe' },
-          { label: 'Alice Smith', value: 'Alice Smith' },
-          { label: 'Michael Johnson', value: 'Michael Johnson', disabled: true },
-          { label: 'Emily Brown', value: 'Emily Brown' },
-          { label: 'Daniel Wilson', value: 'Daniel Wilson' },
+          { label: "John Doe", value: "John Doe" },
+          { label: "Alice Smith", value: "Alice Smith" },
+          {
+            label: "Michael Johnson",
+            value: "Michael Johnson",
+            disabled: true,
+          },
+          { label: "Emily Brown", value: "Emily Brown" },
+          { label: "Daniel Wilson", value: "Daniel Wilson" },
         ],
         value: favContacts,
         required: true,
@@ -240,7 +249,8 @@ export function MultiSelectChoiceExample() {
     <>
       <button onClick={onSubmit}>Update Favorite Contacts</button>
       <div>
-        <strong>New selected favorite contacts:</strong> {JSON.stringify(favContacts)}
+        <strong>New selected favorite contacts:</strong>{" "}
+        {JSON.stringify(favContacts)}
       </div>
     </>
   );
@@ -254,8 +264,8 @@ This displays custom modal content, suitable for complex use cases.
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/89f18eeb-a6cb-4b28-bb12-03c3dd5afaad)
 
 ```tsx
-import React from 'react';
-import { useActionDialogs } from 'react-dialog-mui';
+import React from "react";
+import { useActionDialogs } from "react-dialog-mui";
 
 function ModalExample() {
   const { modal } = useActionDialogs();
@@ -263,7 +273,7 @@ function ModalExample() {
   const onSubmit = async () => {
     try {
       await modal({
-        title: 'Query Details',
+        title: "Query Details",
         message: (
           <>
             <div>
@@ -298,8 +308,8 @@ If you prefer not to use inline components, you can define your component separa
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/492ad10f-125c-4eb7-917b-6e893a878b4e)
 
 ```tsx
-import React from 'react';
-import { useActionDialogs } from 'react-dialog-mui';
+import React from "react";
+import { useActionDialogs } from "react-dialog-mui";
 
 function MyChildComponent() {
   return (
@@ -315,10 +325,10 @@ export function ModalExampleWithChildComponent() {
   const onSubmit = async () => {
     try {
       await modal({
-        title: 'Simple Modal',
+        title: "Simple Modal",
         message: <MyChildComponent />,
         modalRef: modalRef,
-        size: 'sm',
+        size: "sm",
       });
 
       // when users close out of modal
@@ -342,8 +352,8 @@ Manual dismissal post-action, like form submission or interactions can be achiev
 This example shows how to set up `modalRef` and calling `dismiss` to dimiss the alert
 
 ```tsx
-import React from 'react';
-import { useActionDialogs, useActionDialogRef } from 'react-dialog-mui';
+import React from "react";
+import { useActionDialogs, useActionDialogRef } from "react-dialog-mui";
 
 export function AlertExampleWithManualDismiss() {
   const { alert } = useActionDialogs();
@@ -356,7 +366,9 @@ export function AlertExampleWithManualDismiss() {
         message: (
           <>
             <div>The query has successfully executed.</div>
-            <button onClick={() => modalRef.current.dismiss()}>Close this modal and retry</button>
+            <button onClick={() => modalRef.current.dismiss()}>
+              Close this modal and retry
+            </button>
           </>
         ),
         modalRef,
@@ -375,8 +387,8 @@ This example features a modal with a dismiss button, allowing control from your 
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/d51e1726-bdb0-4d99-86cd-79d87d730afc)
 
 ```tsx
-import React from 'react';
-import { useActionDialogRef, useActionDialogs } from 'react-dialog-mui';
+import React from "react";
+import { useActionDialogRef, useActionDialogs } from "react-dialog-mui";
 
 export function ModalExampleWithManualDismiss() {
   const { modal } = useActionDialogs();
@@ -385,7 +397,7 @@ export function ModalExampleWithManualDismiss() {
   const onSubmit = async () => {
     try {
       await modal({
-        title: 'Manual Dismiss Modal',
+        title: "Manual Dismiss Modal",
         message: (
           <>
             <div>
@@ -396,7 +408,7 @@ export function ModalExampleWithManualDismiss() {
           </>
         ),
         modalRef: modalRef,
-        size: 'sm',
+        size: "sm",
       });
 
       // when users close out of modal
@@ -418,8 +430,8 @@ This example features a modal with a form. Upon form submission, the modal close
 ![image](https://github.com/synle/react-dialog-mui/assets/3792401/3b9896cd-d334-4b40-8503-385e55b5bc78)
 
 ```tsx
-import React from 'react';
-import { useActionDialogRef, useActionDialogs } from 'react-dialog-mui';
+import React from "react";
+import { useActionDialogRef, useActionDialogs } from "react-dialog-mui";
 
 export function ModalExampleWithFormSubmit() {
   const { modal } = useActionDialogs();
@@ -428,23 +440,24 @@ export function ModalExampleWithFormSubmit() {
   const onSubmit = async () => {
     try {
       await modal({
-        title: 'Login Modal',
+        title: "Login Modal",
         message: (
           <form
             onSubmit={(e) => {
               e.preventDefault();
               modalRef.current.dismiss();
             }}
-            style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <input type='text' placeholder='Username' required />
-            <input type='password' placeholder='Password' required />
+            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+          >
+            <input type="text" placeholder="Username" required />
+            <input type="password" placeholder="Password" required />
             <div>
-              <button type='submit'>Login</button>
+              <button type="submit">Login</button>
             </div>
           </form>
         ),
         modalRef: modalRef,
-        size: 'sm',
+        size: "sm",
       });
 
       // when users close out of modal

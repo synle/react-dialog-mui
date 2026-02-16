@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { useActionDialogs } from 'react-dialog-mui';
+import React, { useState } from "react";
+import { useActionDialogs } from "react-dialog-mui";
 
 export function ChoiceExample() {
   const { choiceSingle } = useActionDialogs();
-  const [session, setSession] = useState('');
+  const [session, setSession] = useState("");
 
   const onSubmit = async () => {
     try {
       const newSession = await choiceSingle({
-        title: 'Switch session', // the dialog title
-        message: 'Select one of the following sessions:', // the question for the input
+        title: "Switch session", // the dialog title
+        message: "Select one of the following sessions:", // the question for the input
         options: [
-          { label: 'Session 1', value: 'session_1' },
-          { label: 'Session 2', value: 'session_2' },
-          { label: 'Session 3', value: 'session_3' },
-          { label: 'Session 4', value: 'session_4', disabled: true },
+          { label: "Session 1", value: "session_1" },
+          { label: "Session 2", value: "session_2" },
+          { label: "Session 3", value: "session_3" },
+          { label: "Session 4", value: "session_4", disabled: true },
         ],
         value: session,
         required: true,
@@ -23,7 +23,7 @@ export function ChoiceExample() {
       // when user selected a choice
       setSession(newSession);
     } catch (err) {
-      setSession('');
+      setSession("");
     }
   };
 
@@ -44,14 +44,18 @@ export function ChoiceExampleWithMultiselect() {
   const onSubmit = async () => {
     try {
       const newFavContacts = await choiceMultiple({
-        title: 'Update Favorite Contacts',
-        message: 'Select contacts to add to the favorite list:',
+        title: "Update Favorite Contacts",
+        message: "Select contacts to add to the favorite list:",
         options: [
-          { label: 'John Doe', value: 'John Doe' },
-          { label: 'Alice Smith', value: 'Alice Smith' },
-          { label: 'Michael Johnson', value: 'Michael Johnson', disabled: true },
-          { label: 'Emily Brown', value: 'Emily Brown' },
-          { label: 'Daniel Wilson', value: 'Daniel Wilson' },
+          { label: "John Doe", value: "John Doe" },
+          { label: "Alice Smith", value: "Alice Smith" },
+          {
+            label: "Michael Johnson",
+            value: "Michael Johnson",
+            disabled: true,
+          },
+          { label: "Emily Brown", value: "Emily Brown" },
+          { label: "Daniel Wilson", value: "Daniel Wilson" },
         ],
         value: favContacts,
         required: true,
@@ -68,7 +72,8 @@ export function ChoiceExampleWithMultiselect() {
     <>
       <button onClick={onSubmit}>Update Favorite Contacts</button>
       <div>
-        <strong>New selected favorite contacts:</strong> {JSON.stringify(favContacts)}
+        <strong>New selected favorite contacts:</strong>{" "}
+        {JSON.stringify(favContacts)}
       </div>
     </>
   );

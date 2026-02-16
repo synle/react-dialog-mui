@@ -1,7 +1,13 @@
-import React, { ReactNode } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
-import { Box, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
-import { BaseDialogInput } from './types';
+import React, { ReactNode } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
+import { BaseDialogInput } from "./types";
 
 export type ModalInput = BaseDialogInput & {
   /**
@@ -10,7 +16,7 @@ export type ModalInput = BaseDialogInput & {
   message: ReactNode;
   showCloseButton?: boolean;
   disableBackdropClick?: boolean;
-  size: 'xs' | 'sm' | 'md' | 'lg';
+  size: "xs" | "sm" | "md" | "lg";
 };
 
 export default function Modal(
@@ -32,19 +38,21 @@ export default function Modal(
       fullWidth={true}
       maxWidth={props.size}
       aria-labelledby={`dialog-title-${props.id}`}
-      aria-describedby={`dialog-description-${props.id}`}>
+      aria-describedby={`dialog-description-${props.id}`}
+    >
       <DialogTitle id={`dialog-title-${props.id}`}>
         {props.title}
         {props.showCloseButton && (
           <IconButton
-            aria-label='close'
+            aria-label="close"
             onClick={() => props.onDismiss()}
             sx={{
-              position: 'absolute',
+              position: "absolute",
               right: 8,
               top: 8,
               color: (theme) => theme.palette.grey[500],
-            }}>
+            }}
+          >
             <CloseIcon />
           </IconButton>
         )}

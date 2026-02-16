@@ -1,5 +1,5 @@
-import React, { ReactNode, useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { ReactNode, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   Button,
@@ -12,8 +12,8 @@ import {
   ListItemText,
   ListItemIcon,
   Checkbox,
-} from '@mui/material';
-import { BaseDialogInput } from './types';
+} from "@mui/material";
+import { BaseDialogInput } from "./types";
 
 export type ChoiceOption = {
   startIcon?: ReactNode;
@@ -47,7 +47,9 @@ export function SingleChoiceDialog(
     value,
   } = props;
 
-  const [selectedOption, setSelectedOption] = useState<string | undefined>(value);
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(
+    value,
+  );
 
   let onClose: (() => void) | undefined = handleClose;
   let disabled = false;
@@ -62,18 +64,20 @@ export function SingleChoiceDialog(
       open={open}
       fullWidth={true}
       aria-labelledby={`dialog-title-${props.id}`}
-      aria-describedby={`dialog-description-${props.id}`}>
+      aria-describedby={`dialog-description-${props.id}`}
+    >
       <DialogTitle id={`dialog-title-${props.id}`}>
         {title}
         <IconButton
-          aria-label='close'
+          aria-label="close"
           onClick={props.onDismiss}
           sx={{
-            position: 'absolute',
+            position: "absolute",
             right: 8,
             top: 8,
             color: (theme) => theme.palette.grey[500],
-          }}>
+          }}
+        >
           <CloseIcon />
         </IconButton>
       </DialogTitle>
@@ -94,13 +98,14 @@ export function SingleChoiceDialog(
               <ListItem
                 onClick={onOptionSelected}
                 key={option.value}
-                sx={{ alignItems: 'center', display: 'flex', gap: 1 }}>
+                sx={{ alignItems: "center", display: "flex", gap: 1 }}
+              >
                 <ListItemIcon>
                   <Checkbox
                     checked={checked}
                     tabIndex={-1}
                     disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
+                    inputProps={{ "aria-labelledby": labelId }}
                     disabled={option.disabled}
                   />
                 </ListItemIcon>
@@ -110,8 +115,12 @@ export function SingleChoiceDialog(
             );
           })}
         </List>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button onClick={() => onSelect(selectedOption)} variant='contained' disabled={disabled}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button
+            onClick={() => onSelect(selectedOption)}
+            variant="contained"
+            disabled={disabled}
+          >
             Apply
           </Button>
         </Box>
@@ -152,18 +161,20 @@ export function MultipleChoiceDialog(
       open={open}
       fullWidth={true}
       aria-labelledby={`dialog-title-${props.id}`}
-      aria-describedby={`dialog-description-${props.id}`}>
+      aria-describedby={`dialog-description-${props.id}`}
+    >
       <DialogTitle id={`dialog-title-${props.id}`}>
         {title}
         <IconButton
-          aria-label='close'
+          aria-label="close"
           onClick={props.onDismiss}
           sx={{
-            position: 'absolute',
+            position: "absolute",
             right: 8,
             top: 8,
             color: (theme) => theme.palette.grey[500],
-          }}>
+          }}
+        >
           <CloseIcon />
         </IconButton>
       </DialogTitle>
@@ -182,7 +193,9 @@ export function MultipleChoiceDialog(
                 setSelectedOptions([...selectedOptions, option.value]);
               } else {
                 setSelectedOptions(
-                  selectedOptions.filter((targetOptionValue) => targetOptionValue !== option.value),
+                  selectedOptions.filter(
+                    (targetOptionValue) => targetOptionValue !== option.value,
+                  ),
                 );
               }
             };
@@ -190,14 +203,15 @@ export function MultipleChoiceDialog(
             return (
               <ListItem
                 key={option.value}
-                sx={{ alignItems: 'center', display: 'flex', gap: 1 }}
-                onClick={onOptionSelected}>
+                sx={{ alignItems: "center", display: "flex", gap: 1 }}
+                onClick={onOptionSelected}
+              >
                 <ListItemIcon>
                   <Checkbox
                     checked={checked}
                     tabIndex={-1}
                     disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
+                    inputProps={{ "aria-labelledby": labelId }}
                     disabled={option.disabled}
                   />
                 </ListItemIcon>
@@ -207,8 +221,8 @@ export function MultipleChoiceDialog(
             );
           })}
         </List>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button onClick={() => onSelect(selectedOptions)} variant='contained'>
+        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button onClick={() => onSelect(selectedOptions)} variant="contained">
             Apply
           </Button>
         </Box>

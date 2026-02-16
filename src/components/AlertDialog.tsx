@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { ReactNode } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   Button,
@@ -8,8 +8,8 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-} from '@mui/material';
-import { BaseDialogInput } from './types';
+} from "@mui/material";
+import { BaseDialogInput } from "./types";
 
 export type AlertInput = BaseDialogInput & {
   message: ReactNode;
@@ -30,19 +30,21 @@ export default function AlertDialog(
       open={props.open}
       onClose={props.onDismiss}
       aria-labelledby={`dialog-title-${props.id}`}
-      aria-describedby={`dialog-description-${props.id}`}>
+      aria-describedby={`dialog-description-${props.id}`}
+    >
       <Box sx={{ maxWidth: 600, minWidth: 400 }}>
         <DialogTitle id={`dialog-title-${props.id}`}>
           {props.title}
           <IconButton
-            aria-label='close'
+            aria-label="close"
             onClick={props.onDismiss}
             sx={{
-              position: 'absolute',
+              position: "absolute",
               right: 8,
               top: 8,
               color: (theme) => theme.palette.grey[500],
-            }}>
+            }}
+          >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
@@ -51,18 +53,18 @@ export default function AlertDialog(
             {props.message}
           </Box>
         </DialogContent>
-        <DialogActions sx={{ display: 'flex', gap: 2, justifyContent: 'end' }}>
+        <DialogActions sx={{ display: "flex", gap: 2, justifyContent: "end" }}>
           {props.isConfirm ? (
             <>
-              <Button onClick={props.onDismiss}>{props.noLabel || 'No'}</Button>
-              <Button onClick={props.onYesClick} autoFocus variant='contained'>
-                {props.yesLabel || 'Yes'}
-              </Button>{' '}
+              <Button onClick={props.onDismiss}>{props.noLabel || "No"}</Button>
+              <Button onClick={props.onYesClick} autoFocus variant="contained">
+                {props.yesLabel || "Yes"}
+              </Button>{" "}
             </>
           ) : (
             <>
-              <Button onClick={props.onYesClick} autoFocus variant='contained'>
-                {props.yesLabel || 'OK'}
+              <Button onClick={props.onYesClick} autoFocus variant="contained">
+                {props.yesLabel || "OK"}
               </Button>
             </>
           )}

@@ -1,8 +1,8 @@
-import { ReactNode, RefObject } from 'react';
-import { AlertInput } from './AlertDialog';
-import { ChoiceInput } from './ChoiceDialog';
-import { ModalInput } from './ModalDialog';
-import { PromptInput } from './PromptDialog';
+import { ReactNode, RefObject } from "react";
+import { AlertInput } from "./AlertDialog";
+import { ChoiceInput } from "./ChoiceDialog";
+import { ModalInput } from "./ModalDialog";
+import { PromptInput } from "./PromptDialog";
 
 export type ActionDialogRef = {
   /**
@@ -33,44 +33,44 @@ export type BaseActionDialogInput = {
 };
 
 export type ActionDialogType =
-  | 'alert'
-  | 'confirm'
-  | 'choice-single'
-  | 'choice-multiple'
-  | 'prompt'
-  | 'modal';
+  | "alert"
+  | "confirm"
+  | "choice-single"
+  | "choice-multiple"
+  | "prompt"
+  | "modal";
 
 export type ActionDialog = BaseActionDialogInput & {
   id: string;
 } & (
     | (AlertInput & {
-        type: 'alert';
+        type: "alert";
         message: ReactNode;
         yesLabel?: string;
         onSubmit?: () => void;
       })
     | {
-        type: 'confirm';
+        type: "confirm";
         message: ReactNode;
         yesLabel?: string;
         onSubmit: () => void;
       }
     | ({
-        type: 'choice-single';
+        type: "choice-single";
         value?: string;
         onSubmit: (selectedChoice?: string) => void;
       } & ChoiceInput)
     | ({
-        type: 'choice-multiple';
+        type: "choice-multiple";
         value?: string[];
         onSubmit: (selectedOptions: string[]) => void;
       } & ChoiceInput)
     | ({
-        type: 'prompt';
+        type: "prompt";
         onSubmit: (newValue: string) => void;
       } & PromptInput)
     | ({
-        type: 'modal';
+        type: "modal";
         onSubmit: (closed: boolean) => void;
       } & ModalInput)
   );

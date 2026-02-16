@@ -1,5 +1,5 @@
-import React, { ReactNode, SyntheticEvent, useState } from 'react';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { ReactNode, SyntheticEvent, useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,
   Dialog,
@@ -8,8 +8,8 @@ import {
   DialogTitle,
   IconButton,
   TextField,
-} from '@mui/material';
-import { BaseDialogInput } from './types';
+} from "@mui/material";
+import { BaseDialogInput } from "./types";
 
 export type PromptInput = BaseDialogInput & {
   message: ReactNode;
@@ -27,7 +27,7 @@ export default function PromptDialog(
     onDismiss: () => void;
   },
 ) {
-  const [value, setValue] = useState(props.value || '');
+  const [value, setValue] = useState(props.value || "");
 
   const handleClose = (forceClose = false) => {
     if (props.required && !forceClose) {
@@ -55,21 +55,23 @@ export default function PromptDialog(
       onClose={() => handleClose(false)}
       open={props.open}
       fullWidth={true}
-      maxWidth={props.isLongPrompt ? 'lg' : 'sm'}
+      maxWidth={props.isLongPrompt ? "lg" : "sm"}
       aria-labelledby={`dialog-title-${props.id}`}
-      aria-describedby={`dialog-description-${props.id}`}>
+      aria-describedby={`dialog-description-${props.id}`}
+    >
       <form onSubmit={onSave}>
         <DialogTitle id={`dialog-title-${props.id}`}>
           {props.title}
           <IconButton
-            aria-label='close'
+            aria-label="close"
             onClick={() => handleClose(true)}
             sx={{
-              position: 'absolute',
+              position: "absolute",
               right: 8,
               top: 8,
               color: (theme) => theme.palette.grey[500],
-            }}>
+            }}
+          >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
@@ -79,16 +81,18 @@ export default function PromptDialog(
             value={value}
             onChange={(e) => setValue(e.target.value)}
             required={props.required}
-            size='small'
+            size="small"
             multiline={!!props.isLongPrompt}
             fullWidth
             autoFocus
           />
         </DialogContent>
         {props.readonly !== true && (
-          <DialogActions sx={{ display: 'flex', gap: 2, justifyContent: 'end' }}>
-            <Button type='submit' disabled={isDisabled} variant='contained'>
-              {props.saveLabel || 'Save'}
+          <DialogActions
+            sx={{ display: "flex", gap: 2, justifyContent: "end" }}
+          >
+            <Button type="submit" disabled={isDisabled} variant="contained">
+              {props.saveLabel || "Save"}
             </Button>
           </DialogActions>
         )}

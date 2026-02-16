@@ -1,19 +1,20 @@
-import React, { useEffect } from 'react';
-import { describe, it, expect, vi, afterEach } from 'vitest';
-import { render, fireEvent, act, cleanup } from '@testing-library/react';
+import React, { useEffect } from "react";
+import { describe, it, expect, vi, afterEach } from "vitest";
+import { render, fireEvent, act, cleanup } from "@testing-library/react";
 import {
   ActionDialogsContext,
   useActionDialogs,
   useActionDialogRef,
   _dialogStore,
-} from '../components/ActionDialogsContext';
+} from "../components/ActionDialogsContext";
 
 // Mock MUI Dialog to render inline (no portal)
-vi.mock('@mui/material', async (importOriginal) => {
-  const mod = await importOriginal<typeof import('@mui/material')>();
+vi.mock("@mui/material", async (importOriginal) => {
+  const mod = await importOriginal<typeof import("@mui/material")>();
   return {
     ...mod,
-    Dialog: (props: any) => (props.open ? <div data-testid='dialog'>{props.children}</div> : null),
+    Dialog: (props: any) =>
+      props.open ? <div data-testid="dialog">{props.children}</div> : null,
   };
 });
 
@@ -39,8 +40,8 @@ function DialogTrigger({
   return null;
 }
 
-describe('AlertDialog', () => {
-  it('should dismiss when close button is clicked', async () => {
+describe("AlertDialog", () => {
+  it("should dismiss when close button is clicked", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -49,10 +50,12 @@ describe('AlertDialog', () => {
     );
 
     await act(async () => {
-      hooks!.alert({ title: 'Test Alert', message: 'Hello' });
+      hooks!.alert({ title: "Test Alert", message: "Hello" });
     });
 
-    expect(component.container.querySelector('.MuiDialogTitle-root')).not.toBeNull();
+    expect(
+      component.container.querySelector(".MuiDialogTitle-root"),
+    ).not.toBeNull();
 
     // Close button should dismiss
     const closeBtn = component.container.querySelector('[aria-label="close"]');
@@ -62,10 +65,12 @@ describe('AlertDialog', () => {
     });
 
     // Dialog should be gone
-    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
+    expect(
+      component.container.querySelector('[data-testid="dialog"]'),
+    ).toBeNull();
   });
 
-  it('should resolve when OK is clicked', async () => {
+  it("should resolve when OK is clicked", async () => {
     const onResolved = vi.fn();
 
     let hooks: ReturnType<typeof useActionDialogs>;
@@ -76,11 +81,13 @@ describe('AlertDialog', () => {
     );
 
     await act(async () => {
-      hooks!.alert({ title: 'Test', message: 'Hello' }).then(onResolved);
+      hooks!.alert({ title: "Test", message: "Hello" }).then(onResolved);
     });
 
     // Find the contained button (OK button)
-    const buttons = component.container.querySelectorAll('.MuiDialogActions-root button');
+    const buttons = component.container.querySelectorAll(
+      ".MuiDialogActions-root button",
+    );
     expect(buttons.length).toBe(1);
     await act(async () => {
       fireEvent.click(buttons[0]);
@@ -89,7 +96,7 @@ describe('AlertDialog', () => {
     expect(onResolved).toHaveBeenCalled();
   });
 
-  it('should use custom yesLabel', async () => {
+  it("should use custom yesLabel", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -98,16 +105,18 @@ describe('AlertDialog', () => {
     );
 
     await act(async () => {
-      hooks!.alert({ title: 'Test', message: 'Hello', yesLabel: 'Got it' });
+      hooks!.alert({ title: "Test", message: "Hello", yesLabel: "Got it" });
     });
 
-    const actionButton = component.container.querySelector('.MuiDialogActions-root button');
-    expect(actionButton?.textContent).toBe('Got it');
+    const actionButton = component.container.querySelector(
+      ".MuiDialogActions-root button",
+    );
+    expect(actionButton?.textContent).toBe("Got it");
   });
 });
 
-describe('ConfirmDialog', () => {
-  it('should resolve when Yes is clicked', async () => {
+describe("ConfirmDialog", () => {
+  it("should resolve when Yes is clicked", async () => {
     const onResolved = vi.fn();
 
     let hooks: ReturnType<typeof useActionDialogs>;
@@ -118,16 +127,20 @@ describe('ConfirmDialog', () => {
     );
 
     await act(async () => {
-      hooks!.confirm({ title: 'Delete?', message: 'Are you sure?' }).then(onResolved);
+      hooks!
+        .confirm({ title: "Delete?", message: "Are you sure?" })
+        .then(onResolved);
     });
 
     // Confirm should show No and Yes buttons
-    const buttons = component.container.querySelectorAll('.MuiDialogActions-root button');
+    const buttons = component.container.querySelectorAll(
+      ".MuiDialogActions-root button",
+    );
     expect(buttons.length).toBe(2);
 
     // Click Yes (second button, the variant=contained one)
     const yesButton = component.container.querySelector(
-      '.MuiDialogActions-root button.MuiButton-contained',
+      ".MuiDialogActions-root button.MuiButton-contained",
     );
     await act(async () => {
       fireEvent.click(yesButton!);
@@ -136,7 +149,7 @@ describe('ConfirmDialog', () => {
     expect(onResolved).toHaveBeenCalled();
   });
 
-  it('should dismiss when No is clicked', async () => {
+  it("should dismiss when No is clicked", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -145,22 +158,26 @@ describe('ConfirmDialog', () => {
     );
 
     await act(async () => {
-      hooks!.confirm({ title: 'Delete?', message: 'Are you sure?' }).catch(() => {});
+      hooks!
+        .confirm({ title: "Delete?", message: "Are you sure?" })
+        .catch(() => {});
     });
 
     // Click No (first non-contained button)
     const noButton = component.container.querySelector(
-      '.MuiDialogActions-root button:not(.MuiButton-contained)',
+      ".MuiDialogActions-root button:not(.MuiButton-contained)",
     );
     expect(noButton).not.toBeNull();
     await act(async () => {
       fireEvent.click(noButton!);
     });
 
-    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
+    expect(
+      component.container.querySelector('[data-testid="dialog"]'),
+    ).toBeNull();
   });
 
-  it('should use custom yesLabel', async () => {
+  it("should use custom yesLabel", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -169,18 +186,22 @@ describe('ConfirmDialog', () => {
     );
 
     await act(async () => {
-      hooks!.confirm({ title: 'Delete?', message: 'Sure?', yesLabel: 'Delete' });
+      hooks!.confirm({
+        title: "Delete?",
+        message: "Sure?",
+        yesLabel: "Delete",
+      });
     });
 
     const yesButton = component.container.querySelector(
-      '.MuiDialogActions-root button.MuiButton-contained',
+      ".MuiDialogActions-root button.MuiButton-contained",
     );
-    expect(yesButton?.textContent).toBe('Delete');
+    expect(yesButton?.textContent).toBe("Delete");
   });
 });
 
-describe('PromptDialog', () => {
-  it('should resolve with the input value on submit', async () => {
+describe("PromptDialog", () => {
+  it("should resolve with the input value on submit", async () => {
     const onResolved = vi.fn();
 
     let hooks: ReturnType<typeof useActionDialogs>;
@@ -191,26 +212,28 @@ describe('PromptDialog', () => {
     );
 
     await act(async () => {
-      hooks!.prompt({ title: 'Name', message: 'Enter name', value: '' }).then(onResolved);
+      hooks!
+        .prompt({ title: "Name", message: "Enter name", value: "" })
+        .then(onResolved);
     });
 
     // Type into the input
-    const input = component.container.querySelector('input');
+    const input = component.container.querySelector("input");
     expect(input).not.toBeNull();
     await act(async () => {
-      fireEvent.change(input!, { target: { value: 'New Name' } });
+      fireEvent.change(input!, { target: { value: "New Name" } });
     });
 
     // Submit the form
-    const form = component.container.querySelector('form');
+    const form = component.container.querySelector("form");
     await act(async () => {
       fireEvent.submit(form!);
     });
 
-    expect(onResolved).toHaveBeenCalledWith('New Name');
+    expect(onResolved).toHaveBeenCalledWith("New Name");
   });
 
-  it('should dismiss when close button is clicked', async () => {
+  it("should dismiss when close button is clicked", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -219,7 +242,7 @@ describe('PromptDialog', () => {
     );
 
     await act(async () => {
-      hooks!.prompt({ title: 'Name', message: 'Enter name' }).catch(() => {});
+      hooks!.prompt({ title: "Name", message: "Enter name" }).catch(() => {});
     });
 
     // Click close button
@@ -228,10 +251,12 @@ describe('PromptDialog', () => {
       fireEvent.click(closeBtn!);
     });
 
-    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
+    expect(
+      component.container.querySelector('[data-testid="dialog"]'),
+    ).toBeNull();
   });
 
-  it('should show save button with custom label', async () => {
+  it("should show save button with custom label", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -240,16 +265,20 @@ describe('PromptDialog', () => {
     );
 
     await act(async () => {
-      hooks!.prompt({ title: 'Rename', message: 'New name', saveLabel: 'Rename' });
+      hooks!.prompt({
+        title: "Rename",
+        message: "New name",
+        saveLabel: "Rename",
+      });
     });
 
     const submitBtn = component.container.querySelector(
       '.MuiDialogActions-root button[type="submit"]',
     );
-    expect(submitBtn?.textContent).toBe('Rename');
+    expect(submitBtn?.textContent).toBe("Rename");
   });
 
-  it('should render multiline TextField when isLongPrompt is true', async () => {
+  it("should render multiline TextField when isLongPrompt is true", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -258,15 +287,19 @@ describe('PromptDialog', () => {
     );
 
     await act(async () => {
-      hooks!.prompt({ title: 'Long', message: 'Enter text', isLongPrompt: true });
+      hooks!.prompt({
+        title: "Long",
+        message: "Enter text",
+        isLongPrompt: true,
+      });
     });
 
     // The textarea should be present for multiline
-    const textarea = component.container.querySelector('textarea');
+    const textarea = component.container.querySelector("textarea");
     expect(textarea).not.toBeNull();
   });
 
-  it('should hide save button when readonly', async () => {
+  it("should hide save button when readonly", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -275,7 +308,12 @@ describe('PromptDialog', () => {
     );
 
     await act(async () => {
-      hooks!.prompt({ title: 'View', message: 'Value', value: 'readonly', readonly: true });
+      hooks!.prompt({
+        title: "View",
+        message: "Value",
+        value: "readonly",
+        readonly: true,
+      });
     });
 
     const submitBtn = component.container.querySelector(
@@ -284,7 +322,7 @@ describe('PromptDialog', () => {
     expect(submitBtn).toBeNull();
   });
 
-  it('should not submit when required and value is empty', async () => {
+  it("should not submit when required and value is empty", async () => {
     const onResolved = vi.fn();
     const onRejected = vi.fn();
 
@@ -297,13 +335,13 @@ describe('PromptDialog', () => {
 
     await act(async () => {
       hooks!
-        .prompt({ title: 'Name', message: 'Enter', required: true })
+        .prompt({ title: "Name", message: "Enter", required: true })
         .then(onResolved)
         .catch(onRejected);
     });
 
     // Try to submit empty form
-    const form = component.container.querySelector('form');
+    const form = component.container.querySelector("form");
     await act(async () => {
       fireEvent.submit(form!);
     });
@@ -311,10 +349,12 @@ describe('PromptDialog', () => {
     // Should not have resolved
     expect(onResolved).not.toHaveBeenCalled();
     // Dialog should still be open
-    expect(component.container.querySelector('[data-testid="dialog"]')).not.toBeNull();
+    expect(
+      component.container.querySelector('[data-testid="dialog"]'),
+    ).not.toBeNull();
   });
 
-  it('should disable save button when input is empty', async () => {
+  it("should disable save button when input is empty", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -323,17 +363,17 @@ describe('PromptDialog', () => {
     );
 
     await act(async () => {
-      hooks!.prompt({ title: 'Name', message: 'Enter' });
+      hooks!.prompt({ title: "Name", message: "Enter" });
     });
 
     const submitBtn = component.container.querySelector(
       '.MuiDialogActions-root button[type="submit"]',
     );
     expect(submitBtn).not.toBeNull();
-    expect(submitBtn!.classList.contains('Mui-disabled')).toBe(true);
+    expect(submitBtn!.classList.contains("Mui-disabled")).toBe(true);
   });
 
-  it('should trim whitespace from submitted value', async () => {
+  it("should trim whitespace from submitted value", async () => {
     const onResolved = vi.fn();
 
     let hooks: ReturnType<typeof useActionDialogs>;
@@ -344,31 +384,31 @@ describe('PromptDialog', () => {
     );
 
     await act(async () => {
-      hooks!.prompt({ title: 'Name', message: 'Enter' }).then(onResolved);
+      hooks!.prompt({ title: "Name", message: "Enter" }).then(onResolved);
     });
 
-    const input = component.container.querySelector('input');
+    const input = component.container.querySelector("input");
     await act(async () => {
-      fireEvent.change(input!, { target: { value: '  hello  ' } });
+      fireEvent.change(input!, { target: { value: "  hello  " } });
     });
 
-    const form = component.container.querySelector('form');
+    const form = component.container.querySelector("form");
     await act(async () => {
       fireEvent.submit(form!);
     });
 
-    expect(onResolved).toHaveBeenCalledWith('hello');
+    expect(onResolved).toHaveBeenCalledWith("hello");
   });
 });
 
-describe('SingleChoiceDialog', () => {
+describe("SingleChoiceDialog", () => {
   const options = [
-    { label: 'Option A', value: 'a' },
-    { label: 'Option B', value: 'b' },
-    { label: 'Option C', value: 'c', disabled: true },
+    { label: "Option A", value: "a" },
+    { label: "Option B", value: "b" },
+    { label: "Option C", value: "c", disabled: true },
   ];
 
-  it('should resolve with selected option on Apply', async () => {
+  it("should resolve with selected option on Apply", async () => {
     const onResolved = vi.fn();
 
     let hooks: ReturnType<typeof useActionDialogs>;
@@ -379,26 +419,30 @@ describe('SingleChoiceDialog', () => {
     );
 
     await act(async () => {
-      hooks!.choiceSingle({ title: 'Pick', message: 'Choose:', options }).then(onResolved);
+      hooks!
+        .choiceSingle({ title: "Pick", message: "Choose:", options })
+        .then(onResolved);
     });
 
     // Click on "Option B" list item
-    const listItems = component.container.querySelectorAll('.MuiListItem-root');
+    const listItems = component.container.querySelectorAll(".MuiListItem-root");
     expect(listItems.length).toBe(3);
     await act(async () => {
       fireEvent.click(listItems[1]);
     });
 
     // Click Apply button
-    const applyBtn = component.container.querySelector('button.MuiButton-contained');
+    const applyBtn = component.container.querySelector(
+      "button.MuiButton-contained",
+    );
     await act(async () => {
       fireEvent.click(applyBtn!);
     });
 
-    expect(onResolved).toHaveBeenCalledWith('b');
+    expect(onResolved).toHaveBeenCalledWith("b");
   });
 
-  it('should not select a disabled option', async () => {
+  it("should not select a disabled option", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -407,11 +451,13 @@ describe('SingleChoiceDialog', () => {
     );
 
     await act(async () => {
-      hooks!.choiceSingle({ title: 'Pick', message: 'Choose:', options }).catch(() => {});
+      hooks!
+        .choiceSingle({ title: "Pick", message: "Choose:", options })
+        .catch(() => {});
     });
 
     // Click on disabled "Option C"
-    const listItems = component.container.querySelectorAll('.MuiListItem-root');
+    const listItems = component.container.querySelectorAll(".MuiListItem-root");
     await act(async () => {
       fireEvent.click(listItems[2]);
     });
@@ -424,7 +470,7 @@ describe('SingleChoiceDialog', () => {
     expect((checkboxInputs[0] as HTMLInputElement).checked).toBe(false);
   });
 
-  it('should show Apply button', async () => {
+  it("should show Apply button", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -433,35 +479,22 @@ describe('SingleChoiceDialog', () => {
     );
 
     await act(async () => {
-      hooks!.choiceSingle({ title: 'Pick', message: 'Choose:', options, required: true });
+      hooks!.choiceSingle({
+        title: "Pick",
+        message: "Choose:",
+        options,
+        required: true,
+      });
     });
 
-    const applyBtn = component.container.querySelector('button.MuiButton-contained');
+    const applyBtn = component.container.querySelector(
+      "button.MuiButton-contained",
+    );
     expect(applyBtn).not.toBeNull();
-    expect(applyBtn?.textContent).toBe('Apply');
+    expect(applyBtn?.textContent).toBe("Apply");
   });
 
-  it('should dismiss when close button is clicked', async () => {
-    let hooks: ReturnType<typeof useActionDialogs>;
-    const component = render(
-      <ActionDialogsContext>
-        <DialogTrigger onReady={(h) => (hooks = h)} />
-      </ActionDialogsContext>,
-    );
-
-    await act(async () => {
-      hooks!.choiceSingle({ title: 'Pick', message: 'Choose:', options }).catch(() => {});
-    });
-
-    const closeBtn = component.container.querySelector('[aria-label="close"]');
-    await act(async () => {
-      fireEvent.click(closeBtn!);
-    });
-
-    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
-  });
-
-  it('should pre-select initial value', async () => {
+  it("should dismiss when close button is clicked", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -471,7 +504,36 @@ describe('SingleChoiceDialog', () => {
 
     await act(async () => {
       hooks!
-        .choiceSingle({ title: 'Pick', message: 'Choose:', options, value: 'a' })
+        .choiceSingle({ title: "Pick", message: "Choose:", options })
+        .catch(() => {});
+    });
+
+    const closeBtn = component.container.querySelector('[aria-label="close"]');
+    await act(async () => {
+      fireEvent.click(closeBtn!);
+    });
+
+    expect(
+      component.container.querySelector('[data-testid="dialog"]'),
+    ).toBeNull();
+  });
+
+  it("should pre-select initial value", async () => {
+    let hooks: ReturnType<typeof useActionDialogs>;
+    const component = render(
+      <ActionDialogsContext>
+        <DialogTrigger onReady={(h) => (hooks = h)} />
+      </ActionDialogsContext>,
+    );
+
+    await act(async () => {
+      hooks!
+        .choiceSingle({
+          title: "Pick",
+          message: "Choose:",
+          options,
+          value: "a",
+        })
         .catch(() => {});
     });
 
@@ -483,14 +545,14 @@ describe('SingleChoiceDialog', () => {
   });
 });
 
-describe('MultipleChoiceDialog', () => {
+describe("MultipleChoiceDialog", () => {
   const options = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3', disabled: true },
+    { label: "Item 1", value: "1" },
+    { label: "Item 2", value: "2" },
+    { label: "Item 3", value: "3", disabled: true },
   ];
 
-  it('should resolve with selected options on Apply', async () => {
+  it("should resolve with selected options on Apply", async () => {
     const onResolved = vi.fn();
 
     let hooks: ReturnType<typeof useActionDialogs>;
@@ -501,11 +563,13 @@ describe('MultipleChoiceDialog', () => {
     );
 
     await act(async () => {
-      hooks!.choiceMultiple({ title: 'Pick', message: 'Choose:', options }).then(onResolved);
+      hooks!
+        .choiceMultiple({ title: "Pick", message: "Choose:", options })
+        .then(onResolved);
     });
 
     // Select Item 1 and Item 2
-    const listItems = component.container.querySelectorAll('.MuiListItem-root');
+    const listItems = component.container.querySelectorAll(".MuiListItem-root");
     await act(async () => {
       fireEvent.click(listItems[0]);
     });
@@ -514,15 +578,17 @@ describe('MultipleChoiceDialog', () => {
     });
 
     // Click Apply
-    const applyBtn = component.container.querySelector('button.MuiButton-contained');
+    const applyBtn = component.container.querySelector(
+      "button.MuiButton-contained",
+    );
     await act(async () => {
       fireEvent.click(applyBtn!);
     });
 
-    expect(onResolved).toHaveBeenCalledWith(['1', '2']);
+    expect(onResolved).toHaveBeenCalledWith(["1", "2"]);
   });
 
-  it('should deselect an already selected option', async () => {
+  it("should deselect an already selected option", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -531,7 +597,12 @@ describe('MultipleChoiceDialog', () => {
     );
 
     await act(async () => {
-      hooks!.choiceMultiple({ title: 'Pick', message: 'Choose:', options, value: ['1'] });
+      hooks!.choiceMultiple({
+        title: "Pick",
+        message: "Choose:",
+        options,
+        value: ["1"],
+      });
     });
 
     // Item 1 should be checked
@@ -541,7 +612,7 @@ describe('MultipleChoiceDialog', () => {
     expect(firstCheckbox?.checked).toBe(true);
 
     // Click Item 1 to deselect
-    const listItems = component.container.querySelectorAll('.MuiListItem-root');
+    const listItems = component.container.querySelectorAll(".MuiListItem-root");
     await act(async () => {
       fireEvent.click(listItems[0]);
     });
@@ -553,7 +624,7 @@ describe('MultipleChoiceDialog', () => {
     expect(firstCheckbox?.checked).toBe(false);
   });
 
-  it('should not toggle a disabled option', async () => {
+  it("should not toggle a disabled option", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -562,11 +633,11 @@ describe('MultipleChoiceDialog', () => {
     );
 
     await act(async () => {
-      hooks!.choiceMultiple({ title: 'Pick', message: 'Choose:', options });
+      hooks!.choiceMultiple({ title: "Pick", message: "Choose:", options });
     });
 
     // Click on disabled Item 3
-    const listItems = component.container.querySelectorAll('.MuiListItem-root');
+    const listItems = component.container.querySelectorAll(".MuiListItem-root");
     await act(async () => {
       fireEvent.click(listItems[2]);
     });
@@ -577,7 +648,7 @@ describe('MultipleChoiceDialog', () => {
     expect(thirdCheckbox?.checked).toBe(false);
   });
 
-  it('should pre-select initial values', async () => {
+  it("should pre-select initial values", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -586,7 +657,12 @@ describe('MultipleChoiceDialog', () => {
     );
 
     await act(async () => {
-      hooks!.choiceMultiple({ title: 'Pick', message: 'Choose:', options, value: ['1', '2'] });
+      hooks!.choiceMultiple({
+        title: "Pick",
+        message: "Choose:",
+        options,
+        value: ["1", "2"],
+      });
     });
 
     const firstCheckbox = component.container.querySelector(
@@ -604,8 +680,8 @@ describe('MultipleChoiceDialog', () => {
   });
 });
 
-describe('ModalDialog', () => {
-  it('should render with close button and dismiss on click', async () => {
+describe("ModalDialog", () => {
+  it("should render with close button and dismiss on click", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -614,12 +690,12 @@ describe('ModalDialog', () => {
     );
 
     await act(async () => {
-      hooks!.modal({ title: 'Details', message: <div>Content here</div> });
+      hooks!.modal({ title: "Details", message: <div>Content here</div> });
     });
 
-    expect(component.container.querySelector('.MuiDialogTitle-root')?.textContent).toContain(
-      'Details',
-    );
+    expect(
+      component.container.querySelector(".MuiDialogTitle-root")?.textContent,
+    ).toContain("Details");
 
     const closeBtn = component.container.querySelector('[aria-label="close"]');
     expect(closeBtn).not.toBeNull();
@@ -627,10 +703,12 @@ describe('ModalDialog', () => {
       fireEvent.click(closeBtn!);
     });
 
-    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
+    expect(
+      component.container.querySelector('[data-testid="dialog"]'),
+    ).toBeNull();
   });
 
-  it('should render without close button when showCloseButton is false', async () => {
+  it("should render without close button when showCloseButton is false", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -640,22 +718,22 @@ describe('ModalDialog', () => {
 
     await act(async () => {
       hooks!.modal({
-        title: 'No Close',
+        title: "No Close",
         message: <div>No close button</div>,
         showCloseButton: false,
       });
     });
 
     // Title should render
-    expect(component.container.querySelector('.MuiDialogTitle-root')?.textContent).toContain(
-      'No Close',
-    );
+    expect(
+      component.container.querySelector(".MuiDialogTitle-root")?.textContent,
+    ).toContain("No Close");
     // But no close button
     const closeBtn = component.container.querySelector('[aria-label="close"]');
     expect(closeBtn).toBeNull();
   });
 
-  it('should render message content', async () => {
+  it("should render message content", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -664,17 +742,21 @@ describe('ModalDialog', () => {
     );
 
     await act(async () => {
-      hooks!.modal({ title: 'Info', message: <div data-testid='modal-body'>Body text</div> });
+      hooks!.modal({
+        title: "Info",
+        message: <div data-testid="modal-body">Body text</div>,
+      });
     });
 
-    expect(component.container.querySelector('[data-testid="modal-body"]')?.textContent).toBe(
-      'Body text',
-    );
+    expect(
+      component.container.querySelector('[data-testid="modal-body"]')
+        ?.textContent,
+    ).toBe("Body text");
   });
 });
 
-describe('useActionDialogRef', () => {
-  it('should allow programmatic dismissal via modalRef', async () => {
+describe("useActionDialogRef", () => {
+  it("should allow programmatic dismissal via modalRef", async () => {
     function RefDismissExample() {
       const { modal } = useActionDialogs();
       const modalRef = useActionDialogRef();
@@ -682,9 +764,12 @@ describe('useActionDialogRef', () => {
       const openModal = async () => {
         try {
           await modal({
-            title: 'Ref Modal',
+            title: "Ref Modal",
             message: (
-              <button data-testid='dismiss-btn' onClick={() => modalRef.current.dismiss()}>
+              <button
+                data-testid="dismiss-btn"
+                onClick={() => modalRef.current.dismiss()}
+              >
                 Dismiss
               </button>
             ),
@@ -694,7 +779,7 @@ describe('useActionDialogRef', () => {
       };
 
       return (
-        <button data-testid='open-btn' onClick={openModal}>
+        <button data-testid="open-btn" onClick={openModal}>
           Open
         </button>
       );
@@ -707,27 +792,33 @@ describe('useActionDialogRef', () => {
     );
 
     // Open the modal
-    const openBtn = component.container.querySelector('[data-testid="open-btn"]');
+    const openBtn = component.container.querySelector(
+      '[data-testid="open-btn"]',
+    );
     await act(async () => {
       fireEvent.click(openBtn!);
     });
 
-    expect(component.container.querySelector('.MuiDialogTitle-root')?.textContent).toContain(
-      'Ref Modal',
-    );
+    expect(
+      component.container.querySelector(".MuiDialogTitle-root")?.textContent,
+    ).toContain("Ref Modal");
 
     // Dismiss via ref
-    const dismissBtn = component.container.querySelector('[data-testid="dismiss-btn"]');
+    const dismissBtn = component.container.querySelector(
+      '[data-testid="dismiss-btn"]',
+    );
     await act(async () => {
       fireEvent.click(dismissBtn!);
     });
 
-    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
+    expect(
+      component.container.querySelector('[data-testid="dialog"]'),
+    ).toBeNull();
   });
 });
 
-describe('Dialog stacking', () => {
-  it('should show multiple dialogs when opened sequentially', async () => {
+describe("Dialog stacking", () => {
+  it("should show multiple dialogs when opened sequentially", async () => {
     let hooks: ReturnType<typeof useActionDialogs>;
     const component = render(
       <ActionDialogsContext>
@@ -736,15 +827,17 @@ describe('Dialog stacking', () => {
     );
 
     await act(async () => {
-      hooks!.alert({ title: 'First', message: 'First dialog' });
+      hooks!.alert({ title: "First", message: "First dialog" });
     });
 
     await act(async () => {
-      hooks!.alert({ title: 'Second', message: 'Second dialog' });
+      hooks!.alert({ title: "Second", message: "Second dialog" });
     });
 
     // Both dialogs should be rendered (stacked)
-    const dialogs = component.container.querySelectorAll('[data-testid="dialog"]');
+    const dialogs = component.container.querySelectorAll(
+      '[data-testid="dialog"]',
+    );
     expect(dialogs.length).toBe(2);
   });
 });

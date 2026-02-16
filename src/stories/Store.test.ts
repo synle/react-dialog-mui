@@ -1,20 +1,20 @@
-import { describe, it, expect, vi } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
-import { Store, useStore } from '../components/Store';
+import { describe, it, expect, vi } from "vitest";
+import { renderHook, act } from "@testing-library/react";
+import { Store, useStore } from "../components/Store";
 
-describe('Store', () => {
-  it('should return the initial state', () => {
+describe("Store", () => {
+  it("should return the initial state", () => {
     const store = new Store({ count: 0 });
     expect(store.getState()).toEqual({ count: 0 });
   });
 
-  it('should update state with setState', () => {
-    const store = new Store({ count: 0, name: 'test' });
+  it("should update state with setState", () => {
+    const store = new Store({ count: 0, name: "test" });
     store.setState({ count: 5 });
-    expect(store.getState()).toEqual({ count: 5, name: 'test' });
+    expect(store.getState()).toEqual({ count: 5, name: "test" });
   });
 
-  it('should notify listeners on setState', () => {
+  it("should notify listeners on setState", () => {
     const store = new Store({ count: 0 });
     const listener = vi.fn();
     store.subscribe(listener);
@@ -24,7 +24,7 @@ describe('Store', () => {
     expect(listener).toHaveBeenCalledWith({ count: 1 });
   });
 
-  it('should unsubscribe listeners', () => {
+  it("should unsubscribe listeners", () => {
     const store = new Store({ count: 0 });
     const listener = vi.fn();
     const unsubscribe = store.subscribe(listener);
@@ -37,7 +37,7 @@ describe('Store', () => {
     expect(listener).toHaveBeenCalledTimes(1);
   });
 
-  it('should notify multiple listeners', () => {
+  it("should notify multiple listeners", () => {
     const store = new Store({ count: 0 });
     const listener1 = vi.fn();
     const listener2 = vi.fn();
@@ -50,14 +50,14 @@ describe('Store', () => {
   });
 });
 
-describe('useStore', () => {
-  it('should return the selected state', () => {
-    const store = new Store({ count: 10, name: 'test' });
+describe("useStore", () => {
+  it("should return the selected state", () => {
+    const store = new Store({ count: 10, name: "test" });
     const { result } = renderHook(() => useStore(store, (s) => s.count));
     expect(result.current).toBe(10);
   });
 
-  it('should update when selected state changes', () => {
+  it("should update when selected state changes", () => {
     const store = new Store({ count: 0 });
     const { result } = renderHook(() => useStore(store, (s) => s.count));
 
@@ -68,8 +68,8 @@ describe('useStore', () => {
     expect(result.current).toBe(5);
   });
 
-  it('should not re-render when unrelated state changes', () => {
-    const store = new Store({ count: 0, name: 'test' });
+  it("should not re-render when unrelated state changes", () => {
+    const store = new Store({ count: 0, name: "test" });
     const renderCount = vi.fn();
 
     renderHook(() => {
@@ -81,16 +81,18 @@ describe('useStore', () => {
     const callCountAfterMount = renderCount.mock.calls.length;
 
     act(() => {
-      store.setState({ name: 'changed' });
+      store.setState({ name: "changed" });
     });
 
     // Should not have re-rendered since count didn't change
     expect(renderCount.mock.calls.length).toBe(callCountAfterMount);
   });
 
-  it('should clean up subscription on unmount', () => {
+  it("should clean up subscription on unmount", () => {
     const store = new Store({ count: 0 });
-    const { result, unmount } = renderHook(() => useStore(store, (s) => s.count));
+    const { result, unmount } = renderHook(() =>
+      useStore(store, (s) => s.count),
+    );
 
     unmount();
 

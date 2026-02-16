@@ -1,4 +1,5 @@
 # react-dialog-mui
+
 Visit this for live demo - https://synle.github.io/react-dialog-mui/storybook-static.
 
 This React library simplifies the usage of Material-UI dialogs, removing the need to manage states manually. It offers convenient replicas of standard JavaScript dialog methods such as `alert`, `confirm`, and `prompt`, streamlining the implementation of common UX flows.

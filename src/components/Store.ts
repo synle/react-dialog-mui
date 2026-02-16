@@ -44,7 +44,7 @@ export function useStore<T, U>(store: Store<T>, selector: (state: T) => U): U {
   useEffect(() => {
     const unsubscribe = store.subscribe(stableSubscribe);
     return () => {
-      unsubscribe()
+      unsubscribe();
     };
   }, [store, stableSubscribe]);
 

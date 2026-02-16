@@ -19,6 +19,7 @@ There is no lint command; formatting is handled solely by Prettier.
 ## Architecture
 
 **Entry point:** `src/components/index.tsx` exports three items:
+
 - `ActionDialogsContext` — Provider component that wraps the app and renders the dialog stack
 - `useActionDialogs()` — Hook returning six dialog methods: `alert`, `confirm`, `prompt`, `choiceSingle`, `choiceMultiple`, `modal` (all return Promises)
 - `useActionDialogRef()` — Hook returning a ref for programmatic modal dismissal
@@ -26,6 +27,7 @@ There is no lint command; formatting is handled solely by Prettier.
 **State management:** `src/components/Store.ts` implements a minimal pub/sub store. The dialog stack is an array of `ActionDialog` union types. Dialogs are pushed onto the stack and the topmost one is rendered. Dismissal pops from the stack and resolves the Promise.
 
 **Dialog components** (`src/components/`):
+
 - `AlertDialog.tsx` — Handles both alert and confirm (shared component, `isConfirm` flag)
 - `PromptDialog.tsx` — Text input with optional multiline, required validation, readonly
 - `ChoiceDialog.tsx` — Exports `SingleChoiceDialog` (radio) and `MultipleChoiceDialog` (checkbox)

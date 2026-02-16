@@ -182,9 +182,7 @@ export function MultipleChoiceDialog(
                 setSelectedOptions([...selectedOptions, option.value]);
               } else {
                 setSelectedOptions(
-                  selectedOptions.filter(
-                    (targetOptionValue) => targetOptionValue !== option.value,
-                  ),
+                  selectedOptions.filter((targetOptionValue) => targetOptionValue !== option.value),
                 );
               }
             };

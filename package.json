@@ -36,6 +36,8 @@
     "@storybook/react-vite": "^8.0.6",
     "@storybook/test": "^8.0.6",
     "@testing-library/react": "^14.3.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
     "@vitest/coverage-v8": "^3.2.4",
     "jsdom": "^24.0.0",
     "storybook": "^8.0.6",

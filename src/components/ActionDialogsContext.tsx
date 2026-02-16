@@ -195,7 +195,6 @@ export function useActionDialogs() {
 
       const modalId = _getModalId(props.modalRef!, dismiss);
 
-      //@ts-ignore
       dialogs.push({
         id: modalId,
         type,
@@ -209,7 +208,7 @@ export function useActionDialogs() {
             resolve(newValue as T);
           }
         },
-      });
+      } as ActionDialog);
 
       _invalidateQueries();
     });

@@ -1,9 +1,4 @@
-*.spec.js
-*.spec.jsx
-*.spec.ts
-*.spec.jsx
-.github
-build
+*.min.*
+.build
 dist
-storybook-static
-docs
+*.bundle.*

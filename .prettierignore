@@ -1,7 +1,7 @@
+*.bundle.*
 *.min.*
 .build
-dist
-*.bundle.*
 build
 coverage
+dist
 node_modules

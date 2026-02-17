@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "rm -rf build",
     "build": "tsc --project tsconfig.json",
-    "format": "prettier --write --ignore-unknown --write **/*.{ts,tsx,js,jsx,scss,yml,html,json,md}",
+    "format": "prettier --write --ignore-unknown --cache '**/*.{js,jsx,ts,tsx,mjs,cjs,json,html,css,scss,less,md,yml,yaml,graphql,vue,xml}'",
     "test": "vitest",
     "citest": "CI=true vitest",
     "coverage": "vitest run --coverage",

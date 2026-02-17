@@ -2,3 +2,6 @@
 .build
 dist
 *.bundle.*
+build
+coverage
+node_modules

@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   build:
-    # https://github.com/synle/gha-workflow/blob/main/.github/workflows/build-and-commit-sh.yml
-    uses: synle/gha-workflow/.github/workflows/build-and-commit-sh.yml@main
+    # https://github.com/synle/gha-workflows/blob/main/.github/workflows/build-and-commit-sh.yml
+    uses: synle/gha-workflows/.github/workflows/build-and-commit-sh.yml@main
     permissions:
       contents: write

@@ -1,8 +1,15 @@
+*storybook.log
+.cache
+.claude
 .DS_Store
 .env
 .npmrc
+.nyc_output
+.prettier-cache
 .vs-code
-*storybook.log
 build
 coverage
+dist
 node_modules
+npm-debug.log
+yarn.lock

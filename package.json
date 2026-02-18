@@ -7,7 +7,7 @@
     "clean": "rm -rf build .prettier-cache",
     "prebuild": "npm run clean",
     "build": "tsc --project tsconfig.json",
-    "format": "prettier --write --ignore-unknown --cache '**/*.{js,jsx,ts,tsx,mjs,cjs,json,html,css,scss,less,md,yml,yaml,graphql,vue,xml}'",
+    "format": "prettier --write --print-width 140 --ignore-unknown --no-error-on-unmatched-pattern --cache '**/*.{js,jsx,ts,tsx,mjs,cjs,json,html,css,scss,less,md,yml,yaml,graphql,vue,xml}'",
     "test": "vitest",
     "citest": "CI=true vitest",
     "coverage": "vitest run --coverage",

@@ -44,7 +44,7 @@
     "prettier": "^3.8.1",
     "storybook": "^8.0.6",
     "typescript": "^5",
-    "vitest": "^3.1.1"
+    "vitest": "^4.0.18"
   },
   "dependencies": {
     "@mui/icons-material": "^5.0.0",

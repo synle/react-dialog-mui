@@ -15,5 +15,6 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["DOM", "ES2020"]
   },
-  "exclude": ["node_modules", "src/stories"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build", "src/stories"]
 }

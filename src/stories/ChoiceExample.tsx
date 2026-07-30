@@ -72,8 +72,7 @@ export function ChoiceExampleWithMultiselect() {
     <>
       <button onClick={onSubmit}>Update Favorite Contacts</button>
       <div>
-        <strong>New selected favorite contacts:</strong>{" "}
-        {JSON.stringify(favContacts)}
+        <strong>New selected favorite contacts:</strong> {JSON.stringify(favContacts)}
       </div>
     </>
   );

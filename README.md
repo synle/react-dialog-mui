@@ -61,12 +61,7 @@ export function AlertExample() {
     try {
       await alert({
         title: <>Query Result</>,
-        message: (
-          <>
-            The query has successfully executed, yielding 200 records in 15
-            seconds.
-          </>
-        ),
+        message: <>The query has successfully executed, yielding 200 records in 15 seconds.</>,
         yesLabel: `Acknowledge`,
       });
     } catch (err) {}
@@ -249,8 +244,7 @@ export function MultiSelectChoiceExample() {
     <>
       <button onClick={onSubmit}>Update Favorite Contacts</button>
       <div>
-        <strong>New selected favorite contacts:</strong>{" "}
-        {JSON.stringify(favContacts)}
+        <strong>New selected favorite contacts:</strong> {JSON.stringify(favContacts)}
       </div>
     </>
   );
@@ -366,9 +360,7 @@ export function AlertExampleWithManualDismiss() {
         message: (
           <>
             <div>The query has successfully executed.</div>
-            <button onClick={() => modalRef.current.dismiss()}>
-              Close this modal and retry
-            </button>
+            <button onClick={() => modalRef.current.dismiss()}>Close this modal and retry</button>
           </>
         ),
         modalRef,

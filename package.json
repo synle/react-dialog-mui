@@ -2,28 +2,35 @@
   "name": "react-dialog-mui",
   "version": "0.3.0",
   "description": "This React library simplifies the usage of Material-UI dialogs, removing the need to manage states manually.",
-  "main": "build",
-  "scripts": {
-    "clean": "rm -rf build .prettier-cache",
-    "prebuild": "npm run clean",
-    "build": "tsc --project tsconfig.json",
-    "format": "prettier --write --print-width 140 --ignore-unknown --no-error-on-unmatched-pattern --cache '**/*.{js,jsx,ts,tsx,mjs,cjs,json,html,css,scss,less,md,yml,yaml,graphql,vue,xml}'",
-    "test": "vitest",
-    "citest": "CI=true vitest",
-    "coverage": "vitest run --coverage",
-    "dev": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+  "homepage": "https://github.com/synle/react-dialog-mui#readme",
+  "bugs": {
+    "url": "https://github.com/synle/react-dialog-mui/issues"
   },
+  "license": "ISC",
+  "author": "Sy Le",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/synle/react-dialog-mui.git"
   },
-  "author": "Sy Le",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/synle/react-dialog-mui/issues"
+  "main": "build",
+  "scripts": {
+    "clean": "rm -rf build .oxfmt-cache",
+    "prebuild": "npm run clean",
+    "build": "tsc --project tsconfig.json",
+    "format": "oxfmt --write .",
+    "test": "vitest",
+    "citest": "CI=true vitest",
+    "coverage": "vitest run --coverage",
+    "dev": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "format:check": "oxfmt --check ."
   },
-  "homepage": "https://github.com/synle/react-dialog-mui#readme",
+  "dependencies": {
+    "@mui/icons-material": "^5.0.0",
+    "@mui/material": "^5.0.0",
+    "react": "^17 || ^18",
+    "react-dom": "^17 || ^18"
+  },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.3.1",
     "@emotion/react": "^11.14.0",
@@ -41,23 +48,16 @@
     "@types/react-dom": "^19.2.3",
     "@vitest/coverage-v8": "^3.2.4",
     "jsdom": "^24.0.0",
-    "prettier": "^3.8.1",
     "storybook": "^8.0.6",
     "typescript": "^5",
     "vitest": "^3.1.1"
-  },
-  "dependencies": {
-    "@mui/icons-material": "^5.0.0",
-    "@mui/material": "^5.0.0",
-    "react": "^17 || ^18",
-    "react-dom": "^17 || ^18"
   },
   "peerDependencies": {
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0"
   },
   "engines": {
-    "npm": ">=8",
-    "node": ">=18"
+    "node": ">=18",
+    "npm": ">=8"
   }
 }

@@ -1,7 +1,0 @@
-*.bundle.*
-*.min.*
-.build
-build
-coverage
-dist
-node_modules

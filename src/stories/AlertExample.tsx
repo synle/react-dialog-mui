@@ -8,12 +8,7 @@ export function AlertExample() {
     try {
       await alert({
         title: <>Query Result</>,
-        message: (
-          <>
-            The query has successfully executed, yielding 200 records in 15
-            seconds.
-          </>
-        ),
+        message: <>The query has successfully executed, yielding 200 records in 15 seconds.</>,
         yesLabel: `Acknowledge`,
       });
     } catch (err) {}
@@ -33,9 +28,7 @@ export function AlertExampleWithManualDismiss() {
         message: (
           <>
             <div>The query has successfully executed.</div>
-            <button onClick={() => modalRef.current.dismiss()}>
-              Close this modal and retry
-            </button>
+            <button onClick={() => modalRef.current.dismiss()}>Close this modal and retry</button>
           </>
         ),
         modalRef,

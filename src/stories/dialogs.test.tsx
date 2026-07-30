@@ -13,8 +13,7 @@ vi.mock("@mui/material", async (importOriginal) => {
   const mod = await importOriginal<typeof import("@mui/material")>();
   return {
     ...mod,
-    Dialog: (props: any) =>
-      props.open ? <div data-testid="dialog">{props.children}</div> : null,
+    Dialog: (props: any) => (props.open ? <div data-testid="dialog">{props.children}</div> : null),
   };
 });
 
@@ -53,9 +52,7 @@ describe("AlertDialog", () => {
       hooks!.alert({ title: "Test Alert", message: "Hello" });
     });
 
-    expect(
-      component.container.querySelector(".MuiDialogTitle-root"),
-    ).not.toBeNull();
+    expect(component.container.querySelector(".MuiDialogTitle-root")).not.toBeNull();
 
     // Close button should dismiss
     const closeBtn = component.container.querySelector('[aria-label="close"]');
@@ -65,9 +62,7 @@ describe("AlertDialog", () => {
     });
 
     // Dialog should be gone
-    expect(
-      component.container.querySelector('[data-testid="dialog"]'),
-    ).toBeNull();
+    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
   });
 
   it("should resolve when OK is clicked", async () => {
@@ -85,9 +80,7 @@ describe("AlertDialog", () => {
     });
 
     // Find the contained button (OK button)
-    const buttons = component.container.querySelectorAll(
-      ".MuiDialogActions-root button",
-    );
+    const buttons = component.container.querySelectorAll(".MuiDialogActions-root button");
     expect(buttons.length).toBe(1);
     await act(async () => {
       fireEvent.click(buttons[0]);
@@ -108,9 +101,7 @@ describe("AlertDialog", () => {
       hooks!.alert({ title: "Test", message: "Hello", yesLabel: "Got it" });
     });
 
-    const actionButton = component.container.querySelector(
-      ".MuiDialogActions-root button",
-    );
+    const actionButton = component.container.querySelector(".MuiDialogActions-root button");
     expect(actionButton?.textContent).toBe("Got it");
   });
 });
@@ -127,15 +118,11 @@ describe("ConfirmDialog", () => {
     );
 
     await act(async () => {
-      hooks!
-        .confirm({ title: "Delete?", message: "Are you sure?" })
-        .then(onResolved);
+      hooks!.confirm({ title: "Delete?", message: "Are you sure?" }).then(onResolved);
     });
 
     // Confirm should show No and Yes buttons
-    const buttons = component.container.querySelectorAll(
-      ".MuiDialogActions-root button",
-    );
+    const buttons = component.container.querySelectorAll(".MuiDialogActions-root button");
     expect(buttons.length).toBe(2);
 
     // Click Yes (second button, the variant=contained one)
@@ -158,9 +145,7 @@ describe("ConfirmDialog", () => {
     );
 
     await act(async () => {
-      hooks!
-        .confirm({ title: "Delete?", message: "Are you sure?" })
-        .catch(() => {});
+      hooks!.confirm({ title: "Delete?", message: "Are you sure?" }).catch(() => {});
     });
 
     // Click No (first non-contained button)
@@ -172,9 +157,7 @@ describe("ConfirmDialog", () => {
       fireEvent.click(noButton!);
     });
 
-    expect(
-      component.container.querySelector('[data-testid="dialog"]'),
-    ).toBeNull();
+    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
   });
 
   it("should use custom yesLabel", async () => {
@@ -212,9 +195,7 @@ describe("PromptDialog", () => {
     );
 
     await act(async () => {
-      hooks!
-        .prompt({ title: "Name", message: "Enter name", value: "" })
-        .then(onResolved);
+      hooks!.prompt({ title: "Name", message: "Enter name", value: "" }).then(onResolved);
     });
 
     // Type into the input
@@ -251,9 +232,7 @@ describe("PromptDialog", () => {
       fireEvent.click(closeBtn!);
     });
 
-    expect(
-      component.container.querySelector('[data-testid="dialog"]'),
-    ).toBeNull();
+    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
   });
 
   it("should show save button with custom label", async () => {
@@ -349,9 +328,7 @@ describe("PromptDialog", () => {
     // Should not have resolved
     expect(onResolved).not.toHaveBeenCalled();
     // Dialog should still be open
-    expect(
-      component.container.querySelector('[data-testid="dialog"]'),
-    ).not.toBeNull();
+    expect(component.container.querySelector('[data-testid="dialog"]')).not.toBeNull();
   });
 
   it("should disable save button when input is empty", async () => {
@@ -419,9 +396,7 @@ describe("SingleChoiceDialog", () => {
     );
 
     await act(async () => {
-      hooks!
-        .choiceSingle({ title: "Pick", message: "Choose:", options })
-        .then(onResolved);
+      hooks!.choiceSingle({ title: "Pick", message: "Choose:", options }).then(onResolved);
     });
 
     // Click on "Option B" list item
@@ -432,9 +407,7 @@ describe("SingleChoiceDialog", () => {
     });
 
     // Click Apply button
-    const applyBtn = component.container.querySelector(
-      "button.MuiButton-contained",
-    );
+    const applyBtn = component.container.querySelector("button.MuiButton-contained");
     await act(async () => {
       fireEvent.click(applyBtn!);
     });
@@ -451,9 +424,7 @@ describe("SingleChoiceDialog", () => {
     );
 
     await act(async () => {
-      hooks!
-        .choiceSingle({ title: "Pick", message: "Choose:", options })
-        .catch(() => {});
+      hooks!.choiceSingle({ title: "Pick", message: "Choose:", options }).catch(() => {});
     });
 
     // Click on disabled "Option C"
@@ -487,9 +458,7 @@ describe("SingleChoiceDialog", () => {
       });
     });
 
-    const applyBtn = component.container.querySelector(
-      "button.MuiButton-contained",
-    );
+    const applyBtn = component.container.querySelector("button.MuiButton-contained");
     expect(applyBtn).not.toBeNull();
     expect(applyBtn?.textContent).toBe("Apply");
   });
@@ -503,9 +472,7 @@ describe("SingleChoiceDialog", () => {
     );
 
     await act(async () => {
-      hooks!
-        .choiceSingle({ title: "Pick", message: "Choose:", options })
-        .catch(() => {});
+      hooks!.choiceSingle({ title: "Pick", message: "Choose:", options }).catch(() => {});
     });
 
     const closeBtn = component.container.querySelector('[aria-label="close"]');
@@ -513,9 +480,7 @@ describe("SingleChoiceDialog", () => {
       fireEvent.click(closeBtn!);
     });
 
-    expect(
-      component.container.querySelector('[data-testid="dialog"]'),
-    ).toBeNull();
+    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
   });
 
   it("should pre-select initial value", async () => {
@@ -563,9 +528,7 @@ describe("MultipleChoiceDialog", () => {
     );
 
     await act(async () => {
-      hooks!
-        .choiceMultiple({ title: "Pick", message: "Choose:", options })
-        .then(onResolved);
+      hooks!.choiceMultiple({ title: "Pick", message: "Choose:", options }).then(onResolved);
     });
 
     // Select Item 1 and Item 2
@@ -578,9 +541,7 @@ describe("MultipleChoiceDialog", () => {
     });
 
     // Click Apply
-    const applyBtn = component.container.querySelector(
-      "button.MuiButton-contained",
-    );
+    const applyBtn = component.container.querySelector("button.MuiButton-contained");
     await act(async () => {
       fireEvent.click(applyBtn!);
     });
@@ -693,9 +654,9 @@ describe("ModalDialog", () => {
       hooks!.modal({ title: "Details", message: <div>Content here</div> });
     });
 
-    expect(
-      component.container.querySelector(".MuiDialogTitle-root")?.textContent,
-    ).toContain("Details");
+    expect(component.container.querySelector(".MuiDialogTitle-root")?.textContent).toContain(
+      "Details",
+    );
 
     const closeBtn = component.container.querySelector('[aria-label="close"]');
     expect(closeBtn).not.toBeNull();
@@ -703,9 +664,7 @@ describe("ModalDialog", () => {
       fireEvent.click(closeBtn!);
     });
 
-    expect(
-      component.container.querySelector('[data-testid="dialog"]'),
-    ).toBeNull();
+    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
   });
 
   it("should render without close button when showCloseButton is false", async () => {
@@ -725,9 +684,9 @@ describe("ModalDialog", () => {
     });
 
     // Title should render
-    expect(
-      component.container.querySelector(".MuiDialogTitle-root")?.textContent,
-    ).toContain("No Close");
+    expect(component.container.querySelector(".MuiDialogTitle-root")?.textContent).toContain(
+      "No Close",
+    );
     // But no close button
     const closeBtn = component.container.querySelector('[aria-label="close"]');
     expect(closeBtn).toBeNull();
@@ -748,10 +707,9 @@ describe("ModalDialog", () => {
       });
     });
 
-    expect(
-      component.container.querySelector('[data-testid="modal-body"]')
-        ?.textContent,
-    ).toBe("Body text");
+    expect(component.container.querySelector('[data-testid="modal-body"]')?.textContent).toBe(
+      "Body text",
+    );
   });
 });
 
@@ -766,10 +724,7 @@ describe("useActionDialogRef", () => {
           await modal({
             title: "Ref Modal",
             message: (
-              <button
-                data-testid="dismiss-btn"
-                onClick={() => modalRef.current.dismiss()}
-              >
+              <button data-testid="dismiss-btn" onClick={() => modalRef.current.dismiss()}>
                 Dismiss
               </button>
             ),
@@ -792,28 +747,22 @@ describe("useActionDialogRef", () => {
     );
 
     // Open the modal
-    const openBtn = component.container.querySelector(
-      '[data-testid="open-btn"]',
-    );
+    const openBtn = component.container.querySelector('[data-testid="open-btn"]');
     await act(async () => {
       fireEvent.click(openBtn!);
     });
 
-    expect(
-      component.container.querySelector(".MuiDialogTitle-root")?.textContent,
-    ).toContain("Ref Modal");
+    expect(component.container.querySelector(".MuiDialogTitle-root")?.textContent).toContain(
+      "Ref Modal",
+    );
 
     // Dismiss via ref
-    const dismissBtn = component.container.querySelector(
-      '[data-testid="dismiss-btn"]',
-    );
+    const dismissBtn = component.container.querySelector('[data-testid="dismiss-btn"]');
     await act(async () => {
       fireEvent.click(dismissBtn!);
     });
 
-    expect(
-      component.container.querySelector('[data-testid="dialog"]'),
-    ).toBeNull();
+    expect(component.container.querySelector('[data-testid="dialog"]')).toBeNull();
   });
 });
 
@@ -835,9 +784,7 @@ describe("Dialog stacking", () => {
     });
 
     // Both dialogs should be rendered (stacked)
-    const dialogs = component.container.querySelectorAll(
-      '[data-testid="dialog"]',
-    );
+    const dialogs = component.container.querySelectorAll('[data-testid="dialog"]');
     expect(dialogs.length).toBe(2);
   });
 });

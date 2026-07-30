@@ -90,9 +90,7 @@ describe("useStore", () => {
 
   it("should clean up subscription on unmount", () => {
     const store = new Store({ count: 0 });
-    const { result, unmount } = renderHook(() =>
-      useStore(store, (s) => s.count),
-    );
+    const { result, unmount } = renderHook(() => useStore(store, (s) => s.count));
 
     unmount();
 

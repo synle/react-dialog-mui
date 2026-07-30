@@ -31,16 +31,12 @@ export function useStore<T, U>(store: Store<T>, selector: (state: T) => U): U {
   const selectorRef = useRef(selector);
   selectorRef.current = selector;
 
-  const [selectedState, setSelectedState] = useState(() =>
-    selector(store.getState()),
-  );
+  const [selectedState, setSelectedState] = useState(() => selector(store.getState()));
 
   const stableSubscribe = useCallback(
     (newState: T) => {
       const nextValue = selectorRef.current(newState);
-      setSelectedState((prev) =>
-        Object.is(prev, nextValue) ? prev : nextValue,
-      );
+      setSelectedState((prev) => (Object.is(prev, nextValue) ? prev : nextValue));
     },
     [store],
   );

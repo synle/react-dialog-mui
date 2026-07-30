@@ -47,9 +47,7 @@ export function SingleChoiceDialog(
     value,
   } = props;
 
-  const [selectedOption, setSelectedOption] = useState<string | undefined>(
-    value,
-  );
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(value);
 
   let onClose: (() => void) | undefined = handleClose;
   let disabled = false;
@@ -116,11 +114,7 @@ export function SingleChoiceDialog(
           })}
         </List>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button
-            onClick={() => onSelect(selectedOption)}
-            variant="contained"
-            disabled={disabled}
-          >
+          <Button onClick={() => onSelect(selectedOption)} variant="contained" disabled={disabled}>
             Apply
           </Button>
         </Box>
@@ -193,9 +187,7 @@ export function MultipleChoiceDialog(
                 setSelectedOptions([...selectedOptions, option.value]);
               } else {
                 setSelectedOptions(
-                  selectedOptions.filter(
-                    (targetOptionValue) => targetOptionValue !== option.value,
-                  ),
+                  selectedOptions.filter((targetOptionValue) => targetOptionValue !== option.value),
                 );
               }
             };

@@ -22,9 +22,9 @@ describe("AlertExample", () => {
       </ActionDialogsContext>,
     );
     expect(component.container.querySelectorAll("button").length).toBe(1);
-    expect(
-      component.container.querySelector("button")?.innerHTML,
-    ).toMatchInlineSnapshot(`"My Action"`);
+    expect(component.container.querySelector("button")?.innerHTML).toMatchInlineSnapshot(
+      `"My Action"`,
+    );
   });
 });
 
@@ -36,9 +36,9 @@ describe("ChoiceExample", () => {
       </ActionDialogsContext>,
     );
     expect(component.container.querySelectorAll("button").length).toBe(1);
-    expect(
-      component.container.querySelector("button")?.innerHTML,
-    ).toMatchInlineSnapshot(`"Switch Session"`);
+    expect(component.container.querySelector("button")?.innerHTML).toMatchInlineSnapshot(
+      `"Switch Session"`,
+    );
   });
 });
 
@@ -50,9 +50,9 @@ describe("ConfirmExample", () => {
       </ActionDialogsContext>,
     );
     expect(component.container.querySelectorAll("button").length).toBe(1);
-    expect(
-      component.container.querySelector("button")?.innerHTML,
-    ).toMatchInlineSnapshot(`"Delete Query?"`);
+    expect(component.container.querySelector("button")?.innerHTML).toMatchInlineSnapshot(
+      `"Delete Query?"`,
+    );
   });
 });
 
@@ -64,9 +64,9 @@ describe("PromptExample", () => {
       </ActionDialogsContext>,
     );
     expect(component.container.querySelectorAll("button").length).toBe(1);
-    expect(
-      component.container.querySelector("button")?.innerHTML,
-    ).toMatchInlineSnapshot(`"Rename Query?"`);
+    expect(component.container.querySelector("button")?.innerHTML).toMatchInlineSnapshot(
+      `"Rename Query?"`,
+    );
   });
 });
 
@@ -78,9 +78,9 @@ describe("ModalExample", () => {
       </ActionDialogsContext>,
     );
     expect(component.container.querySelectorAll("button").length).toBe(1);
-    expect(
-      component.container.querySelector("button")?.innerHTML,
-    ).toMatchInlineSnapshot(`"Show Details"`);
+    expect(component.container.querySelector("button")?.innerHTML).toMatchInlineSnapshot(
+      `"Show Details"`,
+    );
   });
 });
 
@@ -92,9 +92,9 @@ describe("ModalExampleWithChildComponent", () => {
       </ActionDialogsContext>,
     );
     expect(component.container.querySelectorAll("button").length).toBe(1);
-    expect(
-      component.container.querySelector("button")?.innerHTML,
-    ).toMatchInlineSnapshot(`"Show Modal"`);
+    expect(component.container.querySelector("button")?.innerHTML).toMatchInlineSnapshot(
+      `"Show Modal"`,
+    );
   });
 });
 
@@ -106,9 +106,9 @@ describe("ModalExampleWithFormSubmit", () => {
       </ActionDialogsContext>,
     );
     expect(component.container.querySelectorAll("button").length).toBe(1);
-    expect(
-      component.container.querySelector("button")?.innerHTML,
-    ).toMatchInlineSnapshot(`"Show Modal"`);
+    expect(component.container.querySelector("button")?.innerHTML).toMatchInlineSnapshot(
+      `"Show Modal"`,
+    );
   });
 });
 
@@ -120,8 +120,8 @@ describe("ModalExampleWithManualDismiss", () => {
       </ActionDialogsContext>,
     );
     expect(component.container.querySelectorAll("button").length).toBe(1);
-    expect(
-      component.container.querySelector("button")?.innerHTML,
-    ).toMatchInlineSnapshot(`"Show Modal"`);
+    expect(component.container.querySelector("button")?.innerHTML).toMatchInlineSnapshot(
+      `"Show Modal"`,
+    );
   });
 });

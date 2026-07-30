@@ -41,8 +41,6 @@ it("ModalExample should render the component", async () => {
   expect(
     component.container
       .querySelector(".MuiDialogContent-root")
-      ?.textContent.includes(
-        `Name: Sample Mocked QueryStatus: PendingCreated Date:`,
-      ),
+      ?.textContent.includes(`Name: Sample Mocked QueryStatus: PendingCreated Date:`),
   ).toBe(true);
 });

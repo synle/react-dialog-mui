@@ -50,3 +50,12 @@ _build
 .svelte-kit
 Pods
 DerivedData
+
+# Migrated from .prettierignore
+*.bundle.*
+*.min.*
+.build
+build
+coverage
+dist
+node_modules

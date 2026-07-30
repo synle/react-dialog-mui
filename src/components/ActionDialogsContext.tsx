@@ -1,19 +1,10 @@
 import React, { Fragment, ReactNode, RefObject, useRef } from "react";
 import AlertDialog from "./AlertDialog";
-import {
-  ChoiceOption,
-  MultipleChoiceDialog,
-  SingleChoiceDialog,
-} from "./ChoiceDialog";
+import { ChoiceOption, MultipleChoiceDialog, SingleChoiceDialog } from "./ChoiceDialog";
 import ModalDialog, { ModalInput } from "./ModalDialog";
 import PromptDialog, { PromptInput } from "./PromptDialog";
 import { Store, useStore } from "./Store";
-import {
-  ActionDialog,
-  ActionDialogRef,
-  BaseActionDialogInput,
-  ActionDialogType,
-} from "./types";
+import { ActionDialog, ActionDialogRef, BaseActionDialogInput, ActionDialogType } from "./types";
 
 export const _dialogStore = new Store<{ data: ActionDialog[] }>({
   data: [],
@@ -170,10 +161,7 @@ export function useActionDialogs() {
     });
   }
 
-  function _getModalId(
-    modalRef: RefObject<ActionDialogRef>,
-    dismiss: (id: string) => void,
-  ) {
+  function _getModalId(modalRef: RefObject<ActionDialogRef>, dismiss: (id: string) => void) {
     const modalId = `modal.${_modalIdx++}.${Date.now()}`;
 
     if (modalRef && modalRef.current) {
@@ -190,11 +178,7 @@ export function useActionDialogs() {
     type: ActionDialogType,
     props: BaseActionDialogInput & Record<string, unknown>,
     defaultTitle: string = "",
-    customHandler?: (
-      resolve: (value: T) => void,
-      reject: () => void,
-      newValue?: unknown,
-    ) => void,
+    customHandler?: (resolve: (value: T) => void, reject: () => void, newValue?: unknown) => void,
   ): Promise<T> {
     return new Promise((resolve, reject) => {
       const { title, message, ...restProps } = props;
@@ -242,22 +226,13 @@ export function useActionDialogs() {
       _invalidateQueries();
     },
 
-    alert: (
-      props: BaseActionDialogInput & { yesLabel?: string },
-    ): Promise<void> =>
-      createDialog(
-        "alert",
-        { ...props, yesLabel: props.yesLabel || "OK" },
-        "Alert",
-      ),
+    alert: (props: BaseActionDialogInput & { yesLabel?: string }): Promise<void> =>
+      createDialog("alert", { ...props, yesLabel: props.yesLabel || "OK" }, "Alert"),
 
-    confirm: (
-      props: BaseActionDialogInput & { yesLabel?: string },
-    ): Promise<void> => createDialog("confirm", props, "Confirmation?"),
+    confirm: (props: BaseActionDialogInput & { yesLabel?: string }): Promise<void> =>
+      createDialog("confirm", props, "Confirmation?"),
 
-    prompt: (
-      props: BaseActionDialogInput & Partial<PromptInput>,
-    ): Promise<string> =>
+    prompt: (props: BaseActionDialogInput & Partial<PromptInput>): Promise<string> =>
       createDialog("prompt", props, "Prompt?", (resolve, reject, newValue) => {
         newValue ? resolve(newValue as string) : reject();
       }),
@@ -281,9 +256,7 @@ export function useActionDialogs() {
       },
     ): Promise<string[]> => createDialog("choice-multiple", props),
 
-    modal: (
-      props: BaseActionDialogInput & Partial<ModalInput>,
-    ): Promise<void> =>
+    modal: (props: BaseActionDialogInput & Partial<ModalInput>): Promise<void> =>
       createDialog("modal", { ...props, size: props.size || "sm" }),
   };
 

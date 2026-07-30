@@ -102,10 +102,7 @@ export const Modal = () => {
 export const ModalWithChildComponent = () => {
   return (
     <ExampleWrapper title="Simple Modal Example with ChildComponent">
-      <div>
-        This is a simple example that includes a child component defined
-        somewhere else.
-      </div>
+      <div>This is a simple example that includes a child component defined somewhere else.</div>
       <ModalExampleWithChildComponent />
     </ExampleWrapper>
   );
@@ -115,9 +112,8 @@ export const ModalWithManualDismiss = () => {
   return (
     <ExampleWrapper title="Simple Modal Example with manual dismiss">
       <div>
-        The example shows how you can use `const modalRef =
-        useActionDialogRef()` and `modalRef.current.dismiss()` to close this
-        modal
+        The example shows how you can use `const modalRef = useActionDialogRef()` and
+        `modalRef.current.dismiss()` to close this modal
       </div>
       <ModalExampleWithManualDismiss />
     </ExampleWrapper>
@@ -128,8 +124,8 @@ export const ModalWithFormSubmit = () => {
   return (
     <ExampleWrapper title="Simple Modal Example with Form Submit">
       <div>
-        The example shows how you can use `modalRef` to programmitcally close
-        out the dialog after the form submission
+        The example shows how you can use `modalRef` to programmitcally close out the dialog after
+        the form submission
       </div>
       <ModalExampleWithFormSubmit />
     </ExampleWrapper>

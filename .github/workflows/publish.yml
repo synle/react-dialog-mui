@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       build:
-        description: 'Trigger a manual build'
+        description: "Trigger a manual build"
         required: true
 
 jobs:
